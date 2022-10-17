@@ -9,45 +9,45 @@ from django.utils import timezone
 # VAR_ONE_VAR - константы
 
 
-class MediaTypes(models.Model):
+class MediaType(models.Model):
     # MediaTypeId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
 
 
-class Genres(models.Model):
+class Genre(models.Model):
     # GenreId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
 
 
-class Artists(models.Model):
+class Artist(models.Model):
     # ArtistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
 
 
-class Albums(models.Model):
+class Album(models.Model):
     # album_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     title = models.CharField(max_length=160)
-    artist = models.ForeignKey(Artists, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
 
 
-class Tracks(models.Model):
+class Track(models.Model):
     # TrackId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
-    album = models.ForeignKey(Albums, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
     # MediaTypeId = models.ForeignKey(Media_types, on_delete=models.CASCADE)
-    media_type = models.ForeignKey(MediaTypes, on_delete=models.CASCADE)
+    media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
     # media_type_id
-    genre = models.ForeignKey(Genres, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     composer = models.CharField(max_length=220)
     miliseconds = models.IntegerField
     bytes = models.IntegerField
     until_price = models.DecimalField
 
 
-class Playlists(models.Model):
+class Playlist(models.Model):
     # PlaylistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    track = models.ManyToManyField(Tracks)
+    track = models.ManyToManyField(Track)
     name = models.CharField(max_length=120)
 
 
@@ -57,7 +57,7 @@ class Playlists(models.Model):
 #     track = models.ForeignKey(Tracks, on_delete=models.CASCADE)
 
 
-class Customers(models.Model):
+class Customer(models.Model):
     # customer_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=20)
@@ -73,23 +73,23 @@ class Customers(models.Model):
     support_rep_id = models.IntegerField
 
 
-class Invoices(models.Model):
+class Invoice(models.Model):
     # InvoiceId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     inovice_date = models.DateTimeField
     billing_adress = models.CharField
     billing_city = models.CharField
 
 
-class InvoicesItems(models.Model):
+class InvoicesItem(models.Model):
     # InvoiceItemId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    invoice = models.ForeignKey(Invoices, on_delete=models.CASCADE)
-    track = models.ForeignKey(Tracks, on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
     unit_price = models.DecimalField
     quantity = models.IntegerField
 
 
-class Employees(models.Model):
+class Employee(models.Model):
     # employee_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     last_name = models.CharField(max_length=20)
     first_name = models.CharField(max_length=20)
