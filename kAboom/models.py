@@ -20,11 +20,6 @@ class Genres(models.Model):
     name = models.CharField(max_length=120)
 
 
-class Playlists(models.Model):
-    # PlaylistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.CharField(max_length=120)
-
-
 class Artists(models.Model):
     # ArtistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
@@ -50,10 +45,16 @@ class Tracks(models.Model):
     until_price = models.DecimalField
 
 
-class PlaylistTrack(models.Model):
-    # Удалить. Заменить на ManyToMany в треках или плейлисте
-    playlist_id = models.ForeignKey(Playlists, on_delete=models.CASCADE)
-    track_id = models.ForeignKey(Tracks, on_delete=models.CASCADE)
+class Playlists(models.Model):
+    # PlaylistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    track = models.ManyToManyField(Tracks)
+    name = models.CharField(max_length=120)
+
+
+# class PlaylistTrack(models.Model):
+#     # Удалить. Заменить на ManyToMany в треках или плейлисте
+#     playlist = models.ForeignKey(Playlists, on_delete=models.CASCADE)
+#     track = models.ForeignKey(Tracks, on_delete=models.CASCADE)
 
 
 class Customers(models.Model):
@@ -74,7 +75,7 @@ class Customers(models.Model):
 
 class Invoices(models.Model):
     # InvoiceId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    customer_id = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
     inovice_date = models.DateTimeField
     billing_adress = models.CharField
     billing_city = models.CharField
@@ -82,8 +83,8 @@ class Invoices(models.Model):
 
 class InvoicesItems(models.Model):
     # InvoiceItemId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    invoice_id = models.ForeignKey(Invoices, on_delete=models.CASCADE)
-    track_id = models.ForeignKey(Tracks, on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoices, on_delete=models.CASCADE)
+    track = models.ForeignKey(Tracks, on_delete=models.CASCADE)
     unit_price = models.DecimalField
     quantity = models.IntegerField
 
