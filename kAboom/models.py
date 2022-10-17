@@ -8,6 +8,12 @@ from django.utils import timezone
 # varOneVar - Нет
 # VAR_ONE_VAR - константы
 
+# null blank default
+
+# Команда для заполнения БД из существующей
+# Добавить параметр в команду. Чтобы выбирать какую таблицу заполнять
+# python manage.py fill_db --table employees
+
 
 class MediaType(models.Model):
     # MediaTypeId = models.UUIDField(primary_key=True, default=uuid.uuid4)
