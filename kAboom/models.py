@@ -59,7 +59,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=20)
     first_name = models.CharField(max_length=20)
     title = models.CharField(max_length=30)
-    # reports_to = models.ForeignKey(, on_delete=models.CASCADE)
+    reports_to = models.ForeignKey('self', on_delete=models.CASCADE)
     birth_date = models.DateTimeField
     hire_date = models.DateTimeField
     address = models.CharField(max_length=70, default=None)
