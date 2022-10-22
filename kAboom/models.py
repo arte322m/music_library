@@ -1,4 +1,4 @@
-import datetime, uuid
+import datetime
 
 from django.db import models
 from django.utils import timezone
@@ -16,34 +16,26 @@ from django.utils import timezone
 
 
 class MediaType(models.Model):
-    # MediaTypeId = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
 
 
 class Genre(models.Model):
-    # GenreId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
 
 
 class Artist(models.Model):
-    # ArtistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=120)
 
 
 class Album(models.Model):
-    # album_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     title = models.CharField(max_length=160)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
 
 
 class Track(models.Model):
-    # TrackId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
-    # MediaTypeId = models.ForeignKey(Media_types, on_delete=models.CASCADE)
     media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
-    # media_type_id
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     composer = models.CharField(max_length=220)
     miliseconds = models.IntegerField
@@ -52,7 +44,6 @@ class Track(models.Model):
 
 
 class Playlist(models.Model):
-    # PlaylistId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     track = models.ManyToManyField(Track)
     name = models.CharField(max_length=120)
 
@@ -63,8 +54,25 @@ class Playlist(models.Model):
 #     track = models.ForeignKey(Tracks, on_delete=models.CASCADE)
 
 
+class Employee(models.Model):
+    # id = models.
+    last_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20)
+    title = models.CharField(max_length=30)
+    # reports_to = models.ForeignKey(, on_delete=models.CASCADE)
+    birth_date = models.DateTimeField
+    hire_date = models.DateTimeField
+    address = models.CharField(max_length=70, default=None)
+    city = models.CharField(max_length=40, default=None)
+    state = models.CharField(max_length=40, default=None)
+    country = models.CharField(max_length=40, default=None)
+    postal_code = models.CharField(max_length=10, default=None)
+    phone = models.CharField(max_length=24, default=None)
+    fax = models.CharField(max_length=24, default=None)
+    email = models.CharField(max_length=60, default=None)
+
+
 class Customer(models.Model):
-    # customer_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=20)
     company = models.CharField(max_length=80)
@@ -76,11 +84,10 @@ class Customer(models.Model):
     phone = models.CharField(max_length=24)
     fax = models.CharField(max_length=24)
     email = models.CharField(max_length=60)
-    support_rep_id = models.IntegerField
+    support_rep_id = models.ForeignKey(Employee, on_delete=models.CASCADE, default=None)
 
 
 class Invoice(models.Model):
-    # InvoiceId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     inovice_date = models.DateTimeField
     billing_adress = models.CharField
@@ -88,19 +95,8 @@ class Invoice(models.Model):
 
 
 class InvoicesItem(models.Model):
-    # InvoiceItemId = models.UUIDField(primary_key=True, default=uuid.uuid4)
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     unit_price = models.DecimalField
     quantity = models.IntegerField
 
-
-class Employee(models.Model):
-    # employee_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    last_name = models.CharField(max_length=20)
-    first_name = models.CharField(max_length=20)
-    title = models.CharField(max_length=30)
-    reports_to = models.IntegerField
-    birth_date = models.DateTimeField
-    hire_date = models.DateTimeField
-    address = models.CharField
