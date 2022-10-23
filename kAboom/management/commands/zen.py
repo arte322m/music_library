@@ -3,7 +3,6 @@ from django.utils import timezone
 import os.path
 from kAboom.models import *
 
-
 import sqlite3
 
 # time = timezone.now().strftime('%X')
@@ -15,10 +14,11 @@ import sqlite3
 # filter exists
 
 PATH = os.path.join(os.getcwd(), 'chinook.db')
+PATH_DB_NEW = os.path.join(os.getcwd(), 'db.sqlite3')
 
 
-def db_fetch(table):
-    with sqlite3.connect(PATH) as db:
+def db_fetch(table, path):
+    with sqlite3.connect(path) as db:
         cursor = db.cursor()
         cursor_execute = cursor.execute(f"SELECT * FROM {table}")
         return cursor_execute.fetchall()
@@ -34,52 +34,210 @@ class Command(BaseCommand):
         table = kwargs['table']
         if table == 'genre':
             table = 'genres'
-            for genre in db_fetch(table):
+            for genre in db_fetch(table, PATH):
                 genre_name = genre[1]
-                if not Genre.objects.filter(name=genre_name).exists():
-                    Genre(name=genre_name).save()
-                    pass
-                else:
+                if Genre.objects.filter(name=genre_name).exists():
                     print('Поле с таким именем уже есть')
+                else:
+                    Genre(name=genre_name).save()
+            print('complete')
 
         if table == 'artist':
             table = 'artists'
-            for artist in db_fetch(table):
+            for artist in db_fetch(table, PATH):
                 artist_name = artist[1]
-                if not Artist.objects.filter(name=artist_name).exists():
-                    Artist(name=artist_name).save()
-                else:
+                if Artist.objects.filter(name=artist_name).exists():
                     print('Поле с таким именем уже есть')
+                else:
+                    Artist(name=artist_name).save()
+            print('complete')
 
         if table == 'mediatype':
-            table = 'media_type'
-            for media_type in db_fetch(table):
+            table = 'media_types'
+            for media_type in db_fetch(table, PATH):
                 media_type_name = media_type[1]
-                if not MediaType.objects.filter(name=media_type_name).exists():
-                    MediaType(name=media_type_name).save()
-                else:
+                if MediaType.objects.filter(name=media_type_name).exists():
                     print('Поле с таким именем уже есть')
+                else:
+                    MediaType(name=media_type_name).save()
+            print('complete')
 
         if table == 'playlist':
             table = 'playlists'
-            for playlist in db_fetch(table):
+            for playlist in db_fetch(table, PATH):
                 playlist_name = playlist[1]
-                if not Playlist.objects.filter(name=playlist_name).exists():
-                    Playlist(name=playlist_name).save()
-                else:
+                if Playlist.objects.filter(name=playlist_name).exists():
                     print('Поле с таким именем уже есть')
+                else:
+                    Playlist(name=playlist_name).save()
+            print('complete')
 
         if table == 'album':
             table = 'albums'
 
-        if table == 'customer':
-            table = 'customers'
-        if table == 'employee':
-            table = 'employees'
-        if table == 'invoice':
-            table = 'invoices'
-        if table == 'invoiceitem':
-            table = 'invoice_items'
+            artist_name_id = {}
+            for artist in db_fetch('kAboom_artist', PATH_DB_NEW):
+                artist_name_id[artist[1]] = artist[0]
+
+            artist_id_name_foreign = {}
+            for artist in db_fetch('artists', PATH):
+                artist_id_name_foreign[artist[0]] = artist[1]
+
+            for album in db_fetch(table, PATH):
+                album_title = album[1]
+
+                artist_id = album[2]
+                artist_name = artist_id_name_foreign[artist_id]
+                artist_id_true = artist_name_id[artist_name]
+
+                if Album.objects.filter(title=album_title, artist_id=artist_id_true).exists():
+                    print('Поле с таким именем уже есть')
+                else:
+                    Album(title=album_title, artist_id=artist_id).save()
+            print('complete')
 
         if table == 'track':
             table = 'tracks'
+
+            album_name_id = {}
+            for album in db_fetch('kAboom_album', PATH_DB_NEW):
+                album_name_id[album[1]] = album[0]
+            album_id_name_foreign = {}
+            for album in db_fetch('albums', PATH):
+                album_id_name_foreign[album[0]] = album[1]
+
+            genre_name_id = {}
+            for genre in db_fetch('kAboom_genre', PATH_DB_NEW):
+                genre_name_id[genre[1]] = genre[0]
+            genre_id_name_foreign = {}
+            for genre in db_fetch('genres', PATH):
+                genre_id_name_foreign[genre[0]] = genre[1]
+
+            media_type_name_id = {}
+            for media_type in db_fetch('kAboom_mediatype', PATH_DB_NEW):
+                media_type_name_id[media_type[1]] = media_type[0]
+            media_type_id_name_foreign = {}
+            for media_type in db_fetch('media_types', PATH):
+                media_type_id_name_foreign[media_type[0]] = media_type[1]
+
+            for track in db_fetch(table, PATH):
+                track_name = track[1]
+                track_composer = track[5]
+
+                album_id = track[2]
+                album_name = album_id_name_foreign[album_id]
+                album_id_true = album_name_id[album_name]
+
+                genre_id = track[4]
+                genre_name = genre_id_name_foreign[genre_id]
+                genre_id_true = genre_name_id[genre_name]
+
+                media_type_id = track[3]
+                media_type_name = media_type_id_name_foreign[media_type_id]
+                media_type_id_true = media_type_name_id[media_type_name]
+
+                milliseconds = track[6]
+                bytes = track[7]
+                until_price = track[8]
+                if not Track.objects.filter(name=track_name, composer=track_composer).exists():
+                    Track(
+                        name=track_name,
+                        composer=track_composer,
+                        album_id=album_id_true,
+                        genre_id=genre_id_true,
+                        media_type_id=media_type_id_true,
+                        milliseconds=milliseconds,
+                        bytes=bytes,
+                        until_price=until_price
+                    ).save()
+                else:
+                    print('Поле с таким именем уже есть')
+            print('complete')
+
+        if table == 'employee':
+            table = 'employees'
+            for employee in db_fetch(table, PATH):
+                last_name = employee[1]
+                first_name = employee[2]
+                title = employee[3]
+                reports_to_id = employee[4]
+                birth_date = employee[5]
+                hire_date = employee[6]
+                address = employee[7]
+                city = employee[8]
+                state = employee[9]
+                country = employee[10]
+                postal_code = employee[11]
+                phone = employee[12]
+                fax = employee[13]
+                email = employee[14]
+                if not Employee.objects.filter(last_name=last_name, first_name=first_name, phone=phone).exists():
+                    Employee(
+                        last_name=last_name,
+                        first_name=first_name,
+                        title=title,
+                        reports_to_id=reports_to_id,
+                        birth_date=birth_date,
+                        hire_date=hire_date,
+                        address=address,
+                        city=city,
+                        state=state,
+                        country=country,
+                        postal_code=postal_code,
+                        phone=phone,
+                        fax=fax,
+                        email=email
+                    ).save()
+                else:
+                    print('Поле с таким именем уже есть')
+            print('complete')
+
+        if table == 'customer':
+            table = 'customers'
+
+            # employee_name_id = {}
+            # for employee in db_fetch('kAboom_employee', PATH_DB_NEW):
+            #     employee_name_id[employee[1]] = {employee[2]: {}}
+            #     employee_name_id[employee[1]][employee[2]] = employee[0]
+            # employee_id_name_foreign = {}
+            # for employee in db_fetch('employees', PATH):
+            #     employee_id_name_foreign[employee[0]] = {employee[1]: employee[2]}
+
+            for customer in db_fetch(table, PATH):
+                first_name = customer[1]
+                last_name = customer[2]
+                company = customer[3]
+                address = customer[4]
+                city = customer[5]
+                state = customer[6]
+                country = customer[7]
+                postal_code = customer[8]
+                phone = customer[9]
+                fax = customer[10]
+                email = customer[11]
+                support_rep_id = customer[12]
+
+                if not Customer.objects.filter(first_name=first_name, last_name=last_name, phone=phone).exists():
+                    Customer(
+                        first_name=first_name,
+                        last_name=last_name,
+                        company=company,
+                        address=address,
+                        city=city,
+                        state=state,
+                        country=country,
+                        postal_code=postal_code,
+                        phone=phone,
+                        fax=fax,
+                        email=email,
+                        support_rep_id=support_rep_id
+                    ).save()
+                else:
+                    print('Поле с таким именем уже есть')
+            print('complete')
+
+        if table == 'invoice':
+            table = 'invoices'
+
+        if table == 'invoiceitem':
+            table = 'invoice_items'

@@ -37,10 +37,10 @@ class Track(models.Model):
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
-    composer = models.CharField(max_length=220)
-    miliseconds = models.IntegerField
-    bytes = models.IntegerField
-    until_price = models.DecimalField
+    composer = models.CharField(max_length=220, null=True)
+    milliseconds = models.IntegerField(default=None)
+    bytes = models.IntegerField(default=None)
+    until_price = models.FloatField(default=None)
 
 
 class Playlist(models.Model):
@@ -59,9 +59,9 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=20)
     first_name = models.CharField(max_length=20)
     title = models.CharField(max_length=30)
-    reports_to = models.ForeignKey('self', on_delete=models.CASCADE)
-    birth_date = models.DateTimeField
-    hire_date = models.DateTimeField
+    reports_to = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    birth_date = models.DateTimeField(null=True)
+    hire_date = models.DateTimeField(null=True)
     address = models.CharField(max_length=70, default=None)
     city = models.CharField(max_length=40, default=None)
     state = models.CharField(max_length=40, default=None)
@@ -69,22 +69,22 @@ class Employee(models.Model):
     postal_code = models.CharField(max_length=10, default=None)
     phone = models.CharField(max_length=24, default=None)
     fax = models.CharField(max_length=24, default=None)
-    email = models.CharField(max_length=60, default=None)
+    email = models.EmailField(max_length=60, default=None)
 
 
 class Customer(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=20)
-    company = models.CharField(max_length=80)
+    company = models.CharField(max_length=80, null=True)
     address = models.CharField(max_length=70)
     city = models.CharField(max_length=40)
-    state = models.CharField(max_length=40)
-    county = models.CharField(max_length=40)
-    postal_code = models.CharField(max_length=10)
-    phone = models.CharField(max_length=24)
-    fax = models.CharField(max_length=24)
-    email = models.CharField(max_length=60)
-    support_rep_id = models.ForeignKey(Employee, on_delete=models.CASCADE, default=None)
+    state = models.CharField(max_length=40, null=True)
+    country = models.CharField(max_length=40)
+    postal_code = models.CharField(max_length=10, null=True)
+    phone = models.CharField(max_length=24, null=True)
+    fax = models.CharField(max_length=24, null=True)
+    email = models.EmailField(max_length=60)
+    support_rep = models.ForeignKey(Employee, on_delete=models.CASCADE)
 
 
 class Invoice(models.Model):
@@ -97,6 +97,5 @@ class Invoice(models.Model):
 class InvoicesItem(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
-    unit_price = models.DecimalField
+    unit_price = models.IntegerField
     quantity = models.IntegerField
-
