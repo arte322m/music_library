@@ -78,6 +78,7 @@ class Command(BaseCommand):
             artist_name_id = {}
             for artist in db_fetch('kAboom_artist', PATH_DB_NEW):
                 artist_name_id[artist[1]] = artist[0]
+            # Переписать на орм.Objects
 
             artist_id_name_foreign = {}
             for artist in db_fetch('artists', PATH):
@@ -239,5 +240,53 @@ class Command(BaseCommand):
         if table == 'invoice':
             table = 'invoices'
 
+            # customer_name_id = {}
+            # for customer in db_fetch('kAboom_customer', PATH_DB_NEW):
+            #     customer_name_id[customer[1]] = {customer[2]: customer[0]}
+            # customer_name_id_foreign = {}
+            # for customer in db_fetch('customers', PATH):
+            #     customer_name_id_foreign[customer[0]] = customer[1], customer[2]
+
+            for invoice in db_fetch(table, PATH):
+                customer_id = invoice[1]
+                invoice_date = invoice[2]
+                billing_address = invoice[3]
+                billing_city = invoice[4]
+                billing_state = invoice[5]
+                billing_country = invoice[6]
+                billing_postal_code = invoice[7]
+                total = invoice[8]
+                if Invoice.objects.filter(customer_id=customer_id, invoice_date=invoice_date, total=total).exists():
+                    print('Поле с таким именем уже есть')
+                else:
+                    Invoice(
+                        customer_id=customer_id,
+                        invoice_date=invoice_date,
+                        billing_address=billing_address,
+                        billing_city=billing_city,
+                        billing_state=billing_state,
+                        billing_country=billing_country,
+                        billing_postal_code=billing_postal_code,
+                        total=total
+                    ).save()
+            print('complete')
+
         if table == 'invoiceitem':
             table = 'invoice_items'
+
+            for invoices_item in db_fetch(table, PATH):
+                invoice_id = invoices_item[1]
+                track_id = invoices_item[2]
+                unit_price = invoices_item[3]
+                quantity = invoices_item[4]
+                if InvoicesItem.objects.filter(invoice_id=invoice_id, track_id=track_id).exists():
+                    print('Поле с таким именем уже есть')
+                else:
+                    InvoicesItem(
+                        invoice_id=invoice_id,
+                        track_id=track_id,
+                        unit_price=unit_price,
+                        quantity=quantity,
+                    ).save()
+            print('complete')
+

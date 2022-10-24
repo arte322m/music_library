@@ -10,6 +10,8 @@ from django.utils import timezone
 
 # null blank default
 
+# список artist/album/track
+
 # Команда для заполнения БД из существующей
 # Добавить параметр в команду. Чтобы выбирать какую таблицу заполнять
 # python manage.py fill_db --table employees
@@ -33,6 +35,10 @@ class Album(models.Model):
 
 
 class Track(models.Model):
+
+    def __str__(self):
+        return f'{self.name}, {self.milliseconds}'
+
     name = models.CharField(max_length=200)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
@@ -89,13 +95,17 @@ class Customer(models.Model):
 
 class Invoice(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    inovice_date = models.DateTimeField
-    billing_adress = models.CharField
-    billing_city = models.CharField
+    invoice_date = models.DateTimeField(null=True)
+    billing_address = models.CharField(max_length=70, null=True)
+    billing_city = models.CharField(max_length=40, null=True)
+    billing_state = models.CharField(max_length=40, null=True)
+    billing_country = models.CharField(max_length=40, null=True)
+    billing_postal_code = models.CharField(max_length=40, null=True)
+    total = models.FloatField(default=None)
 
 
 class InvoicesItem(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
-    unit_price = models.IntegerField
-    quantity = models.IntegerField
+    unit_price = models.IntegerField(default=None)
+    quantity = models.IntegerField(default=None)
