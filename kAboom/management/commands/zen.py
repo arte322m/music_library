@@ -77,8 +77,11 @@ class Command(BaseCommand):
             table = 'albums'
 
             artist_name_id = {}
-            for artist in db_fetch('kAboom_artist', PATH_DB_NEW):
-                artist_name_id[artist[1]] = artist[0]
+            # for artist in db_fetch('kAboom_artist', PATH_DB_NEW):
+            #     artist_name_id[artist[1]] = artist[0]
+            artist_table = Artist.objects.all()
+            for artist in artist_table:
+                artist_name_id[artist.name] = artist.id
 
             artist_id_name_foreign = {}
             for artist in db_fetch('artists', PATH):
@@ -101,22 +104,33 @@ class Command(BaseCommand):
             table = 'tracks'
 
             album_name_id = {}
-            for album in db_fetch('kAboom_album', PATH_DB_NEW):
-                album_name_id[album[1]] = album[0]
+            # for album in db_fetch('kAboom_album', PATH_DB_NEW):
+            #     album_name_id[album[1]] = album[0]
+            album_table = Album.objects.all()
+            for album in album_table:
+                album_name_id[album.title] = album.id
+
             album_id_name_foreign = {}
             for album in db_fetch('albums', PATH):
                 album_id_name_foreign[album[0]] = album[1]
 
             genre_name_id = {}
-            for genre in db_fetch('kAboom_genre', PATH_DB_NEW):
-                genre_name_id[genre[1]] = genre[0]
+            # for genre in db_fetch('kAboom_genre', PATH_DB_NEW):
+            #     genre_name_id[genre[1]] = genre[0]
+            genre_table = Genre.objects.all()
+            for genre in genre_table:
+                genre_name_id[genre.name] = genre.id
+
             genre_id_name_foreign = {}
             for genre in db_fetch('genres', PATH):
                 genre_id_name_foreign[genre[0]] = genre[1]
 
             media_type_name_id = {}
-            for media_type in db_fetch('kAboom_mediatype', PATH_DB_NEW):
-                media_type_name_id[media_type[1]] = media_type[0]
+            # for media_type in db_fetch('kAboom_mediatype', PATH_DB_NEW):
+            #     media_type_name_id[media_type[1]] = media_type[0]
+            media_type_table = MediaType.objects.all()
+            for media_type in media_type_table:
+                media_type_name_id[media_type.name] = media_type.id
             media_type_id_name_foreign = {}
             for media_type in db_fetch('media_types', PATH):
                 media_type_id_name_foreign[media_type[0]] = media_type[1]
