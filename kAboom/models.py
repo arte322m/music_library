@@ -7,14 +7,12 @@ from django.utils import timezone
 # VarOneVar - классы
 # varOneVar - Нет
 # VAR_ONE_VAR - константы
-
 # null blank default
-
 # список artist/album/track
-
 # Команда для заполнения БД из существующей
 # Добавить параметр в команду. Чтобы выбирать какую таблицу заполнять
 # python manage.py fill_db --table employees
+# class Playlists.ForeignKey(Tracks, on_delete=models.CASCADE)
 
 
 class MediaType(models.Model):
@@ -26,6 +24,10 @@ class Genre(models.Model):
 
 
 class Artist(models.Model):
+
+    def __str__(self):
+        return self.name
+
     name = models.CharField(max_length=120)
 
 
@@ -52,12 +54,6 @@ class Track(models.Model):
 class Playlist(models.Model):
     track = models.ManyToManyField(Track)
     name = models.CharField(max_length=120)
-
-
-# class PlaylistTrack(models.Model):
-#     # Удалить. Заменить на ManyToMany в треках или плейлисте
-#     playlist = models.ForeignKey(Playlists, on_delete=models.CASCADE)
-#     track = models.ForeignKey(Tracks, on_delete=models.CASCADE)
 
 
 class Employee(models.Model):

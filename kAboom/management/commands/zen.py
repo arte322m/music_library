@@ -12,6 +12,7 @@ import sqlite3
 # table = kwargs.get('table')
 # print(table)
 # filter exists
+# Переписать на орм.Objects
 
 PATH = os.path.join(os.getcwd(), 'chinook.db')
 PATH_DB_NEW = os.path.join(os.getcwd(), 'db.sqlite3')
@@ -78,7 +79,6 @@ class Command(BaseCommand):
             artist_name_id = {}
             for artist in db_fetch('kAboom_artist', PATH_DB_NEW):
                 artist_name_id[artist[1]] = artist[0]
-            # Переписать на орм.Objects
 
             artist_id_name_foreign = {}
             for artist in db_fetch('artists', PATH):
