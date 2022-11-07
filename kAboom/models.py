@@ -16,10 +16,16 @@ from django.utils import timezone
 
 
 class MediaType(models.Model):
+
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=120)
 
 
 class Genre(models.Model):
+
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=120)
 
 
@@ -32,6 +38,10 @@ class Artist(models.Model):
 
 
 class Album(models.Model):
+
+    def __str__(self):
+        return self.title
+
     title = models.CharField(max_length=160)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
 
@@ -39,7 +49,8 @@ class Album(models.Model):
 class Track(models.Model):
 
     def __str__(self):
-        return f'{self.name}, {self.milliseconds}'
+
+        return f'{self.name}, {self.milliseconds//1000//60}:{self.milliseconds//1000%60}:{self.milliseconds%1000}'
 
     name = models.CharField(max_length=200)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
@@ -57,7 +68,6 @@ class Playlist(models.Model):
 
 
 class Employee(models.Model):
-    # id = models.
     last_name = models.CharField(max_length=20)
     first_name = models.CharField(max_length=20)
     title = models.CharField(max_length=30)

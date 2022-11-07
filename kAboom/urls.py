@@ -5,6 +5,7 @@ from . import views
 app_name = 'kAboom'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('artist/<int:artist_id>/', views.album, name='album'),
-    path('album/<int:album_id>/', views.track, name='track'),
+    path('artist/<int:artist_id>/', views.artist, name='artist'),
+    path('album/<int:album_id>/', views.album, name='album'),
+    path('track/<int:track_id>/', views.track, name='track'),
 ]

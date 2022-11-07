@@ -1,18 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css.css' %}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Главная страница</title>
 </head>
 <body>
     {% if artist_list %}
+        <h1>Исполнители:</h1>
         <ul>
         {% for artist in artist_list %}
-            <li><a href="{% url 'kAboom:album' artist.id %}">{{ artist.name }}</a></li>
+            <li><a href="{% url 'kAboom:artist' artist.id %}">{{ artist.name }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
-        <p>No artists are available.</p>
+        <p>Исполнителей нет</p>
     {% endif %}
 </body>
 </html>

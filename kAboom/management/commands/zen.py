@@ -67,10 +67,10 @@ class Command(BaseCommand):
             table = 'playlists'
             for playlist in db_fetch(table, PATH):
                 playlist_name = playlist[1]
-                if Playlist.objects.filter(name=playlist_name).exists():
-                    print('Поле с таким именем уже есть')
-                else:
-                    Playlist(name=playlist_name).save()
+                # if Playlist.objects.filter(name=playlist_name).exists():
+                #     print('Поле с таким именем уже есть')
+                # else:
+                Playlist(name=playlist_name).save()
             print('complete')
 
         if table == 'album':
@@ -154,7 +154,11 @@ class Command(BaseCommand):
                 milliseconds = track[6]
                 bytes = track[7]
                 until_price = track[8]
-                if not Track.objects.filter(name=track_name, composer=track_composer).exists():
+                if not Track.objects.filter(
+                        name=track_name,
+                        composer=track_composer,
+                        album_id=album_id,
+                        milliseconds=milliseconds).exists():
                     Track(
                         name=track_name,
                         composer=track_composer,

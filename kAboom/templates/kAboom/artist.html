@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css.css' %}">
+    <meta charset="UTF-8">
+    <title>Исполнитель</title>
+</head>
+<body>
+<a href="{% url 'kAboom:index' %}">Назад</a>
+<h1>
+    Испольнитель: {{ artist_info }}
+</h1>
+    {% if album_list %}
+        <h2>Альбомы:</h2>
+        <ol>
+        {% for album in album_list %}
+            <li><a href="{% url 'kAboom:album' album.id %}">{{ album.title }}</a></li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p>Альбомов нет</p>
+    {% endif %}
+</body>
+</html>
