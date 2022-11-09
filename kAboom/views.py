@@ -1,17 +1,20 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.shortcuts import render
 from .models import *
+from django.core.paginator import Paginator
+
+
+# def genre(request, genre_id):
+#     pass
 
 
 def track(request, track_id):
-    # track_details = Track.objects.filter(id=track_id)[0]
     track_details = get_object_or_404(Track, id=track_id)
-    # genre = get_object_or_404(Genre, id=track_details.genre_id)
-    # genre = Genre.objects.filter(id=track_details.genre_id)[0]
-    # genre_2 = track_details.genre
-    # # media_type = get_object_or_404(MediaType, id=track_details.media_type_id)
-    # media_type = MediaType.objects.filter(id=track_details.media_type_id)[0]
-    context = {'track_details': track_details}
+    album_info = track_details.album
+    artist_info = album_info.artist
+    context = {
+        'track_details': track_details,
+        'artist_info': artist_info,
+    }
     return render(request, 'kAboom/track.html', context)
 
 
@@ -47,8 +50,10 @@ def artist(request, artist_id):
 
 def index(request):
     artist_list = Artist.objects.all()
-    # artist_list = get_list_or_404(Artist)
+    paginator = Paginator(artist_list, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'artist_list': artist_list,
+        'page_obj': page_obj,
     }
     return render(request, 'kAboom/index.html', context)

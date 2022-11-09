@@ -1,15 +1,12 @@
+{% extends 'kAboom/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css.css' %}">
-    <meta charset="UTF-8">
-    <title>Трек</title>
-</head>
-<body>
-{#<input type="button" onclick="history.back();" value="Назад"/>#}
+{% block title %}Трек{% endblock %}
+
+{% block content %}
 <a href="{% url 'kAboom:album' track_details.album_id %}">Назад</a>
     <div>
+    <p>Исполнитель: <a href="{% url 'kAboom:artist' artist_info.id %}">{{ artist_info.name }}</a></p>
+    <p>Альбом: <a href="{% url 'kAboom:album' track_details.album_id %}">{{ track_details.album.title }}</a></p>
     <p>Название трека: {{ track_details.name }}</p>
     <p>Жанр: {{ track_details.genre.name }}</p>
     <p>Формат: {{ track_details.media_type.name }}</p>
@@ -18,5 +15,4 @@
     <p>Длительность: {{ track_details.milliseconds }}</p>
     <p>Композитор: {{ track_details.composer }}</p>
     </div>
-</body>
-</html>
+{% endblock %}

@@ -1,13 +1,10 @@
+{% extends 'kAboom/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css.css' %}">
-    <meta charset="UTF-8">
-    <title>Исполнитель</title>
-</head>
-<body>
+{% block title %}Исполнитель{% endblock %}
+
+{% block content %}
+
 <a href="{% url 'kAboom:index' %}">Назад</a>
 <h1>
     Испольнитель: {{ artist_info }}
@@ -22,5 +19,4 @@
     {% else %}
         <p>Альбомов нет</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}
