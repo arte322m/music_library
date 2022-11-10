@@ -5,10 +5,10 @@
 {% block content %}
 <a href="{% url 'kAboom:album' track_details.album_id %}">Назад</a>
     <div>
-    <p>Исполнитель: <a href="{% url 'kAboom:artist' artist_info.id %}">{{ artist_info.name }}</a></p>
+    <p>Исполнитель: <a href="{% url 'kAboom:artist' track_details.album.artist_id %}">{{ track_details.album.artist.name }}</a></p>
     <p>Альбом: <a href="{% url 'kAboom:album' track_details.album_id %}">{{ track_details.album.title }}</a></p>
     <p>Название трека: {{ track_details.name }}</p>
-    <p>Жанр: {{ track_details.genre.name }}</p>
+    <p>Жанр: <a href="{% url 'kAboom:genre' track_details.genre.id %}">{{ track_details.genre.name }}</a></p>
     <p>Формат: {{ track_details.media_type.name }}</p>
     <p>Вес: {{ track_details.bytes|filesizeformat }}</p>
     <p>Цена: {{ track_details.until_price }}</p>

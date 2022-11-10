@@ -1,0 +1,18 @@
+{% extends 'kAboom/base.html' %}
+{% load static %}
+{% block title %}Жанры{% endblock %}
+
+{% block content %}
+
+    {% if genre_list %}
+        <ol>
+        {% for genre in genre_list %}
+            <li><a href="{% url 'kAboom:genre' genre.id %}">{{ genre.name }}</a></li>
+        {% endfor %}
+        </ol>
+
+        {% else %}
+        <p>Жанров нет</p>
+    {% endif %}
+
+{% endblock %}

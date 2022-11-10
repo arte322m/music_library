@@ -3,8 +3,20 @@ from .models import *
 from django.core.paginator import Paginator
 
 
-# def genre(request, genre_id):
-#     pass
+def genre(request, genre_id):
+    genre_info = get_object_or_404(Genre, id=genre_id)
+    context = {
+        'genre_info': genre_info,
+    }
+    return render(request, 'kAboom/genre.html', context)
+
+
+def genres(request):
+    genre_list = Genre.objects.all()
+    context = {
+        'genre_list': genre_list,
+    }
+    return render(request, 'kAboom/genres.html', context)
 
 
 def track(request, track_id):
@@ -23,7 +35,6 @@ def album(request, album_id):
     album_info = get_object_or_404(Album, id=album_id)
     track_list = Track.objects.filter(album_id=album_id)
     artist_info = Artist.objects.filter(id=album_info.artist_id)[0]
-    artist_info_2 = album_info.artist
     context = {
         'MB': '',
         'artist_info': artist_info,
