@@ -7,7 +7,7 @@
     {% if genre_list %}
         <ol>
         {% for genre in genre_list %}
-            <li><a href="{% url 'kAboom:genre' genre.id %}">{{ genre.name }}</a></li>
+            <li><a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a></li>
         {% endfor %}
         </ol>
 

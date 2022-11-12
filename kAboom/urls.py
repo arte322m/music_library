@@ -4,10 +4,15 @@ from . import views
 
 app_name = 'kAboom'
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('genre/', views.genres, name='genres'),
-    path('genre/<int:genre_id>', views.genre, name='genre'),
-    path('artist/<int:artist_id>/', views.artist, name='artist'),
-    path('album/<int:album_id>/', views.album, name='album'),
-    path('track/<int:track_id>/', views.track, name='track'),
+    path('', views.main, name='main'),
+    path('artist/', views.artist_index, name='artist_index'),
+    path('artist/<int:artist_id>/', views.artist_detail, name='artist_detail'),
+    path('genre/', views.genre_index, name='genre_index'),
+    path('genre/<int:genre_id>/', views.genre_detail, name='genre_detail'),
+    path('track/', views.track_index, name='track_index'),
+    path('track/<int:track_id>/', views.track_detail, name='track_detail'),
+    path('album/', views.album_index, name='album_index'),
+    path('album/<int:album_id>/', views.album_detail, name='album_detail'),
+    path('playlist/', views.playlist_index, name='playlist_index'),
+    path('playlist/<int:playlist_id>', views.playlist_detail, name='playlist_detail'),
 ]

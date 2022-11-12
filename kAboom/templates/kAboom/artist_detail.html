@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<a href="{% url 'kAboom:index' %}">Назад</a>
+<a href="{% url 'kAboom:artist_index' %}">Назад</a>
 <h1>
     Испольнитель: {{ artist_info }}
 </h1>
@@ -13,7 +13,7 @@
         <h2>Альбомы:</h2>
         <ol>
         {% for album in album_list %}
-            <li><a href="{% url 'kAboom:album' album.id %}">{{ album.title }}</a></li>
+            <li><a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a></li>
         {% endfor %}
         </ol>
     {% else %}

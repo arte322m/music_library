@@ -1,18 +1,18 @@
 {% extends 'kAboom/base.html' %}
 {% load static %}
-
-{% block title %}Главная страница{% endblock %}
+{% block title %}Трек{% endblock %}
 
 {% block content %}
 
+<a href="{% url 'kAboom:playlist_index' %}">Назад</a>
+            <p>Плейлист: {{ playlist_info.name }}</p>
     {% if page_obj %}
-        <h1>Исполнители:</h1>
-
-        <ol>
-        {% for artist in page_obj %}
-            <li><a href="{% url 'kAboom:artist' artist.id %}">{{ artist.name }}</a></li>
+        <p>Треки:</p>
+    <ol>
+        {% for track in page_obj %}
+            <li><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></li>
         {% endfor %}
-        </ol>
+    </ol>
 
         <div class="pagination">
             <span class="step-links">
@@ -32,9 +32,8 @@
             </span>
         </div>
 
-    {% else %}
-        <p>Исполнителей нет</p>
+        {% else %}
+        <p>Треков нет</p>
     {% endif %}
+
 {% endblock %}
-
-

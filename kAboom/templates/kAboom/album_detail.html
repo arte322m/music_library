@@ -3,9 +3,9 @@
 {% block title %}Альбом{% endblock %}
 {% block content %}
 
-<a href="{% url 'kAboom:artist' artist_info.id %}">Назад</a>
+<a href="{% url 'kAboom:artist_detail' artist_info.id %}">Назад</a>
 <h1>
-    Исполнитель: <a href="{% url 'kAboom:artist' artist_info.id %}">{{ artist_info.name }}</a>
+    Исполнитель: <a href="{% url 'kAboom:artist_detail' artist_info.id %}">{{ artist_info.name }}</a>
     Альбом: {{ album_info }}
 </h1>
 <h2>
@@ -14,7 +14,7 @@
     {% if track_list %}
         <ol>
         {% for track in track_list %}
-            <li><a href="{% url 'kAboom:track' track.id %}">{{ track.name }}</a></li>
+            <li><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></li>
         {% endfor %}
         </ol>
     {% else %}

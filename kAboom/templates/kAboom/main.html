@@ -1,0 +1,15 @@
+{% extends 'kAboom/base.html' %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+    <p><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></p>
+    <p><a href="{% url 'kAboom:genre_index' %}">Жанры</a></p>
+    <p><a href="{% url 'kAboom:track_index' %}">Треки</a></p>
+    <p><a href="{% url 'kAboom:album_index' %}">Альбомы</a></p>
+    <p><a href="{% url 'kAboom:playlist_index' %}">Плейлисты</a></p>
+
+
+{% endblock %}
