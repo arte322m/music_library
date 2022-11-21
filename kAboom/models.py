@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # var_one_var - переменные и функции и методы классов
 # VarOneVar - классы
@@ -115,3 +116,12 @@ class InvoicesItem(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     unit_price = models.IntegerField(default=None)
     quantity = models.IntegerField(default=None)
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    artists = models.ManyToManyField(Artist, on_delete=models.CASCADE)
+    albums = models.ManyToManyField(Album, on_delete=models.CASCADE)
+    tracks = models.ManyToManyField(Track, on_delete=models.CASCADE)
+    playlists = models.ManyToManyField(Playlist, on_delete=models.CASCADE)
+

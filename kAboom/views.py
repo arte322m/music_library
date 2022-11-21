@@ -1,6 +1,42 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from .models import *
 from django.core.paginator import Paginator
+from django.contrib.auth import logout, authenticate, login
+from django.urls import reverse
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
+
+
+def registration(request):
+    if request.method == 'POST':
+        username = request.POST['login']
+        if User.objects.filter(username=username):
+            return render(request, 'kAboom/registration.html', {'error_message': 'Имя пользователя занято'})
+        if request.POST['password'] != request.POST['repeat_password']:
+            return render(request, 'kAboom/registration.html', {'error_message': 'Пароли не совпадают'})
+        user = User.objects.create_user(username=username, password=request.POST['password'])
+        login(request, user)
+        return redirect(reverse('kAboom:main'))
+    return render(request, 'kAboom/registration.html')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['login']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(reverse('kAboom:main'))
+        else:
+            # Return an 'invalid login' error message.
+            ...
+    return render(request, 'kAboom/login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('kAboom:main'))
 
 
 def main(request):

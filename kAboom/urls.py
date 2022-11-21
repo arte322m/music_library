@@ -1,10 +1,13 @@
 from django.urls import path
-
 from . import views
+
 
 app_name = 'kAboom'
 urlpatterns = [
     path('', views.main, name='main'),
+    path('accounts/logout/', views.logout_view, name='logout'),
+    path('accounts/login/', views.login_view, name='login'),
+    path('accounts/registration/', views.registration, name='registration'),
     path('artist/', views.artist_index, name='artist_index'),
     path('artist/<int:artist_id>/', views.artist_detail, name='artist_detail'),
     path('genre/', views.genre_index, name='genre_index'),

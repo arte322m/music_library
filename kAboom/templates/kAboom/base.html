@@ -2,12 +2,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/css.css' %}">
+
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
     <header>
+
+        {% if user.is_authenticated %}
+            <p>Авторизован</p>
+            <p><a href="{% url 'kAboom:logout' %}">Выйти</a> </p>
+        {% else %}
+            <p><a href="{% url 'kAboom:login' %}">Войти</a> </p>
+            <p><a href="{% url 'kAboom:registration' %}">Регистрация</a> </p>
+            <p>Не авторизован</p>
+        {% endif %}
+
         <div id="header">
             <a href="/">Главная</a>
         </div>

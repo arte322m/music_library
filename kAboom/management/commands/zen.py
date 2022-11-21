@@ -288,6 +288,6 @@ class Command(BaseCommand):
             for playlist_track in db_fetch(table, PATH):
                 playlist_id = playlist_track[0]
                 track_id = playlist_track[1]
-                a = Playlist.objects.filter(id=playlist_id)[0]
-                b = Track.objects.filter(id=track_id)[0]
+                a = Playlist.objects.filter(id=playlist_id).first()
+                b = Track.objects.filter(id=track_id).first()
                 a.track.add(b)
