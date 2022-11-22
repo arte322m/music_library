@@ -3,8 +3,19 @@
 {% block title %}Трек{% endblock %}
 
 {% block content %}
-<a href="{% url 'kAboom:album_detail' track_details.album_id %}">Назад</a>
     <div>
+    {% if user.is_authenticated %}
+        <form action="{% url 'kAboom:track_detail' track_id=track_details.id %}" method="post">
+            {% csrf_token %}
+            {% if track_is_favorite %}
+                <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+            {% else %}
+                <button type="submit" value="add" name="fav">Добавить в избранное</button>
+            {% endif %}
+         </form>
+    {% endif %}
+
+    <p>{{ test_track_playlist }}</p>
     <p>Исполнитель: <a href="{% url 'kAboom:artist_detail' track_details.album.artist_id %}">{{ track_details.album.artist.name }}</a></p>
     <p>Альбом: <a href="{% url 'kAboom:album_detail' track_details.album_id %}">{{ track_details.album.title }}</a></p>
     <p>Название трека: {{ track_details.name }}</p>
