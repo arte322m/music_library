@@ -5,6 +5,10 @@
 
 {% block content %}
 
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'kAboom:favorites' user.id %}">Избранное</a></p>
+    {% endif %}
+
     <p><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></p>
     <p><a href="{% url 'kAboom:genre_index' %}">Жанры</a></p>
     <p><a href="{% url 'kAboom:track_index' %}">Треки</a></p>

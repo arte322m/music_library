@@ -11,6 +11,17 @@
         <ol>
         {% for album in page_obj %}
             <li><a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a></li>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'kAboom:favorite_album' %}" method="post">
+                    {% csrf_token %}
+                    <input name="album_id" value="{{ album.id }}" hidden>
+                    {% if album in favorite_albums %}
+                        <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                    {% else %}
+                        <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                    {% endif %}
+                    </form>
+                {% endif %}
         {% endfor %}
         </ol>
 

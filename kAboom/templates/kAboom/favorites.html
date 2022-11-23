@@ -1,0 +1,54 @@
+{% extends 'kAboom/base.html' %}
+
+{% block title %}Избранное{% endblock %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        {% if tracks %}
+            <p><strong>Треки: </strong></p>
+            <ol>
+                {% for track in tracks %}
+                    <li><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p><strong>Избранных треков нет</strong></p>
+        {% endif %}
+
+        {% if artists %}
+            <p><strong>Исполнители: </strong></p>
+            <ol>
+                {% for artist in artists %}
+                    <li><a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a></li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p><strong>Избранных исполнителей нет</strong></p>
+        {% endif %}
+
+        {% if albums %}
+            <p><strong>Альбомы: </strong></p>
+            <ol>
+                {% for album in albums %}
+                    <li><a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a></li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p><strong>Избранных альбомов нет</strong></p>
+        {% endif %}
+
+        {% if playlists %}
+            <p><strong>Плейлисты: </strong></p>
+            <ol>
+                {% for playlist in playlists %}
+                    <li><a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a></li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p><strong>Избранных плейлистов нет</strong></p>
+        {% endif %}
+
+    {% endif %}
+
+{% endblock %}

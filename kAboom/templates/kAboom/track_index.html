@@ -9,8 +9,20 @@
         <h1>Треки:</h1>
 
         <ol>
-        {% for artist in page_obj %}
-            <li><a href="{% url 'kAboom:track_detail' artist.id %}">{{ artist.name }}</a></li>
+        {% for track in page_obj %}
+            <li><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'kAboom:favorite_track' %}" method="post">
+                    {% csrf_token %}
+                    <input name="track_id" value="{{ track.id }}" hidden>
+                    {% if track in favorite_tracks %}
+                        <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                    {% else %}
+                        <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                    {% endif %}
+                    </form>
+                {% endif %}
+            </li>
         {% endfor %}
         </ol>
 

@@ -5,8 +5,9 @@
 {% block content %}
     <div>
     {% if user.is_authenticated %}
-        <form action="{% url 'kAboom:track_detail' track_id=track_details.id %}" method="post">
+        <form action="{% url 'kAboom:favorite_track' %}" method="post">
             {% csrf_token %}
+            <input name="track_id" value="{{ track_details.id }}" hidden>
             {% if track_is_favorite %}
                 <button type="submit" value="rem" name="fav">Удалить из избранного</button>
             {% else %}

@@ -5,6 +5,80 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+
+@login_required
+@require_POST
+def favorite_album(request):
+    user_info = UserProfile.objects.get(user_id=request.user.id)
+    album_details = Album.objects.get(id=request.POST['album_id'])
+
+    if request.POST['fav'] == 'rem':
+        user_info.albums.remove(album_details)
+    elif request.POST['fav'] == 'add':
+        user_info.albums.add(album_details)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+@require_POST
+def favorite_playlist(request):
+    user_info = UserProfile.objects.get(user_id=request.user.id)
+    playlist_details = Playlist.objects.get(id=request.POST['playlist_id'])
+
+    if request.POST['fav'] == 'rem':
+        user_info.playlists.remove(playlist_details)
+    elif request.POST['fav'] == 'add':
+        user_info.playlists.add(playlist_details)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+@require_POST
+def favorite_artist(request):
+    user_info = UserProfile.objects.get(user_id=request.user.id)
+    artist_details = Artist.objects.get(id=request.POST['artist_id'])
+
+    if request.POST['fav'] == 'rem':
+        user_info.artists.remove(artist_details)
+    elif request.POST['fav'] == 'add':
+        user_info.artists.add(artist_details)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+@require_POST
+def favorite_track(request):
+    user_info = UserProfile.objects.get(user_id=request.user.id)
+    track_details = Track.objects.get(id=request.POST['track_id'])
+
+    if request.POST['fav'] == 'rem':
+        user_info.tracks.remove(track_details)
+    elif request.POST['fav'] == 'add':
+        user_info.tracks.add(track_details)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def favorites(request, user_id):
+    user_profile = UserProfile.objects.get(user_id=user_id)
+    tracks = user_profile.tracks.all()
+    playlists = user_profile.playlists.all()
+    artists = user_profile.artists.all()
+    albums = user_profile.albums.all()
+    context = {
+        'tracks': tracks,
+        'artists': artists,
+        'albums': albums,
+        'playlists': playlists,
+    }
+    return render(request, 'kAboom/favorites.html', context)
 
 
 def registration(request):
@@ -15,6 +89,7 @@ def registration(request):
         if request.POST['password'] != request.POST['repeat_password']:
             return render(request, 'kAboom/registration.html', {'error_message': 'Пароли не совпадают'})
         user = User.objects.create_user(username=username, password=request.POST['password'])
+        UserProfile(user_id=user.id).save()
         login(request, user)
         return redirect(reverse('kAboom:main'))
     return render(request, 'kAboom/registration.html')
@@ -27,10 +102,13 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
+            profile_id = User.objects.get(username=username).id
+            profile = UserProfile.objects.filter(user_id=profile_id)
+            if not profile:
+                UserProfile(user_id=profile_id).save()
             return redirect(reverse('kAboom:main'))
         else:
-            # Return an 'invalid login' error message.
-            ...
+            return render(request, 'kAboom/login.html', {'error_message': 'Неправильный логин или пароль'})
     return render(request, 'kAboom/login.html')
 
 
@@ -51,6 +129,12 @@ def artist_index(request):
     context = {
         'page_obj': page_obj,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        favorite_artists = user_info.artists.all()
+        context['favorite_artists'] = favorite_artists
+
     return render(request, 'kAboom/artist_index.html', context)
 
 
@@ -62,6 +146,13 @@ def artist_detail(request, artist_id):
         'artist_info': artist_info,
         'album_list': album_list,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        artist_is_favorite = user_info.artists.filter(id=artist_id).exists()
+
+        context['artist_is_favorite'] = artist_is_favorite
+
     return render(request, 'kAboom/artist_detail.html', context)
 
 
@@ -86,9 +177,16 @@ def track_index(request):
     paginator = Paginator(track_list, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     context = {
         'page_obj': page_obj,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        favorite_tracks = user_info.tracks.all()
+        context['favorite_tracks'] = favorite_tracks
+
     return render(request, 'kAboom/track_index.html', context)
 
 
@@ -96,10 +194,25 @@ def track_detail(request, track_id):
     track_details = get_object_or_404(Track, id=track_id)
     album_info = track_details.album
     artist_info = album_info.artist
+
     context = {
         'track_details': track_details,
         'artist_info': artist_info,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        track_is_favorite = user_info.tracks.filter(id=track_details.id).exists()
+
+        context['track_is_favorite'] = track_is_favorite
+
+        # if request.method == 'POST':
+        #     if request.POST['fav'] == 'rem':
+        #         user_info.tracks.remove(track_details)
+        #     elif request.POST['fav'] == 'add':
+        #         user_info.tracks.add(track_details)
+        #     return redirect(reverse('kAboom:track_detail', kwargs={'track_id': track_id}))
+
     return render(request, 'kAboom/track_detail.html', context)
 
 
@@ -111,20 +224,30 @@ def album_index(request):
     context = {
         'page_obj': page_obj,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        favorite_albums = user_info.albums.all()
+        context['favorite_albums'] = favorite_albums
+
     return render(request, 'kAboom/album_index.html', context)
 
 
 def album_detail(request, album_id):
-    # album_info = Album.objects.filter(id=album_id)[0]
     album_info = get_object_or_404(Album, id=album_id)
     track_list = Track.objects.filter(album_id=album_id)
-    artist_info = Artist.objects.filter(id=album_info.artist_id)[0]
+    artist_info = Artist.objects.get(id=album_info.artist_id)
     context = {
         'MB': '',
         'artist_info': artist_info,
         'album_info': album_info,
         'track_list': track_list,
     }
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        album_is_favorite = user_info.albums.filter(id=album_id).exists()
+
+        context['album_is_favorite'] = album_is_favorite
     return render(request, 'kAboom/album_detail.html', context)
 
 
@@ -137,6 +260,12 @@ def playlist_index(request):
         'page_obj': page_obj,
         'playlist_list': playlist_list,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        favorite_playlists = user_info.playlists.all()
+        context['favorite_playlists'] = favorite_playlists
+
     return render(request, 'kAboom/playlist_index.html', context=context)
 
 
@@ -152,4 +281,10 @@ def playlist_detail(request, playlist_id):
         'playlist_info': playlist_info,
         'track_list': track_list,
     }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        playlist_is_favorite = user_info.playlists.filter(id=playlist_id).exists()
+
+        context['playlist_is_favorite'] = playlist_is_favorite
     return render(request, 'kAboom/playlist_detail.html', context=context)

@@ -11,6 +11,17 @@
         <ol>
         {% for playlist in page_obj %}
             <li><a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a></li>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
+                    {% csrf_token %}
+                    <input name="playlist_id" value="{{ playlist.id }}" hidden>
+                    {% if playlist in favorite_playlists %}
+                        <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                    {% else %}
+                        <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                    {% endif %}
+                    </form>
+                {% endif %}
         {% endfor %}
         </ol>
 

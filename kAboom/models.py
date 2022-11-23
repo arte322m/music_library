@@ -119,9 +119,9 @@ class InvoicesItem(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    artists = models.ManyToManyField(Artist, on_delete=models.CASCADE)
-    albums = models.ManyToManyField(Album, on_delete=models.CASCADE)
-    tracks = models.ManyToManyField(Track, on_delete=models.CASCADE)
-    playlists = models.ManyToManyField(Playlist, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    artists = models.ManyToManyField(Artist)
+    albums = models.ManyToManyField(Album)
+    tracks = models.ManyToManyField(Track)
+    playlists = models.ManyToManyField(Playlist)
 

@@ -5,7 +5,18 @@
 
 {% block content %}
 
-<a href="{% url 'kAboom:artist_index' %}">Назад</a>
+    {% if user.is_authenticated %}
+    <form action="{% url 'kAboom:favorite_artist' %}" method="post">
+         {% csrf_token %}
+        <input name="artist_id" value="{{ artist_info.id }}" hidden>
+        {% if artist_is_favorite %}
+            <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+        {% else %}
+            <button type="submit" value="add" name="fav">Добавить в избранное</button>
+        {% endif %}
+     </form>
+    {% endif %}
+
 <h1>
     Испольнитель: {{ artist_info }}
 </h1>
