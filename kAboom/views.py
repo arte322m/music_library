@@ -16,9 +16,9 @@ def favorite_album(request):
     album_details = Album.objects.get(id=request.POST['album_id'])
 
     if request.POST['fav'] == 'rem':
-        user_info.albums.remove(album_details)
+        album_details.favorite.remove(user_info)
     elif request.POST['fav'] == 'add':
-        user_info.albums.add(album_details)
+        album_details.favorite.add(user_info)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -30,9 +30,9 @@ def favorite_playlist(request):
     playlist_details = Playlist.objects.get(id=request.POST['playlist_id'])
 
     if request.POST['fav'] == 'rem':
-        user_info.playlists.remove(playlist_details)
+        playlist_details.favorite.remove(user_info)
     elif request.POST['fav'] == 'add':
-        user_info.playlists.add(playlist_details)
+        playlist_details.favorite.add(user_info)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -44,9 +44,9 @@ def favorite_artist(request):
     artist_details = Artist.objects.get(id=request.POST['artist_id'])
 
     if request.POST['fav'] == 'rem':
-        user_info.artists.remove(artist_details)
+        artist_details.favorite.remove(user_info)
     elif request.POST['fav'] == 'add':
-        user_info.artists.add(artist_details)
+        artist_details.favorite.add(user_info)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -58,9 +58,9 @@ def favorite_track(request):
     track_details = Track.objects.get(id=request.POST['track_id'])
 
     if request.POST['fav'] == 'rem':
-        user_info.tracks.remove(track_details)
+        track_details.favorite.remove(user_info)
     elif request.POST['fav'] == 'add':
-        user_info.tracks.add(track_details)
+        track_details.favorite.add(user_info)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -68,10 +68,10 @@ def favorite_track(request):
 @login_required
 def favorites(request, user_id):
     user_profile = UserProfile.objects.get(user_id=user_id)
-    tracks = user_profile.tracks.all()
-    playlists = user_profile.playlists.all()
-    artists = user_profile.artists.all()
-    albums = user_profile.albums.all()
+    tracks = user_profile.track_set.all()
+    playlists = user_profile.playlist_set.all()
+    artists = user_profile.artist_set.all()
+    albums = user_profile.album_set.all()
     context = {
         'tracks': tracks,
         'artists': artists,
@@ -132,7 +132,7 @@ def artist_index(request):
 
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
-        favorite_artists = user_info.artists.all()
+        favorite_artists = user_info.artist_set.all()
         context['favorite_artists'] = favorite_artists
 
     return render(request, 'kAboom/artist_index.html', context)
@@ -148,8 +148,7 @@ def artist_detail(request, artist_id):
     }
 
     if request.user.is_authenticated:
-        user_info = UserProfile.objects.get(user_id=request.user.id)
-        artist_is_favorite = user_info.artists.filter(id=artist_id).exists()
+        artist_is_favorite = artist_info.favorite.exists()
 
         context['artist_is_favorite'] = artist_is_favorite
 
@@ -184,7 +183,7 @@ def track_index(request):
 
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
-        favorite_tracks = user_info.tracks.all()
+        favorite_tracks = user_info.track_set.all()
         context['favorite_tracks'] = favorite_tracks
 
     return render(request, 'kAboom/track_index.html', context)
@@ -201,8 +200,7 @@ def track_detail(request, track_id):
     }
 
     if request.user.is_authenticated:
-        user_info = UserProfile.objects.get(user_id=request.user.id)
-        track_is_favorite = user_info.tracks.filter(id=track_details.id).exists()
+        track_is_favorite = track_details.favorite.exists()
 
         context['track_is_favorite'] = track_is_favorite
 
@@ -227,7 +225,7 @@ def album_index(request):
 
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
-        favorite_albums = user_info.albums.all()
+        favorite_albums = user_info.album_set.all()
         context['favorite_albums'] = favorite_albums
 
     return render(request, 'kAboom/album_index.html', context)
@@ -244,8 +242,7 @@ def album_detail(request, album_id):
         'track_list': track_list,
     }
     if request.user.is_authenticated:
-        user_info = UserProfile.objects.get(user_id=request.user.id)
-        album_is_favorite = user_info.albums.filter(id=album_id).exists()
+        album_is_favorite = album_info.favorite.exists()
 
         context['album_is_favorite'] = album_is_favorite
     return render(request, 'kAboom/album_detail.html', context)
@@ -263,7 +260,7 @@ def playlist_index(request):
 
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
-        favorite_playlists = user_info.playlists.all()
+        favorite_playlists = user_info.playlist_set.all()
         context['favorite_playlists'] = favorite_playlists
 
     return render(request, 'kAboom/playlist_index.html', context=context)
@@ -283,8 +280,7 @@ def playlist_detail(request, playlist_id):
     }
 
     if request.user.is_authenticated:
-        user_info = UserProfile.objects.get(user_id=request.user.id)
-        playlist_is_favorite = user_info.playlists.filter(id=playlist_id).exists()
+        playlist_is_favorite = playlist_info.favorite.exists()
 
         context['playlist_is_favorite'] = playlist_is_favorite
     return render(request, 'kAboom/playlist_detail.html', context=context)

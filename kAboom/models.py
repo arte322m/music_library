@@ -16,6 +16,10 @@ from django.contrib.auth.models import User
 # class Playlists.ForeignKey(Tracks, on_delete=models.CASCADE)
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+
+
 class MediaType(models.Model):
 
     def __str__(self):
@@ -36,6 +40,7 @@ class Artist(models.Model):
         return self.name
 
     name = models.CharField(max_length=120)
+    favorite = models.ManyToManyField(UserProfile)
 
 
 class Album(models.Model):
@@ -45,6 +50,7 @@ class Album(models.Model):
 
     title = models.CharField(max_length=160)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    favorite = models.ManyToManyField(UserProfile)
 
 
 class Track(models.Model):
@@ -61,11 +67,14 @@ class Track(models.Model):
     milliseconds = models.IntegerField(default=None)
     bytes = models.IntegerField(default=None)
     until_price = models.FloatField(default=None)
+    favorite = models.ManyToManyField(UserProfile)
 
 
 class Playlist(models.Model):
     track = models.ManyToManyField(Track)
     name = models.CharField(max_length=120)
+    favorite = models.ManyToManyField(UserProfile)
+    maker = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='favorite', null=True)
 
 
 class Employee(models.Model):
@@ -117,11 +126,4 @@ class InvoicesItem(models.Model):
     unit_price = models.IntegerField(default=None)
     quantity = models.IntegerField(default=None)
 
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
-    artists = models.ManyToManyField(Artist)
-    albums = models.ManyToManyField(Album)
-    tracks = models.ManyToManyField(Track)
-    playlists = models.ManyToManyField(Playlist)
 
