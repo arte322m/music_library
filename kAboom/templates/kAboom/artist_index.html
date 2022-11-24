@@ -10,18 +10,21 @@
 
         <ol>
         {% for artist in page_obj %}
-            <li><a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a></li>
+            <li>
                 {% if user.is_authenticated %}
                     <form action="{% url 'kAboom:favorite_artist' %}" method="post">
                     {% csrf_token %}
                     <input name="artist_id" value="{{ artist.id }}" hidden>
                     {% if artist in favorite_artists %}
-                        <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                        <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a> <button type="submit" value="rem" name="fav">Удалить из избранного</button>
                     {% else %}
-                        <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                        <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a> <button type="submit" value="add" name="fav">Добавить в избранное</button>
                     {% endif %}
                     </form>
+                {% else %}
+                    <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a>
                 {% endif %}
+            </li>
         {% endfor %}
         </ol>
 

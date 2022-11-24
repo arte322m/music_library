@@ -1,0 +1,13 @@
+{% extends 'kAboom/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <form action="{% url 'kAboom:playlist_creation' %}" method="post">
+    {% csrf_token %}
+    <p>Название плейлиста: <input type="text" name="name"></p>
+    <button type="submit" name="create">Создать</button>
+    </form>
+
+{% endblock %}

@@ -261,6 +261,9 @@ def playlist_index(request):
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
         favorite_playlists = user_info.playlist_set.all()
+        owners = Playlist.objects.filter(maker_id=request.user.id).all()
+
+        context['owners'] = owners
         context['favorite_playlists'] = favorite_playlists
 
     return render(request, 'kAboom/playlist_index.html', context=context)
@@ -273,14 +276,76 @@ def playlist_detail(request, playlist_id):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    if playlist_info.maker:
+        maker = playlist_info.maker.user.username
+    else:
+        maker = 'Нет составителя кекв'
+
     context = {
         'page_obj': page_obj,
         'playlist_info': playlist_info,
         'track_list': track_list,
+        'maker': maker,
     }
 
     if request.user.is_authenticated:
         playlist_is_favorite = playlist_info.favorite.exists()
+        owner = playlist_info.maker_id == request.user.id
 
         context['playlist_is_favorite'] = playlist_is_favorite
+        context['owner'] = owner
+
     return render(request, 'kAboom/playlist_detail.html', context=context)
+
+
+@login_required
+@require_POST
+def playlist_delete(request):
+    Playlist.objects.get(id=request.POST['playlist_id']).delete()
+    return redirect(reverse('kAboom:my_playlists'))
+
+
+@login_required
+def playlist_creation(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        new_playlist = Playlist(name=name, maker_id=request.user.id)
+        new_playlist.save()
+        playlist_id = new_playlist.id
+        return redirect('kAboom:playlist_detail', playlist_id=playlist_id)
+    return render(request, 'kAboom/playlist_creation.html')
+
+
+@login_required
+def my_playlists(request):
+    playlists = Playlist.objects.filter(maker_id=request.user.id)
+    context = {
+        'playlists': playlists,
+    }
+    return render(request, 'kAboom/my_playlists.html', context)
+
+
+@login_required
+def change_playlist(request, playlist_id):
+    track_list = Playlist.objects.get(id=playlist_id).track.all()
+    favorite_tracks = UserProfile.objects.get(user_id=request.user.id).track_set.all()
+    context = {
+        'playlist_id': playlist_id,
+        'track_list': track_list,
+        'favorite_tracks': favorite_tracks,
+    }
+    return render(request, 'kAboom/change_playlist.html', context)
+
+
+@login_required
+@require_POST
+def change_playlist_view(request):
+    playlist_details = Playlist.objects.get(id=request.POST['playlist_id'])
+    track_details = Track.objects.get(id=request.POST['track_id'])
+
+    if request.POST['fav'] == 'rem':
+        playlist_details.track.remove(track_details)
+    elif request.POST['fav'] == 'add':
+        playlist_details.track.add(track_details)
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))

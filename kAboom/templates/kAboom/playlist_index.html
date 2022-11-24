@@ -10,18 +10,25 @@
 
         <ol>
         {% for playlist in page_obj %}
-            <li><a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a></li>
+            <li>
                 {% if user.is_authenticated %}
-                    <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
-                    {% csrf_token %}
-                    <input name="playlist_id" value="{{ playlist.id }}" hidden>
-                    {% if playlist in favorite_playlists %}
-                        <button type="submit" value="rem" name="fav">Удалить из избранного</button>
-                    {% else %}
-                        <button type="submit" value="add" name="fav">Добавить в избранное</button>
-                    {% endif %}
-                    </form>
+                        <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
+                        {% csrf_token %}
+                        <input name="playlist_id" value="{{ playlist.id }}" hidden>
+                        {% if playlist in owners %}
+                            <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a>
+                        {% else %}
+                            {% if playlist in favorite_playlists %}
+                                <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a> <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                            {% else %}
+                                <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a> <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                            {% endif %}
+                        {% endif %}
+                        </form>
+                {% else %}
+                    <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a>
                 {% endif %}
+            </li>
         {% endfor %}
         </ol>
 

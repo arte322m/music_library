@@ -1,0 +1,20 @@
+{% extends 'kAboom/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <p><a href="{% url 'kAboom:playlist_creation' %}">Создание плейлиста</a></p>
+
+    {% if playlists %}
+    <p><strong>Мои плейлисты: </strong></p>
+        <ol>
+        {% for playlist in playlists %}
+            <li><p><a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a></p></li>
+        {% endfor %}
+        </ol>
+    {% else %}
+        <p><strong>Нет плейлистов</strong></p>
+    {% endif %}
+
+{% endblock %}

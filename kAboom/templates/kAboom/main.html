@@ -7,6 +7,9 @@
 
     {% if user.is_authenticated %}
         <p><a href="{% url 'kAboom:favorites' user.id %}">Избранное</a></p>
+        <p><a href="{% url 'kAboom:my_playlists' %}">Мои плейлисты</a></p>
+
+
     {% endif %}
 
     <p><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></p>

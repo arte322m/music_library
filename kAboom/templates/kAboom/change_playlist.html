@@ -1,0 +1,24 @@
+{% extends 'kAboom/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <ol>
+    {% for track in favorite_tracks %}
+        <form action="{% url 'kAboom:change_playlist_view' %}" method="post">
+        {% csrf_token %}
+        <input name="track_id" value="{{ track.id }}" hidden>
+        <input name="playlist_id" value="{{ playlist_id }}" hidden>
+        {% if track in track_list %}
+            <li><p>{{ track.name }} <button type="submit" value="rem" name="fav">Удалить из плейлиста</button></p></li>
+        {% else %}
+            <li><p>{{ track.name }} <button type="submit" value="add" name="fav">Добавить в плейлист</button></p></li>
+        {% endif %}
+        </form>
+    {% endfor %}
+    </ol>
+
+    <a href="{% url 'kAboom:playlist_detail' playlist_id %}">Назад к плейлисту</a>
+
+{% endblock %}

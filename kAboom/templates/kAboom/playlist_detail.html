@@ -6,18 +6,28 @@
 
 
     {% if user.is_authenticated %}
-    <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
-         {% csrf_token %}
-        <input name="playlist_id" value="{{ playlist_info.id }}" hidden>
-        {% if playlist_is_favorite %}
-            <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+        {% if not owner %}
+        <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
+             {% csrf_token %}
+            <input name="playlist_id" value="{{ playlist_info.id }}" hidden>
+            {% if playlist_is_favorite %}
+                <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+            {% else %}
+                <button type="submit" value="add" name="fav">Добавить в избранное</button>
+            {% endif %}
+        </form>
         {% else %}
-            <button type="submit" value="add" name="fav">Добавить в избранное</button>
+            <form action="{% url 'kAboom:playlist_delete' %}" method="post">
+            {% csrf_token %}
+            <input value="{{ playlist_info.id }}" name="playlist_id" hidden>
+            <button type="submit" name="delete">Удалить плейлист</button>
+            </form>
+            <p><a href="{% url 'kAboom:change_playlist' playlist_info.id %}"><button>Изменить плейлист</button></a></p>
         {% endif %}
-     </form>
     {% endif %}
 
     <p>Плейлист: {{ playlist_info.name }}</p>
+    <p>Составитель: {{ maker }}</p>
 
     {% if page_obj %}
         <p>Треки:</p>
