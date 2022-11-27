@@ -8,19 +8,23 @@
          {% csrf_token %}
         <input name="album_id" value="{{ album_info.id }}" hidden>
         {% if album_is_favorite %}
-            <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+            <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
         {% else %}
-            <button type="submit" value="add" name="fav">Добавить в избранное</button>
+            <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
         {% endif %}
      </form>
     {% endif %}
 
 <h1>
+<strong>
     Исполнитель: <a href="{% url 'kAboom:artist_detail' artist_info.id %}">{{ artist_info.name }}</a>
     Альбом: {{ album_info }}
+</strong>
 </h1>
 <h2>
-    Треки:
+
+    <strong>Треки:</strong>
+
 </h2>
     {% if track_list %}
         <ol>

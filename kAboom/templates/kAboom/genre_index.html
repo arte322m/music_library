@@ -4,7 +4,9 @@
 
 {% block content %}
 
+
     {% if genre_list %}
+        <h1><strong>Жанры: </strong></h1>
         <ol>
         {% for genre in genre_list %}
             <li><a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a></li>

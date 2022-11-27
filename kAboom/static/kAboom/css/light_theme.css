@@ -1,8 +1,11 @@
 body {
-    background: grey;
+    background: white;
 }
 
 a {
     color: black;
     text-decoration: underline;
 }
+ header {
+     background: darkgray;
+ }

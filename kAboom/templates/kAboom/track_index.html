@@ -16,9 +16,9 @@
                     {% csrf_token %}
                     <input name="track_id" value="{{ track.id }}" hidden>
                     {% if track in favorite_tracks %}
-                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>  <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>  <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
                     {% else %}
-                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a> <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
                     {% endif %}
                     </form>
                 {% else %}
@@ -28,23 +28,43 @@
         {% endfor %}
         </ol>
 
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; первая</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>
-                {% endif %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+      {% endif %}
 
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
 
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">следующая</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+    <li class="page-item active" aria-current="page">
+      <span class="page-link">{{ page_obj.number }}</span>
+    </li>
+
+      {% if page_obj.has_next %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+      {% endif %}
+  </ul>
+</nav>
+{#        <div class="pagination">#}
+{#            <span class="step-links">#}
+{#                {% if page_obj.has_previous %}#}
+{#                    <a href="?page=1">&laquo; Первая</a>#}
+{#                    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>#}
+{#                {% endif %}#}
+{##}
+{#                <span class="current">#}
+{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#                </span>#}
+{##}
+{#                {% if page_obj.has_next %}#}
+{#                    <a href="?page={{ page_obj.next_page_number }}">Следующая</a>#}
+{#                    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>#}
+{#                {% endif %}#}
+{#            </span>#}
+{#        </div>#}
 
     {% else %}
         <p>Исполнителей нет</p>

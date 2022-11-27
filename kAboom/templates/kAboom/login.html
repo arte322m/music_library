@@ -6,9 +6,9 @@
 {% csrf_token %}
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <p>Логин: <input type="text" name="login" required></p>
-    <p>Пароль: <input type="password" name="password" required></p>
-    <p><input type="submit" value="Войти"></p>
+    <p>Логин: <input class="form-control" type="text" name="login" required></p>
+    <p>Пароль: <input class="form-control" type="password" name="password" required></p>
+    <p><input class="btn btn-success" type="submit" value="Войти"></p>
 
 </form>
 

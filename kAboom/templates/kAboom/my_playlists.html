@@ -4,10 +4,10 @@
 
 {% block content %}
 
-    <p><a href="{% url 'kAboom:playlist_creation' %}">Создание плейлиста</a></p>
+    <p><a href="{% url 'kAboom:playlist_creation' %}"><button type="button" class="btn btn-light">Создать плейлист</button></a></p>
 
     {% if playlists %}
-    <p><strong>Мои плейлисты: </strong></p>
+    <p><strong>Мои плейлисты:</strong></p>
         <ol>
         {% for playlist in playlists %}
             <li><p><a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a></p></li>

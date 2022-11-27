@@ -1,0 +1,17 @@
+body {
+    color: white;
+    background-color: rgba(0,0,0,0.86);
+}
+
+a {
+    color: white;
+    text-decoration: underline;
+}
+ header {
+     background-color: rgba(30,76,23,0.86);
+ }
+
+ footer {
+     color: white;
+     background-color: rgba(0,0,0,0.86);
+ }

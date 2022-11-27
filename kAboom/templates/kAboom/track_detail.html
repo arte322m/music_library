@@ -9,9 +9,9 @@
             {% csrf_token %}
             <input name="track_id" value="{{ track_details.id }}" hidden>
             {% if track_is_favorite %}
-                <button type="submit" value="rem" name="fav">Удалить из избранного</button>
+                <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
             {% else %}
-                <button type="submit" value="add" name="fav">Добавить в избранное</button>
+                <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
             {% endif %}
          </form>
     {% endif %}

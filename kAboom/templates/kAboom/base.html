@@ -3,38 +3,43 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/css.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/dark_theme.css' %}">
+{#    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/light_theme.css' %}">#}
 
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
-    <header>
 
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <a href="/" class="navbar-brand"><button type="button" class="btn btn-outline-light">Главная</button></a>
         {% if user.is_authenticated %}
-
-            <p>{{ user.username }}</p>
-            <p><a href="{% url 'kAboom:logout' %}">Выйти</a> </p>
-
+            <li><a href="{% url 'kAboom:favorites' user.id %}"><button type="button" class="btn btn-outline-light">Избранное</button></a></li>
+            <li><a href="{% url 'kAboom:my_playlists' %}"><button type="button" class="btn btn-outline-light">Мои Плейлисты</button></a></li>
+            </ul>
+            <div class="col-md-3 text-end">
+            <strong>{{ user.username }}</strong>
+            <a href="{% url 'kAboom:logout' %}"><button type="button" class="btn btn-danger">Выйти</button></a>
+            </div>
         {% else %}
-
-            <p><a href="{% url 'kAboom:login' %}">Войти</a> </p>
-            <p><a href="{% url 'kAboom:registration' %}">Регистрация</a> </p>
-            <p>Не авторизован</p>
-
+            </ul>
+            <div class="col-md-3 text-end">
+            <a href="{% url 'kAboom:login' %}"><button type="button" class="btn btn-outline-success">Войти</button></a>
+            <a href="{% url 'kAboom:registration' %}"><button type="button" class="btn btn-primary">Регистрация</button></a>
+            </div>
         {% endif %}
+    </ul>
 
-        <div id="header">
-            <a href="/">Главная</a>
-        </div>
-    </header>
+</header>
 
-    {% block content%}
+    <div class="container">
+        {% block content%}
+        {% endblock %}
+    </div>
 
-    {% endblock %}
-
-    <footer>
-        типа футер
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col text-center">типа футер</div>
     </footer>
 </body>
 </html>
