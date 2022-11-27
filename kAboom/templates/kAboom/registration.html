@@ -5,9 +5,29 @@
 <form action="{% url 'kAboom:registration' %}" method="post">
 {% csrf_token %}
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <p>Логин: <input type="text" name="login" required></p>
-    <p>Пароль: <input type="password" name="password" required></p>
-    <p>Повторите пароль: <input type="password" name="repeat_password" required></p>
+    <div class="mb-3 row">
+
+    <label for="InputLogin" class="col-sm-1 col-form-label">Логин</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="InputLogin" placeholder="Логин" name="login" required>
+    </div>
+<p></p>
+    <label for="inputPassword" class="col-sm-1 col-form-label">Пароль</label>
+    <div class="col-sm-5">
+      <input type="password" class="form-control" id="inputPassword" placeholder="Пароль" name="password" required>
+    </div>
+<p></p>
+    <label for="input_repeat_password" class="col-sm-1 col-form-label">Повторите пароль</label>
+    <div class="col-sm-5">
+      <input type="password" class="form-control" id="input_repeat_password" placeholder="Повторите пароль" name="repeat_password" required>
+    </div>
+
+
+
+{#    <p>Логин: <input class="form-control" placeholder="Login" type="text" name="login" required></p>#}
+{#    <p>Пароль: <input class="form-control" type="password" placeholder="Password" name="password" required></p>#}
+{#    <p>Повторите пароль: <input class="form-control" type="password" placeholder="Repeat password" name="repeat_password" required></p>#}
+    </div>
     <p><input class="btn btn-primary" type="submit" value="Зарегистрироваться"></p>
 
 </form>

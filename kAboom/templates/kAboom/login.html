@@ -4,11 +4,22 @@
 
 <form action="{% url 'kAboom:login' %}" method="post">
 {% csrf_token %}
-
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    <p>Логин: <input class="form-control" type="text" name="login" required></p>
-    <p>Пароль: <input class="form-control" type="password" name="password" required></p>
-    <p><input class="btn btn-success" type="submit" value="Войти"></p>
+
+    <div class="mb-3 row">
+
+    <label for="InputLogin" class="col-sm-1 col-form-label">Логин</label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control" id="InputLogin" placeholder="Логин" name="login" required>
+    </div>
+        <p></p>
+    <label for="inputPassword" class="col-sm-1 col-form-label">Пароль</label>
+    <div class="col-sm-5">
+      <input type="password" class="form-control" id="inputPassword" placeholder="Пароль" name="password" required>
+    </div>
+
+    </div>
+    <input class="btn btn-success" type="submit" value="Войти">
 
 </form>
 
