@@ -20,4 +20,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --ignore=migrations --max-line-length=120 --disable=C0103,C0114,E1101,C0116,C0115
+        pylint $(git ls-files '*.py') --ignore-paths=.*migrations.* --max-line-length=120 --disable=C0103,C0114,E1101,C0116,C0115
