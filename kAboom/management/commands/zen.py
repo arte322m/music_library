@@ -6,10 +6,7 @@ from kAboom.models import *
 import sqlite3
 
 # time = timezone.now().strftime('%X')
-# time = timezone.now().strftime('%X')
 # self.stdout.write("It's now %s" % time)
-# self.stdout.write("It's now %s" % time)
-# print(args)
 # print(args)
 # print(kwargs)
 # table = kwargs.get('table')
