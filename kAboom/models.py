@@ -19,6 +19,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    test = models.CharField(verbose_name='test')
 
 
 class MediaType(models.Model):
