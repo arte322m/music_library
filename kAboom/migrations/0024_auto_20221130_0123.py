@@ -6,6 +6,8 @@ from django.db import migrations
 def data_migrate_user(apps, schema_editor):
     Playlist = apps.get_model('kAboom', 'Playlist')
     for playlist in Playlist.objects.all():
+        if not playlist.maker:
+            playlist.user_maker = None
         playlist.user_maker = '%s' % playlist.maker
         playlist.save()
 
