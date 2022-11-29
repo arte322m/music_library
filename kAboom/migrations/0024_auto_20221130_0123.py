@@ -6,10 +6,9 @@ from django.db import migrations
 def data_migrate_user(apps, schema_editor):
     Playlist = apps.get_model('kAboom', 'Playlist')
     for playlist in Playlist.objects.all():
-        if not playlist.maker:
-            playlist.user_maker = None
-        playlist.user_maker = '%s' % playlist.maker
-        playlist.save()
+        if playlist.maker:
+            playlist.user_maker_id = playlist.maker_id
+            playlist.save()
 
 
 class Migration(migrations.Migration):
@@ -19,5 +18,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(data_migrate_user)
+        migrations.RunPython(data_migrate_user),
     ]
