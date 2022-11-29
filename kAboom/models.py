@@ -73,6 +73,7 @@ class Playlist(models.Model):
     name = models.CharField(max_length=120)
     favorite = models.ManyToManyField(UserProfile)
     maker = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='favorite', null=True)
+    user_maker = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class Employee(models.Model):
