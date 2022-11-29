@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 # Добавить параметр в команду. Чтобы выбирать какую таблицу заполнять
 # python manage.py fill_db --table employees
 # class Playlists.ForeignKey(Tracks, on_delete=models.CASCADE)
-# МОЙ КАММИТ!
+# МОЙ КАММИТ!!!!!
 
 
 class UserProfile(models.Model):
