@@ -3,7 +3,6 @@ import sqlite3
 from django.core.management.base import BaseCommand
 from kAboom.models import Genre, Artist, MediaType, Playlist, Album, Track, Employee, Customer, Invoice, InvoicesItem
 
-
 # time = timezone.now().strftime('%X')
 # self.stdout.write("It's now %s" % time)
 # print(args)
