@@ -1,6 +1,6 @@
-from django.core.management.base import BaseCommand
 import os.path
 import sqlite3
+from django.core.management.base import BaseCommand
 from kAboom.models import Genre, Artist, MediaType, Playlist, Album, Track, Employee, Customer, Invoice, InvoicesItem
 
 
