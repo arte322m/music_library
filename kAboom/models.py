@@ -123,5 +123,3 @@ class InvoicesItem(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     unit_price = models.IntegerField(default=None)
     quantity = models.IntegerField(default=None)
-
-
