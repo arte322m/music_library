@@ -125,22 +125,19 @@ class Command(BaseCommand):
             for track in db_fetch(table, PATH):
                 track_name = track[1]
                 track_composer = track[5]
-
                 album_id = track[2]
                 album_name = album_id_name_foreign[album_id]
                 album_id_true = album_name_id[album_name]
-
                 genre_id = track[4]
                 genre_name = genre_id_name_foreign[genre_id]
                 genre_id_true = genre_name_id[genre_name]
-
                 media_type_id = track[3]
                 media_type_name = media_type_id_name_foreign[media_type_id]
                 media_type_id_true = media_type_name_id[media_type_name]
-
                 milliseconds = track[6]
                 weight = track[7]
                 until_price = track[8]
+
                 if not Track.objects.filter(
                         name=track_name,
                         composer=track_composer,
