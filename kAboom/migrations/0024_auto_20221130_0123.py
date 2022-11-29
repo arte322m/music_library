@@ -14,7 +14,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('kAboom', '0023_playlist_user_maker'),
-        ('kAboom', '0022_album_favorite_artist_favorite_playlist_favorite_and_more.py'),
     ]
 
     operations = [
