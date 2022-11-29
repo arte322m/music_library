@@ -1,12 +1,12 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
-from .models import *
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from .models import UserProfile, Album, Playlist, Artist, Track, Genre
 
 
 @login_required

@@ -1,7 +1,4 @@
-import datetime
-
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 
 # var_one_var - переменные и функции и методы классов
@@ -126,5 +123,3 @@ class InvoicesItem(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     unit_price = models.IntegerField(default=None)
     quantity = models.IntegerField(default=None)
-
-

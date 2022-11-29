@@ -1,9 +1,8 @@
-from django.core.management.base import BaseCommand
-from django.utils import timezone
 import os.path
-from kAboom.models import *
-
 import sqlite3
+from django.core.management.base import BaseCommand
+from kAboom.models import Genre, Artist, MediaType, Playlist, Album, Track, Employee, Customer, Invoice, InvoicesItem
+
 
 # time = timezone.now().strftime('%X')
 # self.stdout.write("It's now %s" % time)
@@ -123,7 +122,6 @@ class Command(BaseCommand):
             media_type_id_name_foreign = {}
             for media_type in db_fetch('media_types', PATH):
                 media_type_id_name_foreign[media_type[0]] = media_type[1]
-
             for track in db_fetch(table, PATH):
                 track_name = track[1]
                 track_composer = track[5]
@@ -141,7 +139,7 @@ class Command(BaseCommand):
                 media_type_id_true = media_type_name_id[media_type_name]
 
                 milliseconds = track[6]
-                bytes = track[7]
+                weight = track[7]
                 until_price = track[8]
                 if not Track.objects.filter(
                         name=track_name,
@@ -155,7 +153,7 @@ class Command(BaseCommand):
                         genre_id=genre_id_true,
                         media_type_id=media_type_id_true,
                         milliseconds=milliseconds,
-                        bytes=bytes,
+                        bytes=weight,
                         until_price=until_price
                     ).save()
                 else:
