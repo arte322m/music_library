@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
-from .models import *
+from .models import UserProfile, Album, Playlist, Artist, Track, Genre
 from django.core.paginator import Paginator
 from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
