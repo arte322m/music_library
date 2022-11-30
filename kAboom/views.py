@@ -147,7 +147,8 @@ def artist_detail(request, artist_id):
     }
 
     if request.user.is_authenticated:
-        artist_is_favorite = artist_info.favorite.exists()
+        user = UserProfile.objects.get(user_id=request.user.id)
+        artist_is_favorite = user.artist_set.filter(id=artist_id).exists()
 
         context['artist_is_favorite'] = artist_is_favorite
 
@@ -199,7 +200,8 @@ def track_detail(request, track_id):
     }
 
     if request.user.is_authenticated:
-        track_is_favorite = track_details.favorite.exists()
+        user = UserProfile.objects.get(user_id=request.user.id)
+        track_is_favorite = user.track_set.filter(id=track_id).exists()
 
         context['track_is_favorite'] = track_is_favorite
 
@@ -241,7 +243,8 @@ def album_detail(request, album_id):
         'track_list': track_list,
     }
     if request.user.is_authenticated:
-        album_is_favorite = album_info.favorite.exists()
+        user = UserProfile.objects.get(user_id=request.user.id)
+        album_is_favorite = user.album_set.filter(id=album_id).exists()
 
         context['album_is_favorite'] = album_is_favorite
     return render(request, 'kAboom/album_detail.html', context)
@@ -288,7 +291,8 @@ def playlist_detail(request, playlist_id):
     }
 
     if request.user.is_authenticated:
-        playlist_is_favorite = playlist_info.favorite.exists()
+        user = UserProfile.objects.get(user_id=request.user.id)
+        playlist_is_favorite = user.playlist_set.filter(id=playlist_id).exists()
         owner = playlist_info.user_maker_id == request.user.id
 
         context['playlist_is_favorite'] = playlist_is_favorite

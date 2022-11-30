@@ -15,7 +15,7 @@
             {% endif %}
          </form>
     {% endif %}
-
+    <p>Кол-во сердечек: {{ track_details.favorite.count }}</p>
     <p>{{ test_track_playlist }}</p>
     <p>Исполнитель: <a href="{% url 'kAboom:artist_detail' track_details.album.artist_id %}">{{ track_details.album.artist.name }}</a></p>
     <p>Альбом: <a href="{% url 'kAboom:album_detail' track_details.album_id %}">{{ track_details.album.title }}</a></p>
