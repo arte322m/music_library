@@ -260,7 +260,7 @@ def playlist_index(request):
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
         favorite_playlists = user_info.playlist_set.all()
-        owners = Playlist.objects.filter(maker_id=request.user.id).all()
+        owners = Playlist.objects.filter(user_maker_id=request.user.id).all()
 
         context['owners'] = owners
         context['favorite_playlists'] = favorite_playlists
@@ -275,21 +275,21 @@ def playlist_detail(request, playlist_id):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    if playlist_info.maker:
-        maker = playlist_info.maker.user.username
+    if playlist_info.user_maker:
+        user_maker = playlist_info.user_maker.username
     else:
-        maker = 'Нет составителя кекв'
+        user_maker = 'Нет составителя кекв'
 
     context = {
         'page_obj': page_obj,
         'playlist_info': playlist_info,
         'track_list': track_list,
-        'maker': maker,
+        'user_maker': user_maker,
     }
 
     if request.user.is_authenticated:
         playlist_is_favorite = playlist_info.favorite.exists()
-        owner = playlist_info.maker_id == request.user.id
+        owner = playlist_info.user_maker_id == request.user.id
 
         context['playlist_is_favorite'] = playlist_is_favorite
         context['owner'] = owner
@@ -308,7 +308,7 @@ def playlist_delete(request):
 def playlist_creation(request):
     if request.method == 'POST':
         name = request.POST['name']
-        new_playlist = Playlist(name=name, maker_id=request.user.id)
+        new_playlist = Playlist(name=name, user_maker_id=request.user.id)
         new_playlist.save()
         playlist_id = new_playlist.id
         return redirect('kAboom:playlist_detail', playlist_id=playlist_id)
@@ -317,7 +317,7 @@ def playlist_creation(request):
 
 @login_required
 def my_playlists(request):
-    playlists = Playlist.objects.filter(maker_id=request.user.id)
+    playlists = Playlist.objects.filter(user_maker_id=request.user.id)
     context = {
         'playlists': playlists,
     }
