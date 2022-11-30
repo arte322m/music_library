@@ -107,9 +107,8 @@ def login_view(request):
             if not profile:
                 UserProfile(user_id=profile_id).save()
             return redirect(reverse('kAboom:main'))
-        else:
-            if not User.objects.filter(username=username):
-                return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
+        if not User.objects.filter(username=username):
+            return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
         return render(request, 'kAboom/login.html', {'error_message': 'Неправильный пароль'})
     return render(request, 'kAboom/login.html')
 
