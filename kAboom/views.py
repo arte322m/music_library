@@ -107,7 +107,9 @@ def login_view(request):
             if not profile:
                 UserProfile(user_id=profile_id).save()
             return redirect(reverse('kAboom:main'))
-        return render(request, 'kAboom/login.html', {'error_message': 'Неправильный логин или пароль'})
+        if not User.objects.filter(username=username):
+            return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
+        return render(request, 'kAboom/login.html', {'error_message': 'Неправильный пароль'})
     return render(request, 'kAboom/login.html')
 
 
@@ -147,7 +149,7 @@ def artist_detail(request, artist_id):
     }
 
     if request.user.is_authenticated:
-        artist_is_favorite = artist_info.favorite.exists()
+        artist_is_favorite = artist_info.favorite.filter(user=request.user).exists()
 
         context['artist_is_favorite'] = artist_is_favorite
 
@@ -199,7 +201,7 @@ def track_detail(request, track_id):
     }
 
     if request.user.is_authenticated:
-        track_is_favorite = track_details.favorite.exists()
+        track_is_favorite = track_details.favorite.filter(user=request.user).exists()
 
         context['track_is_favorite'] = track_is_favorite
 
@@ -241,7 +243,7 @@ def album_detail(request, album_id):
         'track_list': track_list,
     }
     if request.user.is_authenticated:
-        album_is_favorite = album_info.favorite.exists()
+        album_is_favorite = album_info.favorite.filter(user=request.user).exists()
 
         context['album_is_favorite'] = album_is_favorite
     return render(request, 'kAboom/album_detail.html', context)
@@ -270,7 +272,7 @@ def playlist_index(request):
 
 def playlist_detail(request, playlist_id):
     playlist_info = get_object_or_404(Playlist, id=playlist_id)
-    track_list = Playlist.objects.get(id=playlist_id).track.all()
+    track_list = playlist_info.track.all()
     paginator = Paginator(track_list, 50)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -282,7 +284,7 @@ def playlist_detail(request, playlist_id):
     }
 
     if request.user.is_authenticated:
-        playlist_is_favorite = playlist_info.favorite.exists()
+        playlist_is_favorite = playlist_info.favorite.filter(user=request.user).exists()
         owner = playlist_info.user_maker_id == request.user.id
 
         context['playlist_is_favorite'] = playlist_is_favorite
