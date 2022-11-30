@@ -27,7 +27,11 @@
     {% endif %}
 
     <p>Плейлист: {{ playlist_info.name }}</p>
-    <p>Составитель: {{ user_maker }}</p>
+    {% if playlist_info.user_maker.username %}
+    <p>Составитель: {{ playlist_info.user_maker.username }}</p>
+    {% else %}
+    <p>Составитель: нет составителя</p>
+    {% endif %}
 
     {% if page_obj %}
         <p>Треки:</p>
