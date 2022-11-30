@@ -149,7 +149,6 @@ def artist_detail(request, artist_id):
     }
 
     if request.user.is_authenticated:
-        # user = UserProfile.objects.get(user_id=request.user.id)
         artist_is_favorite = artist_info.favorite.filter(user=request.user).exists()
 
         context['artist_is_favorite'] = artist_is_favorite
@@ -202,7 +201,6 @@ def track_detail(request, track_id):
     }
 
     if request.user.is_authenticated:
-        # user = UserProfile.objects.get(user_id=request.user.id)
         track_is_favorite = track_details.favorite.filter(user=request.user).exists()
 
         context['track_is_favorite'] = track_is_favorite
