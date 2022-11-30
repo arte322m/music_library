@@ -16,9 +16,9 @@
                     {% csrf_token %}
                     <input name="album_id" value="{{ album.id }}" hidden>
                     {% if album in favorite_albums %}
-                        <a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a> <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
+                        <a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a> <button class="btn btn-outline-light" type="submit" value="rem" name="fav"><img src="{% static 'kAboom/images/favorite.svg' %}"></button>
                     {% else %}
-                        <a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
+                        <a href="{% url 'kAboom:album_detail' album.id %}">{{ album.title }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav"><img src="{% static 'kAboom/images/ne_favorite.svg' %}"></button>
                     {% endif %}
                     </form>
                 {% else %}

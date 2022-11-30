@@ -9,9 +9,9 @@
             {% csrf_token %}
             <input name="track_id" value="{{ track_details.id }}" hidden>
             {% if track_is_favorite %}
-                <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
+                <button class="btn btn-outline-light" type="submit" value="rem" name="fav"><img src="{% static 'kAboom/images/favorite.svg' %}"></button>
             {% else %}
-                <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
+                <button class="btn btn-outline-light" type="submit" value="add" name="fav"><img src="{% static 'kAboom/images/ne_favorite.svg' %}"></button>
             {% endif %}
          </form>
     {% endif %}

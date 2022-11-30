@@ -16,9 +16,9 @@
                     {% csrf_token %}
                     <input name="track_id" value="{{ track.id }}" hidden>
                     {% if track in favorite_tracks %}
-                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>  <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
+                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>  <button class="btn btn-outline-light" type="submit" value="rem" name="fav"><img src="{% static 'kAboom/images/favorite.svg' %}"></button>
                     {% else %}
-                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
+                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav"><img src="{% static 'kAboom/images/ne_favorite.svg' %}"></button>
                     {% endif %}
                     </form>
                 {% else %}
