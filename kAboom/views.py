@@ -119,7 +119,13 @@ def logout_view(request):
 
 
 def main(request):
-    return render(request, 'kAboom/main.html')
+    track_rating = Track.objects.order_by('-favorite')[:10]
+
+    context = {
+        'track_rating': track_rating
+    }
+
+    return render(request, 'kAboom/main.html', context)
 
 
 def artist_index(request):
