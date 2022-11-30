@@ -14,12 +14,33 @@
                 {% if user.is_authenticated %}
                     <form action="{% url 'kAboom:favorite_track' %}" method="post">
                     {% csrf_token %}
+                    <div class="row">
                     <input name="track_id" value="{{ track.id }}" hidden>
                     {% if track in favorite_tracks %}
-                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>  <button class="btn btn-outline-light" type="submit" value="rem" name="fav"><img src="{% static 'kAboom/images/favorite.svg' %}"></button>
+
+                        <div class="col-4">
+                            <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-outline-light" type="submit" value="rem" name="fav">
+                                <img src="{% static 'kAboom/images/favorite.svg' %}">
+                            </button>
+                        </div>
+
                     {% else %}
-                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav"><img src="{% static 'kAboom/images/ne_favorite.svg' %}"></button>
+
+                        <div class="col-4">
+                            <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
+                        </div>
+
+                        <div class="col">
+                        <button class="btn btn-outline-light" type="submit" value="add" name="fav">
+                            <img src="{% static 'kAboom/images/ne_favorite.svg' %}">
+                        </button>
+                        </div>
                     {% endif %}
+                    </div>
                     </form>
                 {% else %}
                     <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
@@ -30,41 +51,40 @@
 
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-      {% if page_obj.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
+        {% if page_obj.has_previous %}
+        {% if page_obj.previous_page_number|add:-1 >= 1 %}
+    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        {% endif %}
+        {% if page_obj.previous_page_number|add:-2 >= 1 %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number|add:-1 }}">{{ page_obj.previous_page_number|add:-1 }}</a></li>
+        {% endif %}
     <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
       {% endif %}
+
 
 
     <li class="page-item active" aria-current="page">
       <span class="page-link">{{ page_obj.number }}</span>
     </li>
 
-      {% if page_obj.has_next %}
+    {% if page_obj.has_next %}
     <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
-      {% endif %}
+    {% if page_obj.next_page_number|add:1 <= page_obj.paginator.num_pages %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number|add:1 }}">{{ page_obj.next_page_number|add:1 }}</a></li>
+    {% if page_obj.next_page_number|add:2 <= page_obj.paginator.num_pages %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number|add:2 }}">{{ page_obj.next_page_number|add:2 }}</a></li>
+    {% if page_obj.next_page_number|add:3 <= page_obj.paginator.num_pages %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number|add:3 }}">{{ page_obj.next_page_number|add:3 }}</a></li>
+    {% if page_obj.next_page_number|add:4 <= page_obj.paginator.num_pages %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
   </ul>
 </nav>
-{#        <div class="pagination">#}
-{#            <span class="step-links">#}
-{#                {% if page_obj.has_previous %}#}
-{#                    <a href="?page=1">&laquo; Первая</a>#}
-{#                    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>#}
-{#                {% endif %}#}
-{##}
-{#                <span class="current">#}
-{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#                </span>#}
-{##}
-{#                {% if page_obj.has_next %}#}
-{#                    <a href="?page={{ page_obj.next_page_number }}">Следующая</a>#}
-{#                    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>#}
-{#                {% endif %}#}
-{#            </span>#}
-{#        </div>#}
+
 
     {% else %}
         <p>Исполнителей нет</p>
