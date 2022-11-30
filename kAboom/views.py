@@ -265,7 +265,7 @@ def playlist_index(request):
     if request.user.is_authenticated:
         user_info = UserProfile.objects.get(user_id=request.user.id)
         favorite_playlists = user_info.playlist_set.all()
-        owners = Playlist.objects.filter(user_maker_id=request.user.id).all()
+        owners = Playlist.objects.filter(user_maker_id=request.user.id)
 
         context['owners'] = owners
         context['favorite_playlists'] = favorite_playlists
@@ -280,16 +280,10 @@ def playlist_detail(request, playlist_id):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    if playlist_info.user_maker:
-        user_maker = playlist_info.user_maker.username
-    else:
-        user_maker = 'Нет составителя кекв'
-
     context = {
         'page_obj': page_obj,
         'playlist_info': playlist_info,
         'track_list': track_list,
-        'user_maker': user_maker,
     }
 
     if request.user.is_authenticated:
