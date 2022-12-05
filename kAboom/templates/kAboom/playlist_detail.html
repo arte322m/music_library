@@ -11,9 +11,9 @@
              {% csrf_token %}
             <input name="playlist_id" value="{{ playlist_info.id }}" hidden>
             {% if playlist_is_favorite %}
-                <button class="btn btn-outline-light" type="submit" value="rem" name="fav"><img src="{% static 'kAboom/images/favorite.svg' %}"></button>
+                <button class="btn btn-outline-light" type="submit" value="rem" name="fav"><img src="{% static 'kAboom/images/favorite.png' %}"></button>
             {% else %}
-                <button class="btn btn-outline-light" type="submit" value="add" name="fav"><img src="{% static 'kAboom/images/ne_favorite.svg' %}"></button>
+                <button class="btn btn-outline-light" type="submit" value="add" name="fav"><img src="{% static 'kAboom/images/ne_favorite.png' %}"></button>
             {% endif %}
         </form>
         {% else %}
