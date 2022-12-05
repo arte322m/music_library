@@ -5,38 +5,18 @@
 
 {% block content %}
 
-<div class="container text-start">
-    <div class="row">
-
-        <div class="col">
-            <div class="row"><strong>Топ 10 треков:</strong></div>
-        <ol>
-            {% for track in track_rating %}
-                <li><div class="row"><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></div></li>
-            {% endfor %}
-        </ol>
-        </div>
-
-        <div class="col">
-
-            <div class="row"><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></div>
-            <div class="row"><a href="{% url 'kAboom:genre_index' %}">Жанры</a></div>
-            <div class="row"><a href="{% url 'kAboom:track_index' %}">Треки</a></div>
-            <div class="row"><a href="{% url 'kAboom:album_index' %}">Альбомы</a></div>
-            <div class="row"><a href="{% url 'kAboom:playlist_index' %}">Плейлисты</a></div>
-
-        </div>
-
-    </div>
-</div>
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'kAboom:favorites' user.id %}">Избранное</a></p>
+        <p><a href="{% url 'kAboom:my_playlists' %}">Мои плейлисты</a></p>
 
 
+    {% endif %}
 
-
-
-
-
-
+    <p><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></p>
+    <p><a href="{% url 'kAboom:genre_index' %}">Жанры</a></p>
+    <p><a href="{% url 'kAboom:track_index' %}">Треки</a></p>
+    <p><a href="{% url 'kAboom:album_index' %}">Альбомы</a></p>
+    <p><a href="{% url 'kAboom:playlist_index' %}">Плейлисты</a></p>
 
 
 {% endblock %}
