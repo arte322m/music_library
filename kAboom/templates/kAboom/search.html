@@ -4,29 +4,33 @@
 
 
 {% block content %}
-    Найденные треки:
+
+    <h2>Найденные треки:</h2>
+
     <ol>
-    <div class="row">
-    {% for track in tracks_found %}
-        <div class="row">
-        <li>
-        <div class="col"><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></div>
+        {% for track in tracks_found %}
+            <li>
+                <div class="row">
+                    <div class="col-3">
+                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
+                    </div>
 
-<div class="col">            {% if user.is_authenticated %}
-
-                <form action="{% url 'kAboom:favorite_track' %}" method="post">
-                    {% csrf_token %}
-                    <input name="track_id" value="{{ track.id }}" hidden>
-                    {% if track in favorite_tracks %}
-                        <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
-                    {% else %}
-                        <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
-                    {% endif %}
-                </form>
-            {% endif %}</div>
-        </li>
-        </div>
-    {% endfor %}
-    </div>
+                    <div class="col-4">
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'kAboom:favorite_track' %}" method="post">
+                                {% csrf_token %}
+                                <input name="track_id" value="{{ track.id }}" hidden>
+                                {% if track in favorite_tracks %}
+                                    <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
+                                {% else %}
+                                    <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
+                                {% endif %}
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
     </ol>
+
 {% endblock %}
