@@ -13,6 +13,7 @@
 
 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+
         <a href="/" class="navbar-brand"><button type="button" class="btn btn-outline-light">Главная</button></a>
         {% if user.is_authenticated %}
             <li><a href="{% url 'kAboom:favorites' user.id %}"><button type="button" class="btn btn-outline-light">Избранное</button></a></li>
@@ -29,6 +30,12 @@
             <a href="{% url 'kAboom:registration' %}"><button type="button" class="btn btn-primary">Регистрация</button></a>
             </div>
         {% endif %}
+
+        <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
+            {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
     </ul>
 
 </header>
