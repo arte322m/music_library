@@ -340,7 +340,7 @@ def change_playlist_view(request):
 
 
 def search(request, search_text):
-    tracks_found = Track.objects.filter(name__istartswith=search_text)
+    tracks_found = Track.objects.filter(name__icontains=search_text)
 
     context = {
         'search_text': search_text,
