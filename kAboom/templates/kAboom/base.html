@@ -10,28 +10,27 @@
     <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-0 border-bottom">
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <a href="/" class="navbar-brand"><button type="button" class="btn btn-outline-light">Главная</button></a>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'kAboom:favorites' user.id %}"><button type="button" class="btn btn-outline-light">Избранное</button></a></li>
+                <li><a href="{% url 'kAboom:my_playlists' %}"><button type="button" class="btn btn-outline-light">Мои Плейлисты</button></a></li>
+                </ul>
+                <div class="col-md-3 text-end">
+                <strong>{{ user.username }}</strong>
+                <a href="{% url 'kAboom:logout' %}"><button type="button" class="btn btn-danger">Выйти</button></a>
+                </div>
+            {% else %}
+                </ul>
+                <div class="col-md-3 text-end">
+                <a href="{% url 'kAboom:login' %}"><button type="button" class="btn btn-outline-success">Войти</button></a>
+                <a href="{% url 'kAboom:registration' %}"><button type="button" class="btn btn-primary">Регистрация</button></a>
+                </div>
+            {% endif %}
+        </ul>
 
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-0 border-bottom">
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <a href="/" class="navbar-brand"><button type="button" class="btn btn-outline-light">Главная</button></a>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'kAboom:favorites' user.id %}"><button type="button" class="btn btn-outline-light">Избранное</button></a></li>
-            <li><a href="{% url 'kAboom:my_playlists' %}"><button type="button" class="btn btn-outline-light">Мои Плейлисты</button></a></li>
-            </ul>
-            <div class="col-md-3 text-end">
-            <strong>{{ user.username }}</strong>
-            <a href="{% url 'kAboom:logout' %}"><button type="button" class="btn btn-danger">Выйти</button></a>
-            </div>
-        {% else %}
-            </ul>
-            <div class="col-md-3 text-end">
-            <a href="{% url 'kAboom:login' %}"><button type="button" class="btn btn-outline-success">Войти</button></a>
-            <a href="{% url 'kAboom:registration' %}"><button type="button" class="btn btn-primary">Регистрация</button></a>
-            </div>
-        {% endif %}
-    </ul>
-
-</header>
+    </header>
 
         {% block content%}
         {% endblock %}
