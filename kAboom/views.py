@@ -217,13 +217,6 @@ def track_detail(request, track_id):
 
         context['track_is_favorite'] = track_is_favorite
 
-        # if request.method == 'POST':
-        #     if request.POST['fav'] == 'rem':
-        #         user_info.tracks.remove(track_details)
-        #     elif request.POST['fav'] == 'add':
-        #         user_info.tracks.add(track_details)
-        #     return redirect(reverse('kAboom:track_detail', kwargs={'track_id': track_id}))
-
     return render(request, 'kAboom/track_detail.html', context)
 
 
@@ -356,3 +349,24 @@ def change_playlist_view(request):
         playlist_details.track.add(track_details)
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def search(request, search_text):
+    tracks_found = Track.objects.filter(name__icontains=search_text)
+
+    context = {
+        'search_text': search_text,
+        'tracks_found': tracks_found
+    }
+
+    if request.user.is_authenticated:
+        user_info = UserProfile.objects.get(user_id=request.user.id)
+        favorite_tracks = user_info.track_set.all()
+        context['favorite_tracks'] = favorite_tracks
+
+    return render(request, 'kAboom/search.html', context)
+
+
+@require_POST
+def track_search(request):
+    return redirect('kAboom:search', search_text=request.POST['search_text'])
