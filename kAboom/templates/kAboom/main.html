@@ -7,14 +7,29 @@
 <div class="container-fluid text-start">
     <div class="row">
 
-        <div class="col-2">
-            <div class="row"><strong>Топ 10 треков:</strong></div>
+        <div class="col-3 bg-dark">
+
+            <div class="row">
+                <strong>Топ 10 треков:</strong>
+            </div>
+
         <ol>
-            {% for track in track_rating %}
-                <li><div class="row"><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></div></li>
-            {% endfor %}
+                {% for track in track_rating %}
+                    <div class="row">
+
+                        <div class="col">
+                            <li><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></li>
+                        </div>
+
+                        <div class="col-2">
+                            ({{ track.favorite.count }})
+                        </div>
+                    </div>
+                {% endfor %}
         </ol>
         </div>
+
+
 
         <div class="col">
 
