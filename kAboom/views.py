@@ -120,8 +120,14 @@ def logout_view(request):
 
 def main(request):
     track_rating = Track.objects.order_by('-favorite')[:10]
-
+    # count annotate
     context = {
+        'test': {
+            'a': {
+                'c': 999
+            }
+        },
+
         'track_rating': track_rating
     }
 
