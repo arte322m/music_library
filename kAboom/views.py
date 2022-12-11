@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
@@ -119,15 +120,9 @@ def logout_view(request):
 
 
 def main(request):
-    track_rating = Track.objects.order_by('-favorite')[:10]
+    track_rating = Track.objects.annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
     # count annotate
     context = {
-        'test': {
-            'a': {
-                'c': 999
-            }
-        },
-
         'track_rating': track_rating
     }
 
