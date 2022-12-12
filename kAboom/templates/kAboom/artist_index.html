@@ -6,70 +6,65 @@
 {% block content %}
 
     {% if page_obj %}
-        <h1><strong>Исполнители:</strong></h1>
 
-        <ol>
-        {% for artist in page_obj %}
-            <li>
-                {% if user.is_authenticated %}
-                    <form action="{% url 'kAboom:favorite_artist' %}" method="post">
-                    {% csrf_token %}
-                    <input name="artist_id" value="{{ artist.id }}" hidden>
-                    {% if artist in favorite_artists %}
-                        <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a> <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
-                    {% else %}
-                        <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a> <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
-                    {% endif %}
-                    </form>
-                {% else %}
-                    <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a>
+        <div class="col">
+            <div class="row mb">
+                <h2>Исполнители:</h2>
+            </div>
+                <ol>
+                {% for artist in page_obj %}
+                    <li>
+                        <div class="row mb-2">
+                            <div class="col-2">
+                                <a href="{% url 'kAboom:artist_detail' artist.id %}">{{ artist.name }}</a>
+                            </div>
+
+                            <div class="col-1">
+                                {% if user.is_authenticated %}
+                                    <form action="{% url 'kAboom:favorite_artist' %}" method="post">
+                                        {% csrf_token %}
+                                        <input name="artist_id" value="{{ artist.id }}" hidden>
+                                        {% if artist in favorite_artists %}
+                                            <button class="btn btn-dark" type="submit" value="rem" name="fav">
+                                                <img src="{% static 'kAboom/images/ne_favorite_dark.png' %}" height="25" width="25">
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-dark" type="submit" value="add" name="fav">
+                                                <img src="{% static 'kAboom/images/favorite_dark.png' %}" height="25" width="25">
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
                 {% endif %}
-            </li>
-        {% endfor %}
-        </ol>
-
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-      {% if page_obj.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-      {% endif %}
 
 
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">{{ page_obj.number }}</span>
-    </li>
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ page_obj.number }}</span>
+                </li>
 
-      {% if page_obj.has_next %}
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
-      {% endif %}
-  </ul>
-</nav>
-
-{#        <div class="pagination">#}
-{#            <span class="step-links">#}
-{#                {% if page_obj.has_previous %}#}
-{#                    <a href="?page=1">&laquo; первая</a>#}
-{#                    <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>#}
-{#                {% endif %}#}
-{##}
-{#                <span class="current">#}
-{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#                </span>#}
-{##}
-{#                {% if page_obj.has_next %}#}
-{#                    <a href="?page={{ page_obj.next_page_number }}">следующая</a>#}
-{#                    <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>#}
-{#                {% endif %}#}
-{#            </span>#}
-{#        </div>#}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+                {% endif %}
+            </ul>
+        </nav>
 
     {% else %}
         <p>Исполнителей нет</p>
     {% endif %}
+
 {% endblock %}
-
-
