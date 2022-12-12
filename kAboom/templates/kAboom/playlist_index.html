@@ -14,7 +14,7 @@
             {% for playlist in page_obj %}
                 <li>
                     <div class="row mb-2">
-                        <div class="col-2">
+                        <div class="col-4">
                             <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a>
                         </div>
 
