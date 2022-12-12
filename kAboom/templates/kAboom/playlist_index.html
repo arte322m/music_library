@@ -21,10 +21,10 @@
                         <div class="col-1">
                             {% if user.is_authenticated %}
                                 {% if playlist not in owners %}
-                                    {% if playlist in favorite_playlists %}
-                                        <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
-                                        {% csrf_token %}
-                                            <input name="playlist_id" value="{{ playlist.id }}" hidden>
+                                    <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
+                                    {% csrf_token %}
+                                    <input name="playlist_id" value="{{ playlist.id }}" hidden>
+                                        {% if playlist in favorite_playlists %}
                                             <button type="submit" value="rem" name="fav" class="btn btn-dark">
                                                 <img src="{% static 'kAboom/images/ne_favorite_dark.png' %}" width="25" height="25">
                                             </button>
@@ -32,8 +32,8 @@
                                             <button type="submit" value="add" name="fav" class="btn btn-dark">
                                                 <img src="{% static 'kAboom/images/favorite_dark.png' %}" width="25" height="25">
                                             </button>
-                                        </form>
-                                    {% endif %}
+                                        {% endif %}
+                                    </form>
                                 {% endif %}
                             {% endif %}
                         </div>
