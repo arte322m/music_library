@@ -4,87 +4,98 @@
 
 {% block content %}
 
-
+<div class="col ms-2">
     {% if user.is_authenticated %}
-        {% if not owner %}
-        <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
-             {% csrf_token %}
-            <input name="playlist_id" value="{{ playlist_info.id }}" hidden>
-            {% if playlist_is_favorite %}
-                <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
+        <div class="row">
+            {% if not owner %}
+                <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
+                     {% csrf_token %}
+                    <input name="playlist_id" value="{{ playlist_info.id }}" hidden>
+                    {% if playlist_is_favorite %}
+                        <button class="btn btn-dark" type="submit" value="rem" name="fav">
+                            <img src="{% static 'kAboom/images/ne_favorite_dark.png' %}" height="25" width="25">
+                        </button>
+                    {% else %}
+                        <button class="btn btn-dark" type="submit" value="add" name="fav">
+                            <img src="{% static 'kAboom/images/favorite_dark.png' %}" height="25" width="25">
+                        </button>
+                    {% endif %}
+                </form>
+        </div>
             {% else %}
-                <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
+                <div class="row">
+                    <div class="col text-start">
+                        <a href="{% url 'kAboom:change_playlist' playlist_info.id %}">
+                            <button class="btn btn-outline-primary">
+                                Добавить треки
+                            </button>
+                        </a>
+                    </div>
+                    <div class="col text-end">
+                        <form action="{% url 'kAboom:playlist_delete' %}" method="post">
+                        {% csrf_token %}
+                            <input value="{{ playlist_info.id }}" name="playlist_id" hidden>
+                            <button class="btn btn-outline-danger" type="submit" name="delete">
+                                <img src="{% static 'kAboom/images/delete_dark.png' %}" height="25" width="25">
+                            </button>
+                        </form>
+                    </div>
+                </div>
             {% endif %}
-        </form>
-        {% else %}
-            <form action="{% url 'kAboom:playlist_delete' %}" method="post">
-            {% csrf_token %}
-            <input value="{{ playlist_info.id }}" name="playlist_id" hidden>
-            <button class="btn btn-danger" type="submit" name="delete">Удалить плейлист</button>
-            </form>
-            <p><a href="{% url 'kAboom:change_playlist' playlist_info.id %}"><button class="btn btn-primary">Изменить плейлист</button></a></p>
-        {% endif %}
     {% endif %}
 
-    <p>Плейлист: {{ playlist_info.name }}</p>
+    <div class="row">
+        Плейлист: {{ playlist_info.name }}
+    </div>
+
     {% if playlist_info.user_maker.username %}
-    <p>Составитель: {{ playlist_info.user_maker.username }}</p>
+        <div class="row">
+            Составитель: {{ playlist_info.user_maker.username }}
+        </div>
     {% else %}
-    <p>Составитель: нет составителя</p>
+        <div class="row">
+            Составитель: нет составителя
+        </div>
     {% endif %}
 
     {% if page_obj %}
-        <p>Треки:</p>
-    <ol>
-        {% for track in page_obj %}
-            <li><a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a></li>
-        {% endfor %}
-    </ol>
 
-{% if page_obj.has_previous %}
-    {% if page_obj.has_next %}
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-      {% if page_obj.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-      {% endif %}
+        <div class="row">
+            Треки:
+        </div>
+
+        <ol>
+            {% for track in page_obj %}
+                <li>
+                    <div class="row">
+                        <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+            {% endif %}
 
 
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">{{ page_obj.number }}</span>
-    </li>
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
 
-      {% if page_obj.has_next %}
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
-      {% endif %}
-  </ul>
-</nav>
-{% endif %}
-{% endif %}
-        {#        <div class="pagination">#}
-{#            <span class="step-links">#}
-{#                {% if page_obj.has_previous %}#}
-{#                    <a href="?page=1">&laquo; первая</a>#}
-{#                    <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>#}
-{#                {% endif %}#}
-{##}
-{#                <span class="current">#}
-{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#                </span>#}
-{##}
-{#                {% if page_obj.has_next %}#}
-{#                    <a href="?page={{ page_obj.next_page_number }}">следующая</a>#}
-{#                    <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>#}
-{#                {% endif %}#}
-{#            </span>#}
-{#        </div>#}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 
-        {% else %}
+
+    {% else %}
         <p>Треков нет</p>
     {% endif %}
-
+</div>
 {% endblock %}

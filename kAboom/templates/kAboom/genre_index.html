@@ -4,17 +4,27 @@
 
 {% block content %}
 
+    <div class="col">
+        {% if genre_list %}
+            <div class="row">
+                <h2>Жанры:</h2>
+            </div>
 
-    {% if genre_list %}
-        <h1><strong>Жанры: </strong></h1>
-        <ol>
-        {% for genre in genre_list %}
-            <li><a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a></li>
-        {% endfor %}
-        </ol>
+            <ol>
+                {% for genre in genre_list %}
+                    <li>
+                        <div class="row mb-2">
+                            <a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
 
         {% else %}
-        <p>Жанров нет</p>
-    {% endif %}
+            <div class="row">
+                <h2>Жанров нет</h2>
+            </div>
+        {% endif %}
+    </div>
 
 {% endblock %}

@@ -3,17 +3,20 @@
 {% block title %}Трек{% endblock %}
 
 {% block content %}
-    <div>
     {% if user.is_authenticated %}
         <form action="{% url 'kAboom:favorite_track' %}" method="post">
             {% csrf_token %}
             <input name="track_id" value="{{ track_details.id }}" hidden>
             {% if track_is_favorite %}
-                <button class="btn btn-outline-light" type="submit" value="rem" name="fav">Удалить из избранного</button>
+                <button class="btn btn-dark" type="submit" value="rem" name="fav">
+                    <img src="{% static 'kAboom/images/ne_favorite_dark.png' %}" height="25" width="25">
+                </button>
             {% else %}
-                <button class="btn btn-outline-light" type="submit" value="add" name="fav">Добавить в избранное</button>
+                <button class="btn btn-dark" type="submit" value="add" name="fav">
+                    <img src="{% static 'kAboom/images/favorite_dark.png' %}">
+                </button>
             {% endif %}
-         </form>
+        </form>
     {% endif %}
     <p>Кол-во сердечек: {{ track_details.favorite.count }}</p>
     <p>{{ test_track_playlist }}</p>
@@ -26,5 +29,4 @@
     <p>Цена: {{ track_details.until_price }}</p>
     <p>Длительность: {{ track_details.milliseconds }}</p>
     <p>Композитор: {{ track_details.composer }}</p>
-    </div>
 {% endblock %}

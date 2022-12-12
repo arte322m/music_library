@@ -5,76 +5,65 @@
 
 {% block content %}
 
-        {% if page_obj %}
-        <h1>Плейлисты:</h1>
-
+    {% if page_obj %}
+    <div class="col">
+        <div class="row">
+            <h1>Плейлисты:</h1>
+        </div>
         <ol>
-        {% for playlist in page_obj %}
-            <li>
-                {% if user.is_authenticated %}
-                        <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
-                        {% csrf_token %}
-                        <input name="playlist_id" value="{{ playlist.id }}" hidden>
-                        {% if playlist in owners %}
+            {% for playlist in page_obj %}
+                <li>
+                    <div class="row mb-2">
+                        <div class="col-4">
                             <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a>
-                        {% else %}
-                            {% if playlist in favorite_playlists %}
-                                <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a> <button type="submit" value="rem" name="fav" class="btn btn-outline-light">Удалить из избранного</button>
-                            {% else %}
-                                <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a> <button type="submit" value="add" name="fav" class="btn btn-outline-light">Добавить в избранное</button>
+                        </div>
+
+                        <div class="col-1">
+                            {% if user.is_authenticated %}
+                                {% if playlist not in owners %}
+                                    <form action="{% url 'kAboom:favorite_playlist' %}" method="post">
+                                    {% csrf_token %}
+                                    <input name="playlist_id" value="{{ playlist.id }}" hidden>
+                                        {% if playlist in favorite_playlists %}
+                                            <button type="submit" value="rem" name="fav" class="btn btn-dark">
+                                                <img src="{% static 'kAboom/images/ne_favorite_dark.png' %}" width="25" height="25">
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" value="add" name="fav" class="btn btn-dark">
+                                                <img src="{% static 'kAboom/images/favorite_dark.png' %}" width="25" height="25">
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                        </form>
-                {% else %}
-                    <a href="{% url 'kAboom:playlist_detail' playlist.id %}">{{ playlist.name }}</a>
-                {% endif %}
-            </li>
-        {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
         </ol>
+    </div>
 
-{% if page_obj.has_previous %}
-    {% if page_obj.has_next %}
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-      {% if page_obj.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-      {% endif %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">Первая</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+            {% endif %}
 
 
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">{{ page_obj.number }}</span>
-    </li>
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
 
-      {% if page_obj.has_next %}
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a></li>
-    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
-      {% endif %}
-  {% endif %}
-{% endif %}
-  </ul>
-</nav>
-{#        <div class="pagination">#}
-{#            <span class="step-links">#}
-{#                {% if page_obj.has_previous %}#}
-{#                    <a href="?page=1">&laquo; первая</a>#}
-{#                    <a href="?page={{ page_obj.previous_page_number }}">предыдущая</a>#}
-{#                {% endif %}#}
-{##}
-{#                <span class="current">#}
-{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#                </span>#}
-{##}
-{#                {% if page_obj.has_next %}#}
-{#                    <a href="?page={{ page_obj.next_page_number }}">следующая</a>#}
-{#                    <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>#}
-{#                {% endif %}#}
-{#            </span>#}
-{#        </div>#}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 
     {% else %}
         <p>Альбомов нет</p>
     {% endif %}
+
 {% endblock %}
