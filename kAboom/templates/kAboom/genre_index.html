@@ -7,21 +7,23 @@
     <div class="col">
         {% if genre_list %}
             <div class="row">
-                <h1>Жанры:</h1>
+                <h2>Жанры:</h2>
             </div>
 
             <ol>
-            {% for genre in genre_list %}
-                <div class="row">
+                {% for genre in genre_list %}
                     <li>
-                        <a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a>
+                        <div class="row mb-2">
+                            <a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a>
+                        </div>
                     </li>
-                </div>
-            {% endfor %}
+                {% endfor %}
             </ol>
 
         {% else %}
-            <div class="row"><p>Жанров нет</p></div>
+            <div class="row">
+                <h2>Жанров нет</h2>
+            </div>
         {% endif %}
     </div>
 
