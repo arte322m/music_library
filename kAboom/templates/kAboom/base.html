@@ -16,7 +16,6 @@
         {% if user.is_authenticated %}
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <a href="/" class="nav-link px-2 text-white">Главная</a>
-
                 <li>
                     <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2 text-white">Избранное</a>
                 </li>
