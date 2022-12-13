@@ -1,6 +1,16 @@
+html,
 body {
+    height: 100%;
     color: white;
     background-color: #1f2023;
+}
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.main {
+    flex: 1 1 auto;
 }
 
 a {
