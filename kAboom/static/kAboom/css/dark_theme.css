@@ -1,6 +1,8 @@
 body {
     color: white;
-    background-color: rgba(0,0,0,0.86);
+    /*background-color: #2D2F34;*/
+    background-color: #1f2023;
+    /*background-color: #27292D;*/
 }
 
 a {
@@ -8,10 +10,12 @@ a {
     text-decoration: underline;
 }
  header {
-     background-color: rgba(30,76,23,0.86);
+     background-color: #27292D;
+     /*background-color: #2D2F34;*/
  }
 
  footer {
      color: white;
-     background-color: rgba(0,0,0,0.86);
+     /*background-color: #27292D;*/
+     background-color: #2D2F34;
  }
