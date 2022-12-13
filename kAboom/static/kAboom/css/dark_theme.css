@@ -1,21 +1,23 @@
 body {
     color: white;
-    /*background-color: #2D2F34;*/
     background-color: #1f2023;
-    /*background-color: #27292D;*/
 }
 
 a {
     color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: grey;
     text-decoration: underline;
 }
+
  header {
      background-color: #27292D;
-     /*background-color: #2D2F34;*/
  }
 
  footer {
      color: white;
-     /*background-color: #27292D;*/
      background-color: #2D2F34;
  }

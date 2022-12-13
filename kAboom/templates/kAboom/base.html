@@ -14,7 +14,7 @@
 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 
-        <a href="/" class="nav-link px-2 text-secondary">Главная</a>
+        <a href="/" class="nav-link px-2 text-white">Главная</a>
         {% if user.is_authenticated %}
             <li><a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2 text-white">Избранное</a></li>
             <li><a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2 text-white">Мои Плейлисты</a></li>
