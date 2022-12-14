@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    type_of_theme = models.BooleanField(default=False)
 
 
 class MediaType(models.Model):
