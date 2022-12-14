@@ -1,17 +1,33 @@
+html,
 body {
+    height: 100%;
     color: white;
-    background-color: rgba(0,0,0,0.86);
+    background-color: #1f2023;
+}
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.main {
+    flex: 1 1 auto;
 }
 
 a {
     color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: grey;
     text-decoration: underline;
 }
+
  header {
-     background-color: rgba(30,76,23,0.86);
+     background-color: #27292D;
  }
 
  footer {
      color: white;
-     background-color: rgba(0,0,0,0.86);
+     background-color: #2D2F34;
  }
