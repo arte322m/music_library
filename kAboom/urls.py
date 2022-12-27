@@ -30,4 +30,5 @@ urlpatterns = [
     path('album/<int:album_id>/', views.album_detail, name='album_detail'),
     path('playlist/', views.playlist_index, name='playlist_index'),
     path('playlist/<int:playlist_id>', views.playlist_detail, name='playlist_detail'),
+    path('switch_theme/', views.switch_theme, name='switch_theme'),
 ]

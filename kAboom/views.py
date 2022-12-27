@@ -107,6 +107,8 @@ def login_view(request):
             profile = UserProfile.objects.filter(user_id=profile_id)
             if not profile:
                 UserProfile(user_id=profile_id).save()
+            # theme = UserProfile.objects.get(user_id=profile_id).type_of_theme
+            request.session['theme'] = UserProfile.objects.get(user_id=profile_id).type_of_theme
             return redirect(reverse('kAboom:main'))
         if not User.objects.filter(username=username):
             return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
@@ -365,3 +367,26 @@ def search(request, search_text):
 @require_POST
 def track_search(request):
     return redirect('kAboom:search', search_text=request.POST['search_text'])
+
+
+@require_POST
+def switch_theme(request):
+    if request.user.is_authenticated:
+        user = UserProfile.objects.get(user_id=request.user.id)
+        if request.session['theme'] == 'DARK':
+            user.type_of_theme = 'LIGHT'
+            user.save()
+            request.session['theme'] = 'LIGHT'
+        else:
+            user.type_of_theme = 'DARK'
+            user.save()
+            request.session['theme'] = 'DARK'
+    else:
+        try:
+            if request.session['theme'] == 'DARK':
+                request.session['theme'] = 'LIGHT'
+            else:
+                request.session['theme'] = 'DARK'
+        except KeyError:
+            request.session['theme'] = 'LIGHT'
+    return redirect(request.META.get('HTTP_REFERER', '/'))
