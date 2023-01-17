@@ -3,30 +3,43 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/dark_theme.css' %}">
-{#    <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/light_theme.css' %}">#}
+    {% if request.session.theme == 'DARK' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/light_theme.css' %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/dark_theme.css' %}">
+    {% endif %}
 
     <meta charset="UTF-8">
     <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
+
     <div class="wrapper">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
             {% if user.is_authenticated %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <a href="/" class="nav-link px-2 text-white">Главная</a>
+                    <a href="/" class="nav-link px-2">Главная</a>
                     <li>
-                        <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2 text-white">Избранное</a>
+                        <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2">Избранное</a>
                     </li>
+
                     <li>
-                        <a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2 text-white">Мои Плейлисты</a>
+                        <form action="{% url 'kAboom:switch_theme' %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-outline" type="submit">Смена темы</button>
+                        </form>
                     </li>
+
+                    <li>
+                        <a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2">Мои Плейлисты</a>
+                    </li>
+
                     <li>
                         <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
                             {% csrf_token %}
-                            <input class="form-control form-control-dark text-bg-dark me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
-                            <button class="btn btn-primary" type= "submit">Search</button>
+                            <input class="form-control form-control text-bg me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+                            <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </li>
                 </ul>
@@ -35,27 +48,37 @@
                     <a href="{% url 'kAboom:logout' %}">
                         <button type="button" class="btn btn-danger ms-2 me-2">Выйти</button>
                     </a>
-                </div>
+                 </div>
             {% else %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <a href="/" class="nav-link px-2 text-white">Главная</a>
+                    <a href="/" class="nav-link px-2">Главная</a>
+
+                        <li>
+                            <form action="{% url 'kAboom:switch_theme' %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-outline me-2" type="submit">Смена темы</button>
+                            </form>
+                        </li>
+
                         <li>
                             <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
                                 {% csrf_token %}
-                                <input class="form-control form-control-dark text-bg-dark me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+                                <input class="form-control form-control text-bg  me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
                                 <button class="btn btn-primary" type= "submit">Search</button>
                             </form>
                         </li>
+
                     </ul>
                 <div class="col-md-3 text-end">
                     <a href="{% url 'kAboom:login' %}">
-                        <button type="button" class="btn btn-outline-light me-2">Войти</button>
+                        <button type="button" class="btn btn-outline me-2">Войти</button>
                     </a>
                     <a href="{% url 'kAboom:registration' %}">
                         <button type="button" class="btn btn-warning me-2">Регистрация</button>
                     </a>
                 </div>
             {% endif %}
+
         </header>
         <div class="main">
                 <div class="container-fluid">

@@ -23,12 +23,16 @@
                                 <input name="track_id" value="{{ track.id }}" hidden>
                                 <input name="playlist_id" value="{{ playlist_id }}" hidden>
                                     {% if track in track_list %}
-                                    <button class="btn btn-dark" type="submit" value="rem" name="fav">
+                                    <button class="btn btn-new" type="submit" value="rem" name="fav">
                                         <img src="{% static 'kAboom/images/in_playlist.png' %}" height="25" width="25">
                                     </button>
                                 {% else %}
-                                    <button class="btn btn-dark" type="submit" value="add" name="fav">
+                                    <button class="btn btn-new" type="submit" value="add" name="fav">
+                                    {% if request.session.theme == 'dark' %}
                                         <img src="{% static 'kAboom/images/plus_dark.png' %}" width="25" height="25">
+                                    {% else %}
+                                        <img src="{% static 'kAboom/images/plus_light.png' %}" width="25" height="25">
+                                    {% endif %}
                                     </button>
                                 {% endif %}
                             </form>

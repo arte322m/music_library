@@ -107,6 +107,10 @@ def login_view(request):
             profile = UserProfile.objects.filter(user_id=profile_id)
             if not profile:
                 UserProfile(user_id=profile_id).save()
+            if UserProfile.objects.get(user_id=profile_id).type_of_theme == UserProfile.DARK:
+                request.session['theme'] = UserProfile.DARK
+            else:
+                request.session['theme'] = UserProfile.LIGHT
             return redirect(reverse('kAboom:main'))
         if not User.objects.filter(username=username):
             return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
@@ -121,7 +125,6 @@ def logout_view(request):
 
 def main(request):
     track_rating = Track.objects.annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
-    # count annotate
     context = {
         'track_rating': track_rating
     }
@@ -365,3 +368,26 @@ def search(request, search_text):
 @require_POST
 def track_search(request):
     return redirect('kAboom:search', search_text=request.POST['search_text'])
+
+
+@require_POST
+def switch_theme(request):
+    if request.user.is_authenticated:
+        user = UserProfile.objects.get(user_id=request.user.id)
+        if request.session['theme'] == UserProfile.DARK:
+            user.type_of_theme = UserProfile.LIGHT
+            user.save()
+            request.session['theme'] = UserProfile.LIGHT
+        else:
+            user.type_of_theme = UserProfile.DARK
+            user.save()
+            request.session['theme'] = UserProfile.DARK
+    else:
+        if 'theme' in request.session:
+            if request.session['theme'] == UserProfile.DARK:
+                request.session['theme'] = UserProfile.LIGHT
+            else:
+                request.session['theme'] = UserProfile.DARK
+        else:
+            request.session['theme'] = UserProfile.LIGHT
+    return redirect(request.META.get('HTTP_REFERER', '/'))
