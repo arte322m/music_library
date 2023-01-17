@@ -130,13 +130,23 @@ def logout_view(request):
 def main(request):
     track_rating = Track.objects.annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
     try:
-        if not request.user.is_authenticated:
-            if request.session['theme']:
-                pass
+        if request.session['theme']:
+            pass
     except KeyError:
-        request.session['theme'] = 'dark'
-        request.session['reverse_theme'] = 'light'
-        request.session['theme_text'] = 'white'
+        if not request.user.is_authenticated:
+            request.session['theme'] = 'dark'
+            request.session['reverse_theme'] = 'light'
+            request.session['theme_text'] = 'white'
+        else:
+            if UserProfile.objects.get(user_id=request.user.id).type_of_theme.lower() == 'dark':
+                request.session['theme'] = 'dark'
+                request.session['reverse_theme'] = 'light'
+                request.session['theme_text'] = 'white'
+            else:
+                request.session['theme'] = 'light'
+                request.session['reverse_theme'] = 'dark'
+                request.session['theme_text'] = 'black'
+
     context = {
         'track_rating': track_rating
     }

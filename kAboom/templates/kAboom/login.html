@@ -7,17 +7,17 @@
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
     <div class="mb-3 row">
-
-    <label for="InputLogin" class="col-sm-1 col-form-label">Логин</label>
-    <div class="col-sm-5">
-      <input type="text" class="form-control" id="InputLogin" placeholder="Логин" name="login" required>
-    </div>
-        <p></p>
-    <label for="inputPassword" class="col-sm-1 col-form-label">Пароль</label>
-    <div class="col-sm-5">
-      <input type="password" class="form-control" id="inputPassword" placeholder="Пароль" name="password" required>
+        <label for="InputLogin" class="col-sm-1 col-form-label">Логин</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }}" id="InputLogin" placeholder="Логин" name="login" required>
+        </div>
     </div>
 
+    <div class="mb-3 row">
+        <label for="inputPassword" class="col-sm-1 col-form-label">Пароль</label>
+        <div class="col-sm-5">
+          <input type="password" class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }}" id="inputPassword" placeholder="Пароль" name="password" required>
+        </div>
     </div>
     <input class="btn btn-success" type="submit" value="Войти">
 

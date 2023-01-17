@@ -6,7 +6,13 @@
 
     <form action="{% url 'kAboom:playlist_creation' %}" method="post">
     {% csrf_token %}
-    <p>Название плейлиста: <input type="text" name="name"></p>
+
+    <div class="mb-3 row">
+        <label for="PlaylistName" class="col-sm-1 col-form-label">Логин</label>
+        <div class="col-sm-5">
+            <input class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }}" id="PlaylistName" type="text" name="name" required></p>
+        </div>
+    </div>
     <input class="btn btn-primary" type="submit" value="Создать">
     </form>
 
