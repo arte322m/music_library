@@ -31,7 +31,7 @@
                     <li>
                         <form action="{% url 'kAboom:switch_theme' %}" method="post">
                             {% csrf_token %}
-                            <button class="btn btn-outline-{{ request.session.reverse_theme }}" type="submit">Смена темы</button>
+                            <button class="btn btn-outline" type="submit">Смена темы</button>
                         </form>
                     </li>
 
@@ -42,7 +42,7 @@
                     <li>
                         <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
                             {% csrf_token %}
-                            <input class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }} me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+                            <input class="form-control form-control text-bg me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </li>
@@ -60,14 +60,14 @@
                         <li>
                             <form action="{% url 'kAboom:switch_theme' %}" method="post">
                                 {% csrf_token %}
-                                <button class="btn btn-outline-{{ request.session.reverse_theme }} me-2" type="submit">Смена темы</button>
+                                <button class="btn btn-outline me-2" type="submit">Смена темы</button>
                             </form>
                         </li>
 
                         <li>
                             <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
                                 {% csrf_token %}
-                                <input class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }} me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+                                <input class="form-control form-control text-bg  me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
                                 <button class="btn btn-primary" type= "submit">Search</button>
                             </form>
                         </li>
@@ -75,7 +75,7 @@
                     </ul>
                 <div class="col-md-3 text-end">
                     <a href="{% url 'kAboom:login' %}">
-                        <button type="button" class="btn btn-outline-{{ request.session.reverse_theme }} me-2">Войти</button>
+                        <button type="button" class="btn btn-outline me-2">Войти</button>
                     </a>
                     <a href="{% url 'kAboom:registration' %}">
                         <button type="button" class="btn btn-warning me-2">Регистрация</button>
