@@ -409,15 +409,12 @@ def switch_theme(request):
             request.session['reverse_theme'] = 'light'
             request.session['theme_text'] = 'white'
     else:
-        try:
-            if request.session['theme'] == 'dark':
-                request.session['theme'] = 'light'
-                request.session['reverse_theme'] = 'dark'
-                request.session['theme_text'] = 'black'
-            else:
-                request.session['theme'] = 'dark'
-                request.session['reverse_theme'] = 'light'
-                request.session['theme_text'] = 'white'
-        except KeyError:
+        if request.session['theme'] == 'dark':
             request.session['theme'] = 'light'
+            request.session['reverse_theme'] = 'dark'
+            request.session['theme_text'] = 'black'
+        else:
+            request.session['theme'] = 'dark'
+            request.session['reverse_theme'] = 'light'
+            request.session['theme_text'] = 'white'
     return redirect(request.META.get('HTTP_REFERER', '/'))
