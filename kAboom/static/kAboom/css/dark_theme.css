@@ -5,6 +5,12 @@ body {
     color: white;
     background-color: #1f2023;
 }
+.nav-link {
+    color: white;
+}
+.nav-link:hover {
+    color: gray;
+}
 .wrapper {
     min-height: 100%;
     display: flex;

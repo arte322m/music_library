@@ -110,11 +110,9 @@ def login_view(request):
             if UserProfile.objects.get(user_id=profile_id).type_of_theme.lower() == 'dark':
                 request.session['theme'] = 'dark'
                 request.session['reverse_theme'] = 'light'
-                request.session['theme_text'] = 'white'
             else:
                 request.session['theme'] = 'light'
                 request.session['reverse_theme'] = 'dark'
-                request.session['theme_text'] = 'black'
             return redirect(reverse('kAboom:main'))
         if not User.objects.filter(username=username):
             return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
@@ -136,16 +134,13 @@ def main(request):
         if not request.user.is_authenticated:
             request.session['theme'] = 'dark'
             request.session['reverse_theme'] = 'light'
-            request.session['theme_text'] = 'white'
         else:
             if UserProfile.objects.get(user_id=request.user.id).type_of_theme.lower() == 'dark':
                 request.session['theme'] = 'dark'
                 request.session['reverse_theme'] = 'light'
-                request.session['theme_text'] = 'white'
             else:
                 request.session['theme'] = 'light'
                 request.session['reverse_theme'] = 'dark'
-                request.session['theme_text'] = 'black'
 
     context = {
         'track_rating': track_rating
@@ -401,20 +396,16 @@ def switch_theme(request):
             user.save()
             request.session['theme'] = 'light'
             request.session['reverse_theme'] = 'dark'
-            request.session['theme_text'] = 'black'
         else:
             user.type_of_theme = 'DARK'
             user.save()
             request.session['theme'] = 'dark'
             request.session['reverse_theme'] = 'light'
-            request.session['theme_text'] = 'white'
     else:
         if request.session['theme'] == 'dark':
             request.session['theme'] = 'light'
             request.session['reverse_theme'] = 'dark'
-            request.session['theme_text'] = 'black'
         else:
             request.session['theme'] = 'dark'
             request.session['reverse_theme'] = 'light'
-            request.session['theme_text'] = 'white'
     return redirect(request.META.get('HTTP_REFERER', '/'))

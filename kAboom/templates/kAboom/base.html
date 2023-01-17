@@ -23,9 +23,9 @@
 
             {% if user.is_authenticated %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <a href="/" class="nav-link px-2 text-{{ request.session.theme_text }}">Главная</a>
+                    <a href="/" class="nav-link px-2">Главная</a>
                     <li>
-                        <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2 text-{{ request.session.theme_text }}">Избранное</a>
+                        <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2">Избранное</a>
                     </li>
 
                     <li>
@@ -36,7 +36,7 @@
                     </li>
 
                     <li>
-                        <a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2 text-{{ request.session.theme_text }}">Мои Плейлисты</a>
+                        <a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2">Мои Плейлисты</a>
                     </li>
 
                     <li>
@@ -55,7 +55,7 @@
                  </div>
             {% else %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <a href="/" class="nav-link px-2 text-{{ request.session.theme_text }}">Главная</a>
+                    <a href="/" class="nav-link px-2">Главная</a>
 
                         <li>
                             <form action="{% url 'kAboom:switch_theme' %}" method="post">
