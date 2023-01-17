@@ -23,26 +23,26 @@
 
             {% if user.is_authenticated %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <a href="/" class="nav-link px-2 text-white">Главная</a>
+                    <a href="/" class="nav-link px-2 text-{{ request.session.theme_text }}">Главная</a>
                     <li>
-                        <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2 text-white">Избранное</a>
+                        <a href="{% url 'kAboom:favorites' user.id %}" class="nav-link px-2 text-{{ request.session.theme_text }}">Избранное</a>
                     </li>
 
                     <li>
                         <form action="{% url 'kAboom:switch_theme' %}" method="post">
                             {% csrf_token %}
-                            <button class="btn btn-outline-light" type="submit">Смена темы</button>
+                            <button class="btn btn-outline-{{ request.session.reverse_theme }}" type="submit">Смена темы</button>
                         </form>
                     </li>
 
                     <li>
-                        <a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2 text-white">Мои Плейлисты</a>
+                        <a href="{% url 'kAboom:my_playlists' %}" class="nav-link px-2 text-{{ request.session.theme_text }}">Мои Плейлисты</a>
                     </li>
 
                     <li>
                         <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
                             {% csrf_token %}
-                            <input class="form-control form-control-dark text-bg-dark me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+                            <input class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }} me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
                     </li>
@@ -55,19 +55,19 @@
                  </div>
             {% else %}
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <a href="/" class="nav-link px-2 text-white">Главная</a>
+                    <a href="/" class="nav-link px-2 text-{{ request.session.theme_text }}">Главная</a>
 
                         <li>
                             <form action="{% url 'kAboom:switch_theme' %}" method="post">
                                 {% csrf_token %}
-                                <button class="btn btn-outline-light me-2" type="submit">Смена темы</button>
+                                <button class="btn btn-outline-{{ request.session.reverse_theme }} me-2" type="submit">Смена темы</button>
                             </form>
                         </li>
 
                         <li>
                             <form action="{% url 'kAboom:track_search' %}" class="d-flex" role="search" method="post">
                                 {% csrf_token %}
-                                <input class="form-control form-control-dark text-bg-dark me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
+                                <input class="form-control form-control-{{ request.session.theme }} text-bg-{{ request.session.theme }} me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_text }}" name="search_text" required>
                                 <button class="btn btn-primary" type= "submit">Search</button>
                             </form>
                         </li>
@@ -75,7 +75,7 @@
                     </ul>
                 <div class="col-md-3 text-end">
                     <a href="{% url 'kAboom:login' %}">
-                        <button type="button" class="btn btn-outline-light me-2">Войти</button>
+                        <button type="button" class="btn btn-outline-{{ request.session.reverse_theme }} me-2">Войти</button>
                     </a>
                     <a href="{% url 'kAboom:registration' %}">
                         <button type="button" class="btn btn-warning me-2">Регистрация</button>
