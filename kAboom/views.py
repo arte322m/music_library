@@ -109,10 +109,8 @@ def login_view(request):
                 UserProfile(user_id=profile_id).save()
             if UserProfile.objects.get(user_id=profile_id).type_of_theme.lower() == 'dark':
                 request.session['theme'] = 'dark'
-                request.session['reverse_theme'] = 'light'
             else:
                 request.session['theme'] = 'light'
-                request.session['reverse_theme'] = 'dark'
             return redirect(reverse('kAboom:main'))
         if not User.objects.filter(username=username):
             return render(request, 'kAboom/login.html', {'error_message': 'Такого логина не существует'})
@@ -133,14 +131,11 @@ def main(request):
     except KeyError:
         if not request.user.is_authenticated:
             request.session['theme'] = 'dark'
-            request.session['reverse_theme'] = 'light'
         else:
             if UserProfile.objects.get(user_id=request.user.id).type_of_theme.lower() == 'dark':
                 request.session['theme'] = 'dark'
-                request.session['reverse_theme'] = 'light'
             else:
                 request.session['theme'] = 'light'
-                request.session['reverse_theme'] = 'dark'
 
     context = {
         'track_rating': track_rating
@@ -395,17 +390,13 @@ def switch_theme(request):
             user.type_of_theme = 'LIGHT'
             user.save()
             request.session['theme'] = 'light'
-            request.session['reverse_theme'] = 'dark'
         else:
             user.type_of_theme = 'DARK'
             user.save()
             request.session['theme'] = 'dark'
-            request.session['reverse_theme'] = 'light'
     else:
         if request.session['theme'] == 'dark':
             request.session['theme'] = 'light'
-            request.session['reverse_theme'] = 'dark'
         else:
             request.session['theme'] = 'dark'
-            request.session['reverse_theme'] = 'light'
     return redirect(request.META.get('HTTP_REFERER', '/'))

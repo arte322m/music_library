@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <p><a href="{% url 'kAboom:playlist_creation' %}"><button type="button" class="btn btn-{{ request.session.theme }}">Создать плейлист</button></a></p>
+    <p><a href="{% url 'kAboom:playlist_creation' %}"><button type="button" class="btn btn-new">Создать плейлист</button></a></p>
 
     {% if playlists %}
     <p><strong>Мои плейлисты:</strong></p>
