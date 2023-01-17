@@ -28,7 +28,11 @@
                                     </button>
                                 {% else %}
                                     <button class="btn btn-{{ request.session.theme }}" type="submit" value="add" name="fav">
+                                    {% if request.session.theme == 'dark' %}
                                         <img src="{% static 'kAboom/images/plus_dark.png' %}" width="25" height="25">
+                                    {% else %}
+                                        <img src="{% static 'kAboom/images/plus_light.png' %}" width="25" height="25">
+                                    {% endif %}
                                     </button>
                                 {% endif %}
                             </form>
