@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/bootstrap.min.css' %}">
-    {% if request.session.theme == 'LIGHT' %}
+    {% if request.session.theme == 'light' %}
             <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/light_theme.css' %}">
     {% else %}
             <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/dark_theme.css' %}">
@@ -13,6 +13,11 @@
     <title>{% block title %}Title{% endblock %}</title>
 </head>
 <body>
+
+    {% if not request.session.theme %}
+        <meta http-equiv="refresh" content="0;{% url 'kAboom:main' %}">
+    {% endif %}
+
     <div class="wrapper">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
@@ -77,6 +82,7 @@
                     </a>
                 </div>
             {% endif %}
+
         </header>
         <div class="main">
                 <div class="container-fluid">

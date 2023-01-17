@@ -3,9 +3,8 @@ html,
 body {
     height: 100%;
     color: black;
-    background-color: whitesmoke;
+    background-color: white;
 }
-
 .wrapper {
     min-height: 100%;
     display: flex;
@@ -26,10 +25,10 @@ a:hover {
 }
 
  header {
-     background-color: whitesmoke;
+     background-color: #cbccce;
  }
 
  footer {
      color: black;
-     background-color: whitesmoke;
+     background-color: white;
  }
