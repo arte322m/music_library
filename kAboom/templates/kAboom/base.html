@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/bootstrap.min.css' %}">
-    {% if request.session.theme == 'DARK' %}
+    {% if request.session.theme == 'LIGHT' %}
         <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/light_theme.css' %}">
     {% else %}
         <link rel="stylesheet" type="text/css" href="{% static 'kAboom/css/dark_theme.css' %}">
