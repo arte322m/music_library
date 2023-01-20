@@ -1,5 +1,7 @@
 {% extends "kAboom/base.html" %}
 
+{% load static %}
+
 {% block title %}{% endblock %}
 
 
@@ -21,9 +23,9 @@
                                 {% csrf_token %}
                                 <input name="track_id" value="{{ track.id }}" hidden>
                                 {% if track in favorite_tracks %}
-                                    <button class="btn btn-outline }}" type="submit" value="rem" name="fav">Удалить из избранного</button>
+                                    {% include 'kAboom/include_ne_favorite.html' %}
                                 {% else %}
-                                    <button class="btn btn-outline" type="submit" value="add" name="fav">Добавить в избранное</button>
+                                    {% include 'kAboom/include_favorite.html' %}
                                 {% endif %}
                             </form>
                         {% endif %}

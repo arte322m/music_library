@@ -1,0 +1,12 @@
+{% load static %}
+
+<button class="btn btn-new" type="submit" value="add" name="fav">
+    <img
+        {% if request.session.theme == 'DARK' %}
+            src="{% static 'kAboom/images/favorite_dark.png' %}"
+        {% else %}
+            src="{% static 'kAboom/images/favorite_light.png' %}"
+        {% endif %}
+        width="25" height="25"
+    >
+</button>
