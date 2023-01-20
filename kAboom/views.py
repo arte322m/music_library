@@ -391,3 +391,10 @@ def switch_theme(request):
         else:
             request.session['theme'] = UserProfile.LIGHT
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def new_view(request):
+    context = {
+
+    }
+    return render(request, 'kAboom/new_view.html', context)
