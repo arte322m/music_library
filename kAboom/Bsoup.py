@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-response = requests.get('https://muzati.net/').text
+response = requests.get('https://muzati.net/', timeout=20).text
 soup = BeautifulSoup(response, 'html.parser')
 
 filtered = {}
