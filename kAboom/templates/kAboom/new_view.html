@@ -5,25 +5,28 @@
 {% block content %}
     <ol>
         {% for artist_name, track_info in data.items %}
-            <li>
-                Исполнитель: {{ artist_name }}
-                <ul>
-                    {% for track_name, track_details in track_info.items %}
-                        <li>
-                            {{ track_name }}
-                            {% for detail_name, details in track_details.items %}
-                                <p>{{ detail_name }}:
-                                    {% if detail_name == 'Жанры' %}
-                                        {{ details|join:', ' }}
-                                    {% else %}
-                                        {{ details }}
-                                    {% endif %}
-                                </p>
-                            {% endfor %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
+            {% for track_name, track_details in track_info.items %}
+                <li>
+                    {{ artist_name }} - {{ track_name }}
+                    {{ track_info.keys }}
+                    <p>Жанры: {{ track_details|first|join:', ' }}</p>
+                    <p>Длительность: {{ track_details|slice:'1:2'|join:'' }}</p>
+                    <p>Размер: {{ track_details|slice:'2:3'|join:'' }}</p>
+                    <p>Формат: {{ track_details|last|join:'' }}</p>
+                    <form action="{% url 'kAboom:add_track' %}" method="post">
+                    {% csrf_token %}
+                        <input type="text" value="{{ track_name }}" name="track_name" hidden>
+                        <input type="text" value="{{ artist_name }}" name="artist_name" hidden>
+                        <input type="text" value="{{ track_details|first}} }}" name="genres" hidden>
+                        <input type="text" value="{{ track_details|slice:'1:2'|join:'' }}" name="duration" hidden>
+                        <input type="text" value="{{ track_details|last }}" name="format" hidden>
+                        <input type="text" value="{{ track_details|slice:'2:3'|join:'' }}" name="size" hidden>
+                        <button>
+                            add
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
         {% endfor %}
     </ol>
 {% endblock %}

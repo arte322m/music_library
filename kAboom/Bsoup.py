@@ -9,25 +9,29 @@ def check(url):
         raise ConnectionError(f'Неудачный запрос, полученный ответ{url.text}')
 
 
-def get_info_track(url: str) -> dict:
+def get_info_track(url: str) -> list:
     response = requests.get(url, timeout=20)
     check(response)
-    result = {}
+    result = []
     soup = BeautifulSoup(response.text, 'html.parser')
     genres = soup.findAll('a', class_='entAllCats')
     all_genres = []
-    for i in genres:
-        all_genres.append(i.text)
-    result['Жанры'] = all_genres
+    for genre in genres:
+        all_genres.append(genre.text)
+    result.append(all_genres)
     track_info_all = soup.findAll('div', class_='trackinfo')
-    for i in track_info_all:
-        track_info = i.findAll('li')
-        duration = track_info[1].text.split(': ')
-        size = track_info[2].text.split(': ')
-        format = track_info[5].text.split(': ')
-        result[duration[0]] = duration[1]
-        result[size[0]] = size[1]
-        result[format[0]] = format[1]
+    for info in track_info_all:
+        track_info = info.findAll('li')
+        for i in track_info:
+            if 'Продолжительность' in i.text:
+                duration = i.text.split(': ')
+                result.append(duration[1])
+            if 'Размер' in i.text:
+                size = i.text.split(': ')
+                result.append(size[1])
+            if 'Формат' in i.text:
+                format = i.text.split(': ')
+                result.append(format[1])
 
     return result
 

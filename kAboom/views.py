@@ -394,9 +394,26 @@ def switch_theme(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@login_required()
 def new_view(request):
+    if not request.user.is_staff:
+        return redirect('kAboom:main')
     data = trend_of_main_page()
     context = {
         'data': data
     }
     return render(request, 'kAboom/new_view.html', context)
+
+
+@require_POST
+def add_track(request):
+    format = request.POST['format']
+    track_name = request.POST['track_name']
+    artist_name = request.POST['artist_name']
+    genres = request.POST['genres']
+    duration = request.POST['duration']
+    s
+    duration_in_milliseconds = None
+    pass
+
+    return redirect('kAboom:main')

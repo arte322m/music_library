@@ -32,4 +32,5 @@ urlpatterns = [
     path('playlist/<int:playlist_id>', views.playlist_detail, name='playlist_detail'),
     path('switch_theme/', views.switch_theme, name='switch_theme'),
     path('new_view/', views.new_view, name='new_view'),
+    path('add_track/', views.add_track, name='add_track'),
 ]
