@@ -22,12 +22,12 @@ def get_info_track(url: str) -> dict:
     track_info_all = soup.findAll('div', class_='trackinfo')
     for i in track_info_all:
         track_info = i.findAll('li')
-        duration = track_info[1].text
-        size = track_info[2].text
-        format = track_info[5].text
-        result['Продолжительность'] = duration
-        result['Размер'] = size
-        result['Формат'] = format
+        duration = track_info[1].text.split(': ')
+        size = track_info[2].text.split(': ')
+        format = track_info[5].text.split(': ')
+        result[duration[0]] = duration[1]
+        result[size[0]] = size[1]
+        result[format[0]] = format[1]
 
     return result
 
