@@ -1,5 +1,3 @@
-import time
-
 import requests
 from bs4 import BeautifulSoup
 
@@ -44,13 +42,7 @@ def trend_of_main_page():
     soup = BeautifulSoup(response.text, 'html.parser')
     result = {}
     all_find = soup.findAll('a')
-    trend = True
     for i in all_find:
-        if trend:
-            if i.text != 'В тренде':
-                continue
-            else:
-                trend = False
         if i.text == 'Новинки':
             break
         if i.find('div', class_='track-title'):
