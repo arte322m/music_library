@@ -32,8 +32,8 @@ def get_info_track(url: str) -> dict:
                 size = i.text.split(': ')
                 result['size'] = size[1]
             if 'Формат' in i.text:
-                format = i.text.split(': ')
-                result['format'] = format[1]
+                media_format = i.text.split(': ')
+                result['format'] = media_format[1]
 
     return result
 
