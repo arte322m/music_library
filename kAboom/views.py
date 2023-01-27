@@ -1,3 +1,4 @@
+import datetime
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -8,7 +9,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .Bsoup import trend_of_main_page
-from .models import UserProfile, Album, Playlist, Artist, Track, Genre
+from .models import UserProfile, Album, Playlist, Artist, Track, Genre, MediaType
 
 
 @login_required
@@ -412,8 +413,36 @@ def add_track(request):
     artist_name = request.POST['artist_name']
     genres = request.POST['genres']
     duration = request.POST['duration']
-    s
-    duration_in_milliseconds = None
-    pass
+    size = request.POST['size']
+    duration_split = request.POST['duration'].split(':')
+    duration_in_milliseconds = int(duration_split[0]) * 60000 + int(duration_split[1]) * 1000
+    size_split = size.split(' ')
+    size_bytes = 0
+    if size_split[1] == 'Mб':
+        size_bytes = float(size_split[0]) * 1000000
 
-    return redirect('kAboom:main')
+    if not Artist.objects.get(name=artist_name):
+        new_artist = Artist(name=artist_name)
+        # new_artist.save()
+    new_artist = Artist.objects.get(name=artist_name)
+
+    if not MediaType.objects.get(name=format):
+        new_media_type = MediaType(name=format)
+        # new_media_type.save()
+    new_media_type = MediaType.objects.get(name=format)
+
+    new_track = Track(
+        name=track_name,
+        artist=new_artist,
+        milliseconds=duration_in_milliseconds,
+        bytes=size_bytes,
+        media_type=new_media_type,
+    )
+    # new_track.save()
+    for genre in genres:
+        if not Genre.objects.get(name=genre):
+            new_genre = Genre(name=genre)
+            new_genre.save()
+        new_track.genre.add(genre)
+
+    return redirect('kAboom:new_view')

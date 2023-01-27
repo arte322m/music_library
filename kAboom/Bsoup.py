@@ -1,3 +1,5 @@
+import time
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -9,29 +11,29 @@ def check(url):
         raise ConnectionError(f'Неудачный запрос, полученный ответ{url.text}')
 
 
-def get_info_track(url: str) -> list:
+def get_info_track(url: str) -> dict:
     response = requests.get(url, timeout=20)
     check(response)
-    result = []
+    result = {}
     soup = BeautifulSoup(response.text, 'html.parser')
     genres = soup.findAll('a', class_='entAllCats')
     all_genres = []
     for genre in genres:
         all_genres.append(genre.text)
-    result.append(all_genres)
+    result['genres'] = all_genres
     track_info_all = soup.findAll('div', class_='trackinfo')
     for info in track_info_all:
         track_info = info.findAll('li')
         for i in track_info:
             if 'Продолжительность' in i.text:
                 duration = i.text.split(': ')
-                result.append(duration[1])
+                result['duration'] = duration[1]
             if 'Размер' in i.text:
                 size = i.text.split(': ')
-                result.append(size[1])
+                result['size'] = size[1]
             if 'Формат' in i.text:
                 format = i.text.split(': ')
-                result.append(format[1])
+                result['format'] = format[1]
 
     return result
 
@@ -42,7 +44,13 @@ def trend_of_main_page():
     soup = BeautifulSoup(response.text, 'html.parser')
     result = {}
     all_find = soup.findAll('a')
+    trend = True
     for i in all_find:
+        if trend:
+            if i.text != 'В тренде':
+                continue
+            else:
+                trend = False
         if i.text == 'Новинки':
             break
         if i.find('div', class_='track-title'):

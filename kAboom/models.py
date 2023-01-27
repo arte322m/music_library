@@ -65,13 +65,14 @@ class Track(models.Model):
         return f'{self.name}, {self.milliseconds//1000//60}:{self.milliseconds//1000%60}:{self.milliseconds%1000}'
 
     name = models.CharField(max_length=200)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
     media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
     composer = models.CharField(max_length=220, null=True)
     milliseconds = models.IntegerField(default=None)
     bytes = models.IntegerField(default=None)
-    until_price = models.FloatField(default=None)
+    until_price = models.FloatField(default=None, null=True)
     favorite = models.ManyToManyField(UserProfile)
 
 
