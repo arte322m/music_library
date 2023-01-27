@@ -1,4 +1,3 @@
-import datetime
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -408,7 +407,7 @@ def new_view(request):
 
 @require_POST
 def add_track(request):
-    format = request.POST['format']
+    media_format = request.POST['format']
     track_name = request.POST['track_name']
     artist_name = request.POST['artist_name']
     genres = request.POST['genres']
@@ -426,10 +425,10 @@ def add_track(request):
         new_artist.save()
     new_artist = Artist.objects.get(name=artist_name)
 
-    if not MediaType.objects.get(name=format):
-        new_media_type = MediaType(name=format)
+    if not MediaType.objects.get(name=media_format):
+        new_media_type = MediaType(name=media_format)
         new_media_type.save()
-    new_media_type = MediaType.objects.get(name=format)
+    new_media_type = MediaType.objects.get(name=media_format)
 
     new_track = Track(
         name=track_name,
