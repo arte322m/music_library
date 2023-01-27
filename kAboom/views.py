@@ -414,7 +414,7 @@ def add_track(request):
     genres = request.POST['genres']
     duration = request.POST['duration']
     size = request.POST['size']
-    duration_split = request.POST['duration'].split(':')
+    duration_split = duration.split(':')
     duration_in_milliseconds = int(duration_split[0]) * 60000 + int(duration_split[1]) * 1000
     size_split = size.split(' ')
     size_bytes = 0
@@ -423,12 +423,12 @@ def add_track(request):
 
     if not Artist.objects.get(name=artist_name):
         new_artist = Artist(name=artist_name)
-        # new_artist.save()
+        new_artist.save()
     new_artist = Artist.objects.get(name=artist_name)
 
     if not MediaType.objects.get(name=format):
         new_media_type = MediaType(name=format)
-        # new_media_type.save()
+        new_media_type.save()
     new_media_type = MediaType.objects.get(name=format)
 
     new_track = Track(
@@ -438,7 +438,7 @@ def add_track(request):
         bytes=size_bytes,
         media_type=new_media_type,
     )
-    # new_track.save()
+    new_track.save()
     for genre in genres:
         if not Genre.objects.get(name=genre):
             new_genre = Genre(name=genre)
