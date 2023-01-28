@@ -396,7 +396,6 @@ def switch_theme(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-# @cache_page(60*5)
 @login_required()
 def new_view(request):
     if not request.user.is_staff:
