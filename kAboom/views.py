@@ -1,5 +1,7 @@
+from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -394,6 +396,7 @@ def switch_theme(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+# @cache_page(60*5)
 @login_required()
 def new_view(request):
     if not request.user.is_staff:
@@ -401,7 +404,10 @@ def new_view(request):
     all_tracks_list = []
     for track in Track.objects.all():
         all_tracks_list.append(track.name)
-    data = trend_of_main_page()
+    data = cache.get('data')
+    if not data:
+        data = trend_of_main_page()
+        cache.set('data', data, 60*5)
     context = {
         'data': data,
         'all_tracks': all_tracks_list
