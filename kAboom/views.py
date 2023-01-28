@@ -413,6 +413,8 @@ def new_view(request):
 def add_track(request):
     media_format = request.POST['format']
     track_name = request.POST['track_name']
+    if Track.objects.filter(name=track_name).exists():
+        return redirect('kAboom:new_view')
     artist_name = request.POST['artist_name']
     genres = request.POST['genres']
     genres_split = genres.split(', ')

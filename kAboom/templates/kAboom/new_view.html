@@ -13,11 +13,11 @@
                     <p>Длительность: {{ track_details.duration }}</p>
                     <p>Размер: {{ track_details.size }}</p>
                     <p>Формат:
-                    {% if track_details.format %}
-                        {{ track_details.format }}
-                    {% else %}
-                        mp3
-                    {% endif %}
+                        {% if track_details.format %}
+                            {{ track_details.format }}
+                        {% else %}
+                            mp3
+                        {% endif %}
                     </p>
                     {% if track_name not in all_tracks %}
                         <form action="{% url 'kAboom:add_track' %}" method="post">
@@ -39,7 +39,6 @@
                     {% else %}
                         <img src="{% static 'kAboom/images/check_mark.png' %}" height="25" width="25">
                     {% endif %}
-
                 </li>
             {% endfor %}
         {% endfor %}
