@@ -449,5 +449,4 @@ def add_track(request):
             new_genre.save()
         new_genre = Genre.objects.get(name=genre)
         new_track.genre.add(new_genre)
-
     return redirect('kAboom:new_view')

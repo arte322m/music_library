@@ -55,7 +55,7 @@ def trend_of_main_page():
 
 
 def main():
-    print(trend_of_main_page())
+    trend_of_main_page()
 
 
 if __name__ == '__main__':
