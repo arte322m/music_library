@@ -398,9 +398,13 @@ def switch_theme(request):
 def new_view(request):
     if not request.user.is_staff:
         return redirect('kAboom:main')
+    all_tracks_list = []
+    for track in Track.objects.all():
+        all_tracks_list.append(track.name)
     data = trend_of_main_page()
     context = {
-        'data': data
+        'data': data,
+        'all_tracks': all_tracks_list
     }
     return render(request, 'kAboom/new_view.html', context)
 
@@ -411,6 +415,7 @@ def add_track(request):
     track_name = request.POST['track_name']
     artist_name = request.POST['artist_name']
     genres = request.POST['genres']
+    genres_split = genres.split(', ')
     duration = request.POST['duration']
     size = request.POST['size']
     duration_split = duration.split(':')
@@ -420,12 +425,12 @@ def add_track(request):
     if size_split[1] == 'Mб':
         size_bytes = float(size_split[0]) * 1000000
 
-    if not Artist.objects.get(name=artist_name):
+    if not Artist.objects.filter(name=artist_name).exists():
         new_artist = Artist(name=artist_name)
         new_artist.save()
     new_artist = Artist.objects.get(name=artist_name)
 
-    if not MediaType.objects.get(name=media_format):
+    if not MediaType.objects.filter(name=media_format).exists():
         new_media_type = MediaType(name=media_format)
         new_media_type.save()
     new_media_type = MediaType.objects.get(name=media_format)
@@ -438,10 +443,11 @@ def add_track(request):
         media_type=new_media_type,
     )
     new_track.save()
-    for genre in genres:
-        if not Genre.objects.get(name=genre):
+    for genre in genres_split:
+        if not Genre.objects.filter(name=genre).exists():
             new_genre = Genre(name=genre)
             new_genre.save()
-        new_track.genre.add(genre)
+        new_genre = Genre.objects.get(name=genre)
+        new_track.genre.add(new_genre)
 
     return redirect('kAboom:new_view')
