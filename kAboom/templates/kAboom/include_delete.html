@@ -1,0 +1,9 @@
+{% load static %}
+
+<button class="btn btn-outline-danger" type="submit" name="delete">
+    {% if request.session.theme == 'DARK' %}
+        <img src="{% static 'kAboom/images/delete_dark.png' %}" height="25" width="25">
+    {% else %}
+        <img src="{% static 'kAboom/images/delete_light.png' %}" height="25" width="25">
+    {% endif %}
+</button>

@@ -25,21 +25,9 @@
                                         {% csrf_token %}
                                         <input name="artist_id" value="{{ artist.id }}" hidden>
                                         {% if artist in favorite_artists %}
-                                            <button class="btn btn-new" type="submit" value="rem" name="fav">
-                                                {% if request.session.theme == 'dark' %}
-                                                    <img src="{% static 'kAboom/images/ne_favorite_dark.png' %}" width="25" height="25">
-                                                {% else %}
-                                                    <img src="{% static 'kAboom/images/ne_favorite_light.png' %}" width="25" height="25">
-                                                {% endif %}
-                                            </button>
+                                            {% include 'kAboom/include_ne_favorite.html' %}
                                         {% else %}
-                                            <button class="btn btn-new" type="submit" value="add" name="fav">
-                                                {% if request.session.theme == 'dark' %}
-                                                    <img src="{% static 'kAboom/images/favorite_dark.png' %}" width="25" height="25">
-                                                {% else %}
-                                                    <img src="{% static 'kAboom/images/favorite_light.png' %}" width="25" height="25">
-                                                {% endif %}
-                                            </button>
+                                            {% include 'kAboom/include_favorite.html' %}
                                         {% endif %}
                                     </form>
                                 {% endif %}
