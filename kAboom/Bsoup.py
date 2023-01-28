@@ -1,5 +1,6 @@
-import requests
 from bs4 import BeautifulSoup
+
+import requests
 
 URL_MUZATI = 'https://muzati.net/'
 
