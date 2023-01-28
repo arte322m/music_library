@@ -1,6 +1,5 @@
-# from bs4 import BeautifulSoup
-import bs4
 import requests
+from bs4 import BeautifulSoup
 
 URL_MUZATI = 'https://muzati.net/'
 
@@ -14,7 +13,7 @@ def get_info_track(url: str) -> dict:
     response = requests.get(url, timeout=20)
     check(response)
     result = {}
-    soup = bs4.BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')
     genres = soup.findAll('a', class_='entAllCats')
     all_genres = []
     for genre in genres:
@@ -40,7 +39,7 @@ def get_info_track(url: str) -> dict:
 def trend_of_main_page():
     response = requests.get(URL_MUZATI, timeout=20)
     check(response)
-    soup = bs4.BeautifulSoup(response.text, 'html.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')
     result = {}
     all_find = soup.findAll('a')
     for i in all_find:
