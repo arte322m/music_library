@@ -396,7 +396,7 @@ def switch_theme(request):
 
 
 @login_required()
-def new_view(request):
+def muzati_trend(request):
     if not request.user.is_staff:
         return redirect('kAboom:main')
     all_tracks_list = []
@@ -410,7 +410,7 @@ def new_view(request):
         'data': data,
         'all_tracks': all_tracks_list
     }
-    return render(request, 'kAboom/new_view.html', context)
+    return render(request, 'kAboom/muzati_trend.html', context)
 
 
 @require_POST
@@ -455,4 +455,4 @@ def add_track(request):
             new_genre.save()
         new_genre = Genre.objects.get(name=genre)
         new_track.genre.add(new_genre)
-    return redirect('kAboom:new_view')
+    return redirect('kAboom:muzati_trend')
