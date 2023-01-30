@@ -8,12 +8,12 @@
     Название жанра: {{ genre_info.name }}
 
     <ul>
-        {% for track in track_list %}
-            {% if genre_info in track.genre.all %}
-                <li>
-                    <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
-                </li>
-            {% endif %}
+        {% for track in genre_info.track_set.all %}
+            <li>
+                <a href="{% url 'kAboom:track_detail' track.id %}">
+                    {{ track.name }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 

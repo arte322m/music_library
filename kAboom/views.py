@@ -178,10 +178,8 @@ def genre_index(request):
 
 def genre_detail(request, genre_id):
     genre_info = get_object_or_404(Genre, id=genre_id)
-    track_list = Track.objects.all()
     context = {
         'genre_info': genre_info,
-        'track_list': track_list,
     }
     return render(request, 'kAboom/genre_detail.html', context)
 
