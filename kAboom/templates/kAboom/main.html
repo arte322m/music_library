@@ -34,6 +34,9 @@
             {% if user.is_authenticated %}
                 <div class="row"><a href="{% url 'kAboom:favorites' user.id %}">Избранное</a></div>
                 <div class="row"><a href="{% url 'kAboom:my_playlists' %}">Мои плейлисты</a></div>
+                {% if request.user.is_staff %}
+                <div class="row"><a href="{% url 'kAboom:muzati_trend' %}">AAAAAAAAAAA</a></div>
+                {% endif %}
             {% endif %}
 
             <div class="row"><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></div>

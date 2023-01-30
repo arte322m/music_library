@@ -1,0 +1,46 @@
+{% extends 'kAboom/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    <ol>
+        {% for artist_name, track_info in data.items %}
+            {% for track_name, track_details in track_info.items %}
+                <li>
+                    {{ artist_name }} - {{ track_name }}
+                    <p>Жанры: {{ track_details.genres|join:', ' }}</p>
+                    <p>Длительность: {{ track_details.duration }}</p>
+                    <p>Размер: {{ track_details.size }}</p>
+                    <p>Формат:
+                        {% if track_details.format %}
+                            {{ track_details.format }}
+                        {% else %}
+                            mp3
+                        {% endif %}
+                    </p>
+                    {% if track_name not in all_tracks %}
+                        <form action="{% url 'kAboom:add_track' %}" method="post">
+                        {% csrf_token %}
+                            <input type="text" value="{{ track_name }}" name="track_name" hidden>
+                            <input type="text" value="{{ artist_name }}" name="artist_name" hidden>
+                            <input type="text" value="{{ track_details.genres|join:', ' }}" name="genres" hidden>
+                            <input type="text" value="{{ track_details.duration }}" name="duration" hidden>
+                            <input type="text"
+                                {% if track_details.format %}
+                                    value="{{ track_details.format }}"
+                                {% else %}
+                                    value="mp3"
+                                {% endif %}
+                                name="format" hidden>
+                            <input type="text" value="{{ track_details.size }}" name="size" hidden>
+                            {% include 'kAboom/include_plus.html' %}
+                        </form>
+                    {% else %}
+                        <img src="{% static 'kAboom/images/check_mark.png' %}" height="25" width="25">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% endfor %}
+    </ol>
+{% endblock %}

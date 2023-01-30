@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -7,7 +8,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile, Album, Playlist, Artist, Track, Genre
+from .Bsoup import trend_of_main_page
+from .models import UserProfile, Album, Playlist, Artist, Track, Genre, MediaType
 
 
 @login_required
@@ -391,3 +393,63 @@ def switch_theme(request):
         else:
             request.session['theme'] = UserProfile.LIGHT
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required()
+def muzati_trend(request):
+    if not request.user.is_staff:
+        return redirect('kAboom:main')
+    all_tracks_list = Track.objects.values_list('name', flat=True)
+    data = cache.get('data')
+    if not data:
+        data = trend_of_main_page()
+        cache.set('data', data, 60*5)
+    context = {
+        'data': data,
+        'all_tracks': all_tracks_list
+    }
+    return render(request, 'kAboom/muzati_trend.html', context)
+
+
+@require_POST
+def add_track(request):
+    media_format = request.POST['format']
+    track_name = request.POST['track_name']
+    if Track.objects.filter(name=track_name).exists():
+        return redirect('kAboom:new_view')
+    artist_name = request.POST['artist_name']
+    genres = request.POST['genres']
+    genres_split = genres.split(', ')
+    duration = request.POST['duration']
+    size = request.POST['size']
+    duration_split = duration.split(':')
+    duration_in_milliseconds = int(duration_split[0]) * 60000 + int(duration_split[1]) * 1000
+    size_split = size.split(' ')
+    size_bytes = 0
+    if size_split[1] == 'Mб':
+        size_bytes = float(size_split[0]) * 1000000
+
+    if not Artist.objects.filter(name=artist_name).exists():
+        new_artist = Artist.objects.create(name=artist_name)
+    else:
+        new_artist = Artist.objects.get(name=artist_name)
+
+    if not MediaType.objects.filter(name=media_format).exists():
+        media_type = MediaType(name=media_format)
+    else:
+        media_type = MediaType.objects.get(name=media_format)
+
+    new_track = Track.objects.create(
+        name=track_name,
+        artist=new_artist,
+        milliseconds=duration_in_milliseconds,
+        bytes=size_bytes,
+        media_type=media_type,
+    )
+    for genre_name in genres_split:
+        if not Genre.objects.filter(name=genre_name).exists():
+            genre = Genre.objects.create(name=genre_name)
+        else:
+            genre = Genre.objects.get(name=genre_name)
+        new_track.genre.add(genre)
+    return redirect('kAboom:muzati_trend')
