@@ -430,27 +430,26 @@ def add_track(request):
         size_bytes = float(size_split[0]) * 1000000
 
     if not Artist.objects.filter(name=artist_name).exists():
-        new_artist = Artist(name=artist_name)
-        new_artist.save()
-    new_artist = Artist.objects.get(name=artist_name)
+        new_artist = Artist.objects.create(name=artist_name)
+    else:
+        new_artist = Artist.objects.get(name=artist_name)
 
     if not MediaType.objects.filter(name=media_format).exists():
-        new_media_type = MediaType(name=media_format)
-        new_media_type.save()
-    new_media_type = MediaType.objects.get(name=media_format)
+        media_type = MediaType(name=media_format)
+    else:
+        media_type = MediaType.objects.get(name=media_format)
 
-    new_track = Track(
+    new_track = Track.objects.create(
         name=track_name,
         artist=new_artist,
         milliseconds=duration_in_milliseconds,
         bytes=size_bytes,
-        media_type=new_media_type,
+        media_type=media_type,
     )
-    new_track.save()
-    for genre in genres_split:
-        if not Genre.objects.filter(name=genre).exists():
-            new_genre = Genre(name=genre)
-            new_genre.save()
-        new_genre = Genre.objects.get(name=genre)
-        new_track.genre.add(new_genre)
+    for genre_name in genres_split:
+        if not Genre.objects.filter(name=genre_name).exists():
+            genre = Genre.objects.create(name=genre_name)
+        else:
+            genre = Genre.objects.get(name=genre_name)
+        new_track.genre.add(genre)
     return redirect('kAboom:muzati_trend')
