@@ -399,9 +399,7 @@ def switch_theme(request):
 def muzati_trend(request):
     if not request.user.is_staff:
         return redirect('kAboom:main')
-    all_tracks_list = []
-    for track in Track.objects.all():
-        all_tracks_list.append(track.name)
+    all_tracks_list = Track.objects.values_list('name', flat=True)
     data = cache.get('data')
     if not data:
         data = trend_of_main_page()
