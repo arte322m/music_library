@@ -16,8 +16,10 @@
     {% endif %}
     <p>Кол-во сердечек: {{ track_details.favorite.count }}</p>
     <p>{{ test_track_playlist }}</p>
-    <p>Исполнитель: <a href="{% url 'kAboom:artist_detail' track_details.album.artist_id %}">{{ track_details.album.artist.name }}</a></p>
-    <p>Альбом: <a href="{% url 'kAboom:album_detail' track_details.album_id %}">{{ track_details.album.title }}</a></p>
+    <p>Исполнитель: <a href="{% url 'kAboom:artist_detail' track_details.artist_id %}">{{ track_details.artist.name }}</a></p>
+    {% if track_details.album %}
+        <p>Альбом: <a href="{% url 'kAboom:album_detail' track_details.album_id %}">{{ track_details.album.title }}</a></p>
+    {% endif %}
     <p>Название трека: {{ track_details.name }}</p>
     <p>Жанры:
     <ul>
@@ -28,7 +30,12 @@
     </p>
     <p>Формат: {{ track_details.media_type.name }}</p>
     <p>Вес: {{ track_details.bytes|filesizeformat }}</p>
-    <p>Цена: {{ track_details.until_price }}</p>
+    {% if track_details.until_price %}
+        <p>Цена: {{ track_details.until_price }}</p>
+    {% endif %}
     <p>Длительность: {{ track_details.milliseconds }}</p>
-    <p>Композитор: {{ track_details.composer }}</p>
+    {% if track_details.composer %}
+        <p>Композитор: {{ track_details.composer }}</p>
+    {% endif %}
+
 {% endblock %}

@@ -7,4 +7,15 @@
 
     Название жанра: {{ genre_info.name }}
 
+    <ul>
+        {% for track in genre_info.track_set.all %}
+            <li>
+                <a href="{% url 'kAboom:track_detail' track.id %}">
+                    {{ track.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{##}
 {% endblock %}

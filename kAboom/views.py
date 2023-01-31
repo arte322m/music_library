@@ -204,8 +204,7 @@ def track_index(request):
 
 def track_detail(request, track_id):
     track_details = get_object_or_404(Track, id=track_id)
-    album_info = track_details.album
-    artist_info = album_info.artist
+    artist_info = track_details.artist
 
     context = {
         'track_details': track_details,
