@@ -126,7 +126,7 @@ def logout_view(request):
 
 
 def main(request):
-    track_rating = Track.objects.annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
+    track_rating = Track.objects.prefetch_related('favorite').annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
     context = {
         'track_rating': track_rating
     }
