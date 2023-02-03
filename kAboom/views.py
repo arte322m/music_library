@@ -126,7 +126,8 @@ def logout_view(request):
 
 
 def main(request):
-    track_rating = Track.objects.prefetch_related('favorite').annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
+    track_rating = Track.objects.prefetch_related('favorite').annotate(
+        num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
     context = {
         'track_rating': track_rating
     }
@@ -273,7 +274,9 @@ def playlist_index(request):
 
 
 def playlist_detail(request, playlist_id):
-    playlist_info = get_object_or_404(Playlist.objects.select_related('user_maker').prefetch_related('track'), id=playlist_id)
+    playlist_info = get_object_or_404(
+        Playlist.objects.select_related('user_maker').prefetch_related('track'),
+        id=playlist_id)
     track_list = playlist_info.track.all()
     paginator = Paginator(track_list, 50)
     page_number = request.GET.get('page')
