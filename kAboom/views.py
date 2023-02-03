@@ -203,12 +203,10 @@ def track_index(request):
 
 
 def track_detail(request, track_id):
-    track_details = get_object_or_404(Track, id=track_id)
-    artist_info = track_details.artist
+    track_details = get_object_or_404(Track.objects.select_related('artist', 'album', 'media_type'), id=track_id)
 
     context = {
         'track_details': track_details,
-        'artist_info': artist_info,
     }
 
     if request.user.is_authenticated:
