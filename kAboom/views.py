@@ -8,7 +8,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .Bsoup import trend_of_main_page
+from .parsers import trend_of_main_page
 from .models import UserProfile, Album, Playlist, Artist, Track, Genre, MediaType
 
 
