@@ -170,7 +170,7 @@ def artist_detail(request, artist_id):
 
 
 def genre_index(request):
-    genre_list = Genre.objects.all()
+    genre_list = Genre.objects.all().order_by('name')
     context = {
         'genre_list': genre_list,
     }
