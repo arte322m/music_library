@@ -8,7 +8,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .Bsoup import trend_of_main_page
+from .parsers import trend_of_main_page
 from .models import UserProfile, Album, Playlist, Artist, Track, Genre, MediaType
 
 
@@ -126,7 +126,8 @@ def logout_view(request):
 
 
 def main(request):
-    track_rating = Track.objects.annotate(num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
+    track_rating = Track.objects.prefetch_related('favorite').annotate(
+        num_favorite_tracks=Count('favorite')).order_by('-num_favorite_tracks')[:10]
     context = {
         'track_rating': track_rating
     }
@@ -203,12 +204,10 @@ def track_index(request):
 
 
 def track_detail(request, track_id):
-    track_details = get_object_or_404(Track, id=track_id)
-    artist_info = track_details.artist
+    track_details = get_object_or_404(Track.objects.select_related('artist', 'album', 'media_type'), id=track_id)
 
     context = {
         'track_details': track_details,
-        'artist_info': artist_info,
     }
 
     if request.user.is_authenticated:
@@ -254,19 +253,19 @@ def album_detail(request, album_id):
 
 
 def playlist_index(request):
-    playlist_list = Playlist.objects.all()
-    paginator = Paginator(playlist_list, 25)
+    playlists = Playlist.objects.all()
+    paginator = Paginator(playlists, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
-        'playlist_list': playlist_list,
     }
 
     if request.user.is_authenticated:
-        user_info = UserProfile.objects.get(user_id=request.user.id)
+        user_id = request.user.id
+        user_info = UserProfile.objects.get(user_id=user_id)
         favorite_playlists = user_info.playlist_set.all()
-        owners = Playlist.objects.filter(user_maker_id=request.user.id)
+        owners = playlists.filter(user_maker_id=user_id)
 
         context['owners'] = owners
         context['favorite_playlists'] = favorite_playlists
@@ -275,7 +274,9 @@ def playlist_index(request):
 
 
 def playlist_detail(request, playlist_id):
-    playlist_info = get_object_or_404(Playlist, id=playlist_id)
+    playlist_info = get_object_or_404(
+        Playlist.objects.select_related('user_maker').prefetch_related('track'),
+        id=playlist_id)
     track_list = playlist_info.track.all()
     paginator = Paginator(track_list, 50)
     page_number = request.GET.get('page')
