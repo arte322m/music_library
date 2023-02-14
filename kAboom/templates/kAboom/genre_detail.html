@@ -1,11 +1,11 @@
 {% extends 'kAboom/base.html' %}
 {% load static %}
 
-{% block title %}Жанры{% endblock %}
+{% block title %}Жанры и тэни{% endblock %}
 
 {% block content %}
 
-    Название жанра: {{ genre_info.name }}
+    Название жанра или тэга: {{ genre_info.name }}
 
     <ul>
         {% for track in genre_info.track_set.all %}

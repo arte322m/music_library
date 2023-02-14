@@ -9,7 +9,7 @@
             {% for track_name, track_details in track_info.items %}
                 <li>
                     {{ artist_name }} - {{ track_name }}
-                    <p>Жанры: {{ track_details.genres|join:', ' }}</p>
+                    <p>Жанры и тэги: {{ track_details.genres|join:', ' }}</p>
                     <p>Длительность: {{ track_details.duration }}</p>
                     <p>Размер: {{ track_details.size }}</p>
                     <p>Формат:
