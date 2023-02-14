@@ -453,3 +453,11 @@ def add_track(request):
             genre = Genre.objects.get(name=genre_name)
         new_track.genre.add(genre)
     return redirect('kAboom:muzati_trend')
+
+
+def parser(request):
+
+    context = {
+
+    }
+    return render(request, 'kAboom/parser.html', context)

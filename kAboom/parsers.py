@@ -81,8 +81,6 @@ def get_info_track_2(url: str):
         if 'Время' in detail_text:
             duration = detail_text.split(': ')[1]
             result['Продолжительность'] = duration.split(' ')[0]
-
-
     return result
 
 

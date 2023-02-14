@@ -33,4 +33,5 @@ urlpatterns = [
     path('switch_theme/', views.switch_theme, name='switch_theme'),
     path('muzati_trend/', views.muzati_trend, name='muzati_trend'),
     path('add_track/', views.add_track, name='add_track'),
+    path('parser/', views.parser, name='parser'),
 ]
