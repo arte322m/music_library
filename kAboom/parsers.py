@@ -62,7 +62,7 @@ def trend_of_main_page():
 
 def get_info_track_2(url: str):
     result = {}
-    response = requests.get(url)
+    response = requests.get(url, timeout=20)
     check(response)
     soup = BeautifulSoup(response.text, 'html.parser')
     song_details = soup.findAll('div', class_='song_detal_p')
