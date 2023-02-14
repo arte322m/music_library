@@ -21,13 +21,13 @@
         <p>Альбом: <a href="{% url 'kAboom:album_detail' track_details.album_id %}">{{ track_details.album.title }}</a></p>
     {% endif %}
     <p>Название трека: {{ track_details.name }}</p>
-    <p>Жанры и тэги:
+    <p>Жанры и тэги:</p>
+
     <ul>
         {% for genre in track_details.genre_tags.all %}
             <li><a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a></li>
         {% endfor %}
     </ul>
-    </p>
     <p>Формат: {{ track_details.media_type.name }}</p>
     <p>Вес: {{ track_details.bytes|filesizeformat }}</p>
     {% if track_details.until_price %}
