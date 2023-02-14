@@ -32,7 +32,7 @@ class MediaType(models.Model):
     name = models.CharField(max_length=120)
 
 
-class Genre(models.Model):
+class GenresTags(models.Model):
 
     def __str__(self):
         return self.name
@@ -67,7 +67,7 @@ class Track(models.Model):
     name = models.CharField(max_length=200)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
     media_type = models.ForeignKey(MediaType, on_delete=models.CASCADE)
-    genre = models.ManyToManyField(Genre)
+    genre_tags = models.ManyToManyField(GenresTags)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
     composer = models.CharField(max_length=220, null=True)
     milliseconds = models.IntegerField(default=None)

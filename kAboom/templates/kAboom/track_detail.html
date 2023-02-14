@@ -23,7 +23,7 @@
     <p>Название трека: {{ track_details.name }}</p>
     <p>Жанры:
     <ul>
-        {% for genre in track_details.genre.all %}
+        {% for genre in track_details.genre_tags.all %}
             <li><a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a></li>
         {% endfor %}
     </ul>

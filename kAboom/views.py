@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .parsers import trend_of_main_page
-from .models import UserProfile, Album, Playlist, Artist, Track, Genre, MediaType
+from .models import UserProfile, Album, Playlist, Artist, Track, GenresTags, MediaType
 
 
 @login_required
@@ -170,7 +170,7 @@ def artist_detail(request, artist_id):
 
 
 def genre_index(request):
-    genre_list = Genre.objects.all().order_by('name')
+    genre_list = GenresTags.objects.all().order_by('name')
     context = {
         'genre_list': genre_list,
     }
@@ -178,7 +178,7 @@ def genre_index(request):
 
 
 def genre_detail(request, genre_id):
-    genre_info = get_object_or_404(Genre, id=genre_id)
+    genre_info = get_object_or_404(GenresTags, id=genre_id)
     context = {
         'genre_info': genre_info,
     }
@@ -447,11 +447,11 @@ def add_track(request):
         media_type=media_type,
     )
     for genre_name in genres_split:
-        if not Genre.objects.filter(name=genre_name).exists():
-            genre = Genre.objects.create(name=genre_name)
+        if not GenresTags.objects.filter(name=genre_name).exists():
+            genre = GenresTags.objects.create(name=genre_name)
         else:
-            genre = Genre.objects.get(name=genre_name)
-        new_track.genre.add(genre)
+            genre = GenresTags.objects.get(name=genre_name)
+        new_track.genre_tags.add(genre)
     return redirect('kAboom:muzati_trend')
 
 
