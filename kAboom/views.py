@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .parsers import trend_of_main_page, top30_week
-from .models import UserProfile, Album, Playlist, Artist, Track, GenresTags, MediaType, Parser
+from .models import UserProfile, Album, Playlist, Artist, Track, GenreTag, MediaType, Parser
 
 
 @login_required
@@ -170,7 +170,7 @@ def artist_detail(request, artist_id):
 
 
 def genre_index(request):
-    genre_list = GenresTags.objects.all().order_by('name')
+    genre_list = GenreTag.objects.all().order_by('name')
     context = {
         'genre_list': genre_list,
     }
@@ -178,7 +178,7 @@ def genre_index(request):
 
 
 def genre_detail(request, genre_id):
-    genre_info = get_object_or_404(GenresTags, id=genre_id)
+    genre_info = get_object_or_404(GenreTag, id=genre_id)
     context = {
         'genre_info': genre_info,
     }
@@ -453,11 +453,11 @@ def add_track(request):
         media_type=media_type,
     )
     for genre_name in genres_split:
-        if not GenresTags.objects.filter(name=genre_name).exists():
-            genre = GenresTags.objects.create(name=genre_name)
+        if not GenreTag.objects.filter(name=genre_name).exists():
+            genre = GenreTag.objects.create(name=genre_name)
         else:
-            genre = GenresTags.objects.get(name=genre_name)
-        new_track.genre_tags.add(genre)
+            genre = GenreTag.objects.get(name=genre_name)
+        new_track.genre_tag.add(genre)
     return redirect('kAboom:parsing', name=partner_name)
 
 

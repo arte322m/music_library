@@ -24,7 +24,7 @@
     <p>Жанры и тэги:</p>
 
     <ul>
-        {% for genre in track_details.genre_tags.all %}
+        {% for genre in track_details.genre_tag.all %}
             <li><a href="{% url 'kAboom:genre_detail' genre.id %}">{{ genre.name }}</a></li>
         {% endfor %}
     </ul>

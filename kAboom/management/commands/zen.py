@@ -1,7 +1,7 @@
 import os.path
 import sqlite3
 from django.core.management.base import BaseCommand
-from kAboom.models import GenresTags, Artist, MediaType, Playlist, Album, Track, Employee, Customer, Invoice, \
+from kAboom.models import GenreTag, Artist, MediaType, Playlist, Album, Track, Employee, Customer, Invoice, \
     InvoicesItem
 
 
@@ -37,10 +37,10 @@ class Command(BaseCommand):
             table = 'genres'
             for genre in db_fetch(table, PATH):
                 genre_name = genre[1]
-                if GenresTags.objects.filter(name=genre_name).exists():
+                if GenreTag.objects.filter(name=genre_name).exists():
                     print('Поле с таким именем уже есть')
                 else:
-                    GenresTags(name=genre_name).save()
+                    GenreTag(name=genre_name).save()
             print('complete')
 
         if table == 'artist':
@@ -108,7 +108,7 @@ class Command(BaseCommand):
                 album_id_name_foreign[album[0]] = album[1]
 
             genre_name_id = {}
-            genre_table = GenresTags.objects.all()
+            genre_table = GenreTag.objects.all()
             for genre in genre_table:
                 genre_name_id[genre.name] = genre.id
 
