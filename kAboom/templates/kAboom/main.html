@@ -35,7 +35,7 @@
                 <div class="row"><a href="{% url 'kAboom:favorites' user.id %}">Избранное</a></div>
                 <div class="row"><a href="{% url 'kAboom:my_playlists' %}">Мои плейлисты</a></div>
                 {% if request.user.is_staff %}
-                <div class="row"><a href="{% url 'kAboom:parser' %}">Добавление треков с партнерских сайтов</a></div>
+                <div class="row"><a href="{% url 'kAboom:partner' %}">Добавление треков с партнерских сайтов</a></div>
                 {% endif %}
             {% endif %}
 

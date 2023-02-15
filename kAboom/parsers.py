@@ -2,10 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-URL_MUZATI = 'https://muzati.net/'
-URL_MP3BOB = 'https://mp3bob.ru/load/top-nedeli/'
-
-
 def check(response):
     if response.status_code // 100 != 2:
         raise ConnectionError(f'Неудачный запрос, полученный ответ{response.text}')
@@ -39,8 +35,8 @@ def get_info_track(url: str) -> dict:
     return result
 
 
-def trend_of_main_page():
-    response = requests.get(URL_MUZATI, timeout=20)
+def trend_of_main_page(url: str):
+    response = requests.get(url, timeout=20)
     check(response)
     soup = BeautifulSoup(response.text, 'html.parser')
     result = {}
@@ -81,8 +77,9 @@ def get_info_track_2(url: str):
     return result
 
 
-def top30_week():
-    response = requests.get(URL_MP3BOB, timeout=20)
+def top30_week(url: str):
+    url = f'{url}top-nedeli/'
+    response = requests.get(url, timeout=20)
     check(response)
     soup = BeautifulSoup(response.text, 'html.parser')
     result = {}
@@ -97,7 +94,8 @@ def top30_week():
 
 
 def main():
-    print(top30_week())
+    pass
+    # print(top30_week())
     # trend_of_main_page()
 
 

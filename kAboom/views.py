@@ -396,7 +396,7 @@ def switch_theme(request):
 
 
 @login_required()
-def muzati_trend(request, name):
+def parsing(request, name):
     if not request.user.is_staff:
         return redirect('kAboom:main')
     all_tracks_list = Track.objects.values_list('name', flat=True)
@@ -404,16 +404,16 @@ def muzati_trend(request, name):
     if not data:
         url = Parser.objects.get(name=name).url
         if name == 'Muzati':
-            data = trend_of_main_page()
+            data = trend_of_main_page(url)
         if name =='mp3bob':
-            data = top30_week()
+            data = top30_week(url)
         cache.set(f'data_{name}', data, 60*5)
     context = {
         'name': name,
         'data': data,
         'all_tracks': all_tracks_list
     }
-    return render(request, 'kAboom/muzati_trend.html', context)
+    return render(request, 'kAboom/parsing.html', context)
 
 
 @require_POST
@@ -458,12 +458,12 @@ def add_track(request):
         else:
             genre = GenresTags.objects.get(name=genre_name)
         new_track.genre_tags.add(genre)
-    return redirect('kAboom:muzati_trend', name=partner_name)
+    return redirect('kAboom:parsing', name=partner_name)
 
 
-def parser(request):
+def partner(request):
     parser_objects = Parser.objects.all()
     context = {
         'parser_objects': parser_objects
     }
-    return render(request, 'kAboom/parser.html', context)
+    return render(request, 'kAboom/partner.html', context)
