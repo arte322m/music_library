@@ -1,3 +1,5 @@
+from typing import Dict, Union, List
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -7,13 +9,13 @@ def check(response):
         raise ConnectionError(f'Неудачный запрос, полученный ответ{response.text}')
 
 
-def get_info_track(url: str) -> dict:
+def get_info_track(url: str):
     response = requests.get(url, timeout=20)
     check(response)
-    result = {}
+    result: Dict[Union[str, list]] = {}
     soup = BeautifulSoup(response.text, 'html.parser')
     genres = soup.findAll('a', class_='entAllCats')
-    all_genres = []
+    all_genres: List[str] = []
     for genre in genres:
         all_genres.append(genre.text)
     result['genres_tags'] = all_genres
@@ -39,7 +41,7 @@ def trend_of_main_page(url: str):
     response = requests.get(url, timeout=20)
     check(response)
     soup = BeautifulSoup(response.text, 'html.parser')
-    result = {}
+    result: Dict[str, Dict[str, Dict[str, Union[str, list]]]] = {}
     all_find = soup.findAll('a')
     for found in all_find:
         if found.text == 'Новинки':
