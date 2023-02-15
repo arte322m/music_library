@@ -5,5 +5,15 @@
 {% block content %}
 
 
+    <ul>
+        {% for parser_object in parser_objects %}
+            <li>
+                <a href="{% url 'kAboom:muzati_trend' parser_object.name %}">{{ parser_object.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
 
 {% endblock %}

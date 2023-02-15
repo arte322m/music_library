@@ -9,7 +9,7 @@
             {% for track_name, track_details in track_info.items %}
                 <li>
                     {{ artist_name }} - {{ track_name }}
-                    <p>Жанры и тэги: {{ track_details.genres|join:', ' }}</p>
+                    <p>Жанры и тэги: {{ track_details.genres_tags|join:', ' }}</p>
                     <p>Длительность: {{ track_details.duration }}</p>
                     <p>Размер: {{ track_details.size }}</p>
                     <p>Формат:
@@ -24,8 +24,9 @@
                         {% csrf_token %}
                             <input type="text" value="{{ track_name }}" name="track_name" hidden>
                             <input type="text" value="{{ artist_name }}" name="artist_name" hidden>
-                            <input type="text" value="{{ track_details.genres|join:', ' }}" name="genres" hidden>
+                            <input type="text" value="{{ track_details.genres_tags|join:', ' }}" name="genres_tags" hidden>
                             <input type="text" value="{{ track_details.duration }}" name="duration" hidden>
+                            <input type="text" value="{{ name }}" name="partner_name" hidden>
                             <input type="text"
                                 {% if track_details.format %}
                                     value="{{ track_details.format }}"

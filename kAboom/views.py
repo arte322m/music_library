@@ -8,8 +8,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .parsers import trend_of_main_page
-from .models import UserProfile, Album, Playlist, Artist, Track, GenresTags, MediaType
+from .parsers import trend_of_main_page, top30_week
+from .models import UserProfile, Album, Playlist, Artist, Track, GenresTags, MediaType, Parser
 
 
 @login_required
@@ -396,15 +396,20 @@ def switch_theme(request):
 
 
 @login_required()
-def muzati_trend(request):
+def muzati_trend(request, name):
     if not request.user.is_staff:
         return redirect('kAboom:main')
     all_tracks_list = Track.objects.values_list('name', flat=True)
-    data = cache.get('data')
+    data = cache.get(f'data_{name}')
     if not data:
-        data = trend_of_main_page()
-        cache.set('data', data, 60*5)
+        url = Parser.objects.get(name=name).url
+        if name == 'Muzati':
+            data = trend_of_main_page()
+        if name =='mp3bob':
+            data = top30_week()
+        cache.set(f'data_{name}', data, 60*5)
     context = {
+        'name': name,
         'data': data,
         'all_tracks': all_tracks_list
     }
@@ -413,12 +418,13 @@ def muzati_trend(request):
 
 @require_POST
 def add_track(request):
+    partner_name = request.POST['partner_name']
     media_format = request.POST['format']
     track_name = request.POST['track_name']
     if Track.objects.filter(name=track_name).exists():
         return redirect('kAboom:new_view')
     artist_name = request.POST['artist_name']
-    genres = request.POST['genres']
+    genres = request.POST['genres_tags']
     genres_split = genres.split(', ')
     duration = request.POST['duration']
     size = request.POST['size']
@@ -426,7 +432,7 @@ def add_track(request):
     duration_in_milliseconds = int(duration_split[0]) * 60000 + int(duration_split[1]) * 1000
     size_split = size.split(' ')
     size_bytes = 0
-    if size_split[1] == 'Mб':
+    if size_split[1] == 'Mб' or size_split[1] == 'Мб':
         size_bytes = float(size_split[0]) * 1000000
 
     if not Artist.objects.filter(name=artist_name).exists():
@@ -452,12 +458,12 @@ def add_track(request):
         else:
             genre = GenresTags.objects.get(name=genre_name)
         new_track.genre_tags.add(genre)
-    return redirect('kAboom:muzati_trend')
+    return redirect('kAboom:muzati_trend', name=partner_name)
 
 
 def parser(request):
-
+    parser_objects = Parser.objects.all()
     context = {
-
+        'parser_objects': parser_objects
     }
     return render(request, 'kAboom/parser.html', context)

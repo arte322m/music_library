@@ -131,3 +131,8 @@ class InvoicesItem(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     unit_price = models.IntegerField(default=None)
     quantity = models.IntegerField(default=None)
+
+
+class Parser(models.Model):
+    name = models.CharField(max_length=40)
+    url = models.CharField(max_length=40)
