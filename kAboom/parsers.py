@@ -84,10 +84,10 @@ def top30_week(url: str):
     soup = BeautifulSoup(response.text, 'html.parser')
     result = {}
     all_find = soup.findAll('div', class_='song-item')
-    for i in all_find:
-        track = i.find('span', class_='song_nazv __adv_name').text
-        artist = i.find('span', class_='song_artist __adv_artist').text
-        url = i.find('a', href=True).get('href')
+    for found in all_find:
+        track = found.find('span', class_='song_nazv __adv_name').text
+        artist = found.find('span', class_='song_artist __adv_artist').text
+        url = found.find('a', href=True).get('href')
         result.setdefault(artist, {})
         result[artist].setdefault(track, get_info_track_2(f'https://mp3bob.ru/{url}'))
     return result
