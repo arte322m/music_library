@@ -1,13 +1,13 @@
 {% extends 'kAboom/base.html' %}
 {% load static %}
-{% block title %}Жанры{% endblock %}
+{% block title %}Жанры и тэги{% endblock %}
 
 {% block content %}
 
     <div class="col">
         {% if genre_list %}
             <div class="row">
-                <h2>Жанры:</h2>
+                <h2>Жанры и тэги:</h2>
             </div>
 
             <ol>
@@ -22,7 +22,7 @@
 
         {% else %}
             <div class="row">
-                <h2>Жанров нет</h2>
+                <h2>Жанров и тэгов нет</h2>
             </div>
         {% endif %}
     </div>

@@ -30,4 +30,17 @@
     {% else %}
         <p>Альбомов нет</p>
     {% endif %}
+
+    <h3>Треки:</h3>
+    <ul>
+        {% if artist_info.track_set %}
+            {% for track in artist_info.track_set.all %}
+                <li>
+                    <a href="{% url 'kAboom:track_detail' track.id %}">{{ track.name }}</a>
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+
+
 {% endblock %}

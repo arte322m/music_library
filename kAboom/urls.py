@@ -31,6 +31,7 @@ urlpatterns = [
     path('playlist/', views.playlist_index, name='playlist_index'),
     path('playlist/<int:playlist_id>', views.playlist_detail, name='playlist_detail'),
     path('switch_theme/', views.switch_theme, name='switch_theme'),
-    path('muzati_trend/', views.muzati_trend, name='muzati_trend'),
+    path('parsing/<str:name>', views.parsing, name='parsing'),
     path('add_track/', views.add_track, name='add_track'),
+    path('partner/', views.partner, name='partner'),
 ]

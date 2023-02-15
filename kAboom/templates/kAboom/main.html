@@ -35,12 +35,12 @@
                 <div class="row"><a href="{% url 'kAboom:favorites' user.id %}">Избранное</a></div>
                 <div class="row"><a href="{% url 'kAboom:my_playlists' %}">Мои плейлисты</a></div>
                 {% if request.user.is_staff %}
-                <div class="row"><a href="{% url 'kAboom:muzati_trend' %}">Добавление треков с сайта MUZATI</a></div>
+                <div class="row"><a href="{% url 'kAboom:partner' %}">Добавление треков с партнерских сайтов</a></div>
                 {% endif %}
             {% endif %}
 
             <div class="row"><a href="{% url 'kAboom:artist_index' %}">Исполнители</a></div>
-            <div class="row"><a href="{% url 'kAboom:genre_index' %}">Жанры</a></div>
+            <div class="row"><a href="{% url 'kAboom:genre_index' %}">Жанры и тэги</a></div>
             <div class="row"><a href="{% url 'kAboom:track_index' %}">Треки</a></div>
             <div class="row"><a href="{% url 'kAboom:album_index' %}">Альбомы</a></div>
             <div class="row"><a href="{% url 'kAboom:playlist_index' %}">Плейлисты</a></div>
