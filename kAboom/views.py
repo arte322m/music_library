@@ -1,5 +1,3 @@
-from typing import Callable
-
 from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
@@ -10,7 +8,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .parsers import trend_of_main_page, top30_week, FUNCTIONS
+from .parsers import FUNCTIONS
 from .models import UserProfile, Album, Playlist, Artist, Track, GenreTag, MediaType, Parser
 
 
