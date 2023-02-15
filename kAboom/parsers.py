@@ -93,6 +93,11 @@ def top30_week(url: str):
     return result
 
 
+FUNCTIONS = {'top30_week': top30_week,
+             'trend_of_main_page': trend_of_main_page,
+             }
+
+
 def main():
     pass
     # print(top30_week())

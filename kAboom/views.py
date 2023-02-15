@@ -1,3 +1,5 @@
+from typing import Callable
+
 from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
@@ -8,7 +10,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from .parsers import trend_of_main_page, top30_week
+from .parsers import trend_of_main_page, top30_week, FUNCTIONS
 from .models import UserProfile, Album, Playlist, Artist, Track, GenreTag, MediaType, Parser
 
 
@@ -404,11 +406,10 @@ def parsing(request, name):
     all_tracks_list = Track.objects.values_list('name', flat=True)
     data = cache.get(f'data_{name}')
     if not data:
-        url = Parser.objects.get(name=name).url
-        if name == 'Muzati':
-            data = trend_of_main_page(url)
-        if name =='mp3bob':
-            data = top30_week(url)
+        parser = Parser.objects.get(name=name)
+        url: str = parser.url
+        function_name: str = parser.function_name
+        data = FUNCTIONS[function_name](url)
         cache.set(f'data_{name}', data, 60*5)
     context = {
         'name': name,

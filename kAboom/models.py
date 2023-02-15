@@ -136,3 +136,4 @@ class InvoicesItem(models.Model):
 class Parser(models.Model):
     name = models.CharField(max_length=40)
     url = models.CharField(max_length=40)
+    function_name = models.CharField(max_length=40, default=None, null=True)
