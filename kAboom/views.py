@@ -205,8 +205,10 @@ def track_index(request):
 
 def track_detail(request, track_id):
     track_details = get_object_or_404(Track.objects.select_related('artist', 'album', 'media_type'), id=track_id)
+    duration = f'{track_details.milliseconds // 1000 // 60}:{track_details.milliseconds // 1000 % 60} мин'
 
     context = {
+        'duration': duration,
         'track_details': track_details,
     }
 
